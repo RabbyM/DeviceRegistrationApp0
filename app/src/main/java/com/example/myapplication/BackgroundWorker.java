@@ -31,7 +31,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     protected String doInBackground(String... params) {
         String type = params[0];                                  //first parameter defines type
         //String login_url = "http://10.0.2.2/login.php";         //local host ip
-        String login_url = "http://24.84.210.161:8080/login.php"; //server address URL
+        String login_url = "http://24.84.210.161:8080/remote_login.php"; //server address URL
         // On successful login
         if(type.equals("login")) {
             //post some data

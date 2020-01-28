@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+
 // Modify the existing activity template with login page
 public class MainActivity extends AppCompatActivity {
 
@@ -119,9 +121,13 @@ public class MainActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
         String type = "login";
 
+        // Hash 256
+        String hashedPassword = sha256(password);
+        Log.d("Info", "loginClickFunction: "+ hashedPassword);
+
         // Allow background to obtain context and store information
         BackgroundWorker backgroundWorker = new BackgroundWorker(this); // declare, instantiate, initialize
-        backgroundWorker.execute(type, username, password);                 // connect to database in background
+        backgroundWorker.execute(type, username, hashedPassword);           // connect to database in background
 
         // Greet user
         Toast.makeText(this, "Welcome "+usernameEditText.getText().toString()+"!", Toast.LENGTH_LONG).show(); //display information to the user
@@ -161,5 +167,24 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, BluetoothActivity.class));
 
     }//loginClickFunction
+
+
+    public static String sha256(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
 
 } //MainActivity
