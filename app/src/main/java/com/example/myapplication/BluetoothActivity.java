@@ -220,7 +220,7 @@ public class BluetoothActivity extends AppCompatActivity {
                 {
                     // Add the string to the bluetoothDevices string list
                     bluetoothDevices.add(deviceString);
-                    String path = "android.resource://" + getPackageName() + "/" + R.drawable.login;
+                    String path = "android.resource://" + getPackageName() + "/" + R.drawable.outline_device_unknown_white_48dp;
                     mImageUrls.add(path);
 
                 }
