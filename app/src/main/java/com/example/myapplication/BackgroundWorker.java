@@ -1,4 +1,5 @@
 // Does background work of saving information and temporarily storing it
+// Opens URLConnection with support for HTTP-specific features
 
 package com.example.myapplication;
 
@@ -36,15 +37,17 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
         if(type.equals("login")) {
             //post some data
             try {
-                // store the strings
+                // Obtain username and password
                 String username = params[1];
                 String password = params[2];
 
-                // Open URL connection with http features
-                URL url = new URL(login_url); //not sure what try/catch does
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(); //obtain new connection
+                // Obtain new connection and cast result
+                URL url = new URL(login_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+//ssl
+                // Upload a request body
                 httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoOutput(true); //
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 // Create output stream with UTF-8 code text
@@ -65,6 +68,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 }
                 bufferedReader.close();
                 inputStream.close();
+                // catch error if unsuccessful
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
