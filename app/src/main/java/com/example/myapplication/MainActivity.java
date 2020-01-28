@@ -2,10 +2,13 @@
 
 package com.example.myapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
@@ -102,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
     // Method that executes upon pressing button on main page
     public void loginClickFunction(View view) {
 
-        // Find the ID of Text Fields and Images
-        EditText usernameEditText = findViewById(R.id.usernameEditText); //resources.id.tag name // (EditText)
-        EditText passwordEditText = findViewById(R.id.passwordEditText); //resources.id.tag name
+        // Find handles for text fields
+        EditText usernameEditText = findViewById(R.id.usernameEditText); //resources.id.tag name
+        EditText passwordEditText = findViewById(R.id.passwordEditText);
 
         // Display information on info log
         Log.i(  "Info", "Login button pressed!");            //display a message when button is pressed
@@ -122,6 +125,29 @@ public class MainActivity extends AppCompatActivity {
 
         // Greet user
         Toast.makeText(this, "Welcome "+usernameEditText.getText().toString()+"!", Toast.LENGTH_LONG).show(); //display information to the user
+
+        // TODO: 1/27/2020 Use this for alert dialog in a different activity - RM
+//        // Alert dialog after login button pressed
+//        final TextView alertTextView = findViewById(R.id.alertTextView);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);//create new alert dialog
+//        builder.setCancelable(true);
+//        builder.setTitle("Title");
+//        builder.setMessage("Welcome "+usernameEditText.getText());
+//        //
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.cancel();
+//            }
+//        });
+//        //
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                alertTextView.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        builder.show();
 
         // Login and go to bluetooth explore page(login button disabled)
         final Button loginButton = findViewById(R.id.loginButton);
