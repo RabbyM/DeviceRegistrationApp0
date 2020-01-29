@@ -55,12 +55,16 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
                 // Encode username and data and POST to server (writes to buffer first)
-                String post_data = URLEncoder.encode(username, "UTF-8")+"="+URLEncoder.encode("username","UTF-8")+"&"
-                    +URLEncoder.encode(password, "UTF-8")+"="+URLEncoder.encode("password","UTF-8");
+                String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username,"UTF-8")+"&"
+                    +URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password,"UTF-8");
+//                String post_data = URLEncoder.encode(username, "UTF-8");
                 bufferedWriter.write(post_data);
 
                 // Flush buffer and close output
                 bufferedWriter.flush();
+
+
+
                 bufferedWriter.close();
                 outputStream.close();
 
@@ -78,8 +82,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 // Close input
                 bufferedReader.close();
                 inputStream.close();
-                
-                // catch error if unsuccessful
+
+                // Catch error if unsuccessful
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {

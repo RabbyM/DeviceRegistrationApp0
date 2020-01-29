@@ -127,44 +127,44 @@ public class MainActivity extends AppCompatActivity {
 
         // Allow background to obtain context and store information
         BackgroundWorker backgroundWorker = new BackgroundWorker(this); // declare, instantiate, initialize
-        backgroundWorker.execute(type, username, hashedPassword);           // connect to database in background
+        backgroundWorker.execute(type, username, password);           // connect to database in background
 
-        // Greet user
-        Toast.makeText(this, "Welcome "+usernameEditText.getText().toString()+"!", Toast.LENGTH_LONG).show(); //display information to the user
-
-        // TODO: 1/27/2020 Use this for alert dialog in a different activity - RM
-//        // Alert dialog after login button pressed
-//        final TextView alertTextView = findViewById(R.id.alertTextView);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);//create new alert dialog
-//        builder.setCancelable(true);
-//        builder.setTitle("Title");
-//        builder.setMessage("Welcome "+usernameEditText.getText());
-//        //
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//        // Greet user
+//        Toast.makeText(this, "Welcome "+usernameEditText.getText().toString()+"!", Toast.LENGTH_LONG).show(); //display information to the user
+//
+//        // TODO: 1/27/2020 Use this for alert dialog in a different activity - RM
+////        // Alert dialog after login button pressed
+////        final TextView alertTextView = findViewById(R.id.alertTextView);
+////        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);//create new alert dialog
+////        builder.setCancelable(true);
+////        builder.setTitle("Title");
+////        builder.setMessage("Welcome "+usernameEditText.getText());
+////        //
+////        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+////            @Override
+////            public void onClick(DialogInterface dialogInterface, int i) {
+////                dialogInterface.cancel();
+////            }
+////        });
+////        //
+////        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+////            @Override
+////            public void onClick(DialogInterface dialogInterface, int i) {
+////                alertTextView.setVisibility(View.VISIBLE);
+////            }
+////        });
+////        builder.show();
+//
+//        // Login and go to bluetooth explore page(login button disabled)
+//        final Button loginButton = findViewById(R.id.loginButton);
+//        loginButton.setEnabled(false);
+//        loginButton.postDelayed(new Runnable() {
 //            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.cancel();
+//            public void run() {
+//                loginButton.setEnabled(true);
 //            }
-//        });
-//        //
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                alertTextView.setVisibility(View.VISIBLE);
-//            }
-//        });
-//        builder.show();
-
-        // Login and go to bluetooth explore page(login button disabled)
-        final Button loginButton = findViewById(R.id.loginButton);
-        loginButton.setEnabled(false);
-        loginButton.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loginButton.setEnabled(true);
-            }
-        }, 10000);
-        startActivity(new Intent(MainActivity.this, BluetoothActivity.class));
+//        }, 10000);
+//        startActivity(new Intent(MainActivity.this, BluetoothActivity.class));
 
     }//loginClickFunction
 
