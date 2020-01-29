@@ -62,9 +62,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
                 // Flush buffer and close output
                 bufferedWriter.flush();
-
-
-
                 bufferedWriter.close();
                 outputStream.close();
 
