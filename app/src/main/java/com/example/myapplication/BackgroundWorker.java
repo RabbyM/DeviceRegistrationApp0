@@ -45,32 +45,40 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
 //ssl
-                // Upload a request body
-                httpURLConnection.setRequestMethod("POST");
+                // Ready for transferring data from client to server
+                httpURLConnection.setRequestMethod("POST"); //clients sends info in body, servers response with empty body
                 httpURLConnection.setDoOutput(true); //
                 httpURLConnection.setDoInput(true);
 
-
-                // FAILS HERE
+                // Set buffer writer to the output stream of httpURL connection type
                 OutputStream outputStream = httpURLConnection.getOutputStream();
-                // Create output stream with UTF-8 code text
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-                String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode("username","UTF-8")+"&"
-                    +URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode("password","UTF-8");
+                // Encode username and data and POST to server (writes to buffer first)
+                String post_data = URLEncoder.encode(username, "UTF-8")+"="+URLEncoder.encode("username","UTF-8")+"&"
+                    +URLEncoder.encode(password, "UTF-8")+"="+URLEncoder.encode("password","UTF-8");
                 bufferedWriter.write(post_data);
+
+                // Flush buffer and close output
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
+
+                // Read the response from the server
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+
+                // Keep reading the read buffer and store into a concatenated string
                 String result = "";
                 String line = "";
                 while ((line = bufferedReader.readLine()) != null){
                     result += line;
                 }
+
+                // Close input
                 bufferedReader.close();
                 inputStream.close();
+                
                 // catch error if unsuccessful
             } catch (MalformedURLException e) {
                 e.printStackTrace();
