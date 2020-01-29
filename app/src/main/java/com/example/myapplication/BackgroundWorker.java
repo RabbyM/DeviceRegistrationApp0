@@ -49,6 +49,9 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true); //
                 httpURLConnection.setDoInput(true);
+
+
+                // FAILS HERE
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 // Create output stream with UTF-8 code text
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));

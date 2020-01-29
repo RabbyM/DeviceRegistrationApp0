@@ -114,6 +114,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
     // Method that initializes settings tab
     @Override
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
