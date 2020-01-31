@@ -44,7 +44,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 // Obtain new connection and cast result
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-//ssl
+
+                // consider changing this to https later with ssl
                 // Ready for transferring data from client to server
                 httpURLConnection.setRequestMethod("POST"); //clients sends info in body, servers response with empty body
                 httpURLConnection.setDoOutput(true); //
@@ -65,7 +66,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 bufferedWriter.close();
                 outputStream.close();
 
-                
                 // Read the response from the server
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
