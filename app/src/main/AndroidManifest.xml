@@ -21,12 +21,13 @@
             android:label="Register an Account">
         </activity>
         <activity
-            android:name=".BluetoothActivity"
-            android:label="Bluetooth Devices" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".MainBluetoothActivity"
+            android:label="Bluetooth Devices">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

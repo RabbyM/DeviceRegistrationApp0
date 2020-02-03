@@ -1,14 +1,13 @@
 // Main activity that allows user to login credentials or create new account
-
+//todo this version is where Rabby is working on the UI
+//todo make this activity after selecting a device and successfully transferring
 package com.example.myapplication;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
@@ -16,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,7 +23,7 @@ import android.widget.Toast;
 import java.security.MessageDigest;
 
 // Modify the existing activity template with login page
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     // Method created on start-up to initialize login page
     @Override //this method already exists in AppCompatActivity and we are adding to it
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         TextView registerTextView = findViewById(R.id.registerTextView);
         registerTextView.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
 
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 //        // TODO: 1/27/2020 Use this for alert dialog in a different activity - RM
 ////        // Alert dialog after login button pressed
 ////        final TextView alertTextView = findViewById(R.id.alertTextView);
-////        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);//create new alert dialog
+////        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);//create new alert dialog
 ////        builder.setCancelable(true);
 ////        builder.setTitle("Title");
 ////        builder.setMessage("Welcome "+usernameEditText.getText());
@@ -164,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 //                loginButton.setEnabled(true);
 //            }
 //        }, 10000);
-//        startActivity(new Intent(MainActivity.this, BluetoothActivity.class));
+//        startActivity(new Intent(LoginActivity.this, MainBluetoothActivity.class));
 
     }//loginClickFunction
 
@@ -187,4 +185,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-} //MainActivity
+} //LoginActivity

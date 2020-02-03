@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BluetoothActivity">
+    android:background="@android:color/background_dark"
+    tools:context=".MainBluetoothActivity">
 
     <Button
         android:id="@+id/searchButton"
@@ -13,8 +14,8 @@
         android:layout_marginBottom="16dp"
         android:onClick="searchClickFunction"
         android:text="Scan"
-        android:textStyle="bold"
         android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -31,12 +32,22 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/registeredRecyclerView"
         android:layout_width="415dp"
-        android:layout_height="640dp"
+        android:layout_height="250dp"
         app:layout_constraintBottom_toTopOf="@+id/searchButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/background_rounded_style"/>
+    <!--        app:layout_constraintTop_toTopOf=-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/unregisteredRecyclerView"
+        android:layout_width="415dp"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/registeredRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/background_rounded_style"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

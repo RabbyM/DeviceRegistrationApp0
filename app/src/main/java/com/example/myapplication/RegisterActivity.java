@@ -18,7 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
         TextView rLoginTextView = findViewById(R.id.rLoginTextView);
         rLoginTextView.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
     }
