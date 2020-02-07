@@ -18,9 +18,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 // Modify the existing activity template with bluetooth features
@@ -114,11 +117,46 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
     // Method that initializes settings tab
     @Override
-
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
         return true;
+    }
+
+    // Checks which item was clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+                //Press the bluetooth devices
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem2_1:
+                Toast.makeText(this, "Sub Item 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem2_2:
+                Toast.makeText(this, "Sub Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem2_3:
+                Toast.makeText(this, "Sub Item 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem3_1:
+                Toast.makeText(this, "Sub Item 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem3_2:
+                Toast.makeText(this, "Sub Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem3_3:
+                Toast.makeText(this, "Sub Item 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
     }
 
 //    // Dummy Method for testing recyclerView - contains image names and their source

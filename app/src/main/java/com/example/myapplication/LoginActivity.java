@@ -33,12 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Fade images in/out
-        ImageView hopperImageView = findViewById(R.id.hopperImageView);     //hopper tag name // (ImageView)
-        ImageView welcomeImageView = findViewById(R.id.welcomeImageView);   //welcome tag name
-        hopperImageView.animate().alpha(0).setDuration(3000);               //fade out hopper in 3000ms
-        welcomeImageView.animate().alpha(1).setDuration(3000);              //fade in welcome in 3000ms
-
         // Go to registration page if not registered
         TextView registerTextView = findViewById(R.id.registerTextView);
         registerTextView.setOnClickListener(new View.OnClickListener(){
