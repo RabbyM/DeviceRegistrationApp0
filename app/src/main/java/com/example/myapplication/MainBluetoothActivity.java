@@ -46,14 +46,18 @@ public class MainBluetoothActivity extends AppCompatActivity {
     // Method created on start-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Overwrite the current state, set the layout, and change the Action Bar title
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Bluetooth Devices");
+        }
         Log.d(TAG, "onCreate: started.");
+
+        // IDs
         //recyclerView = findViewById(R.id.recyclerView);
         statusTextView = findViewById(R.id.statusTextView);
-        searchButton = findViewById(R.id.searchButton);
-
-        // Get the BluetoothAdapter object
+//        searchButton = findViewById(R.id.searchButton);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // Checks if permission is granted, if not it will default and ask for permission
@@ -127,9 +131,13 @@ public class MainBluetoothActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item1:
+            case R.id.bluetoothSearchButton:
                 Toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
                 //Bluetooth scan button
+                statusTextView.setText("Searching...");     //show text to user
+//                searchButton.setEnabled(false);             //turn off button to restrict user
+                bluetoothDevices.clear();                   //remove redundancy in devices
+                bluetoothAdapter.startDiscovery();          //start searching for BT devices
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
@@ -208,15 +216,15 @@ public class MainBluetoothActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    // Method that executes upon pressing search button
-    public void searchClickFunction(View view) {
-
-        statusTextView.setText("Searching...");     //show text to user
-        searchButton.setEnabled(false);             //turn off button to restrict user
-        bluetoothDevices.clear();                   //remove redundancy in devices
-        bluetoothAdapter.startDiscovery();          //start searching for BT devices
-
-    }
+//    // Method that executes upon pressing search button
+//    public void searchClickFunction(View view) {
+//
+//        statusTextView.setText("Searching...");     //show text to user
+//        searchButton.setEnabled(false);             //turn off button to restrict user
+//        bluetoothDevices.clear();                   //remove redundancy in devices
+//        bluetoothAdapter.startDiscovery();          //start searching for BT devices
+//
+//    }
 
     // Method that contains properties for a broadcast receiver
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -225,6 +233,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
             String action = intent.getAction();
             Log.i("Action", action); //log info from intent
 
+            //todo error getting here after searching for bluetooth devices
             // Allow button to be pressed when searching finished
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 statusTextView.setText("Finished");
