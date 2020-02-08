@@ -119,7 +119,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, menu);
+        inflater.inflate(R.menu.bluetooth_settings_menu, menu);
         return true;
     }
 
@@ -128,8 +128,8 @@ public class MainBluetoothActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
-                //Press the bluetooth devices
+                Toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
+                //Bluetooth scan button
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
