@@ -127,6 +127,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
         return true;
     }
 
+    // todo app crashed when using options bluetooth button, this is because bluetooth.finished() is never called
     // Checks which item was clicked
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
