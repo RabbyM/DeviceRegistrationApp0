@@ -1,5 +1,5 @@
 package com.example.myapplication;
-//todo change to two recycler view with reg/unreg bluetooth devices
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -38,7 +38,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
     //RecyclerView recyclerView;
     TextView statusTextView;
-    Button searchButton;
     BluetoothAdapter bluetoothAdapter; //bluetooth adapter object
 
     int REQUEST_ENABLE_BT = 1;
@@ -119,6 +118,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
         //initImageBitmaps(); //initialize images
     }
 
+
     // Create options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,16 +127,16 @@ public class MainBluetoothActivity extends AppCompatActivity {
         return true;
     }
 
-    // todo app crashed when using options bluetooth button, this is because bluetooth.finished() is never called
+
     // Links methods to tool bar options buttons
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            // Search for devices using bluetooth icon button
             case R.id.bluetoothSearchButton:
                 Toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
-                //Bluetooth scan button
                 statusTextView.setText("Searching...");     //show text to user
-//                searchButton.setEnabled(false);             //turn off button to restrict user
+                //disable button // not implemented
                 bluetoothDevices.clear();                   //remove redundancy in devices
                 bluetoothAdapter.startDiscovery();          //start searching for BT devices
                 return true;
@@ -238,7 +238,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
             // Allow button to be pressed when searching finished
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 statusTextView.setText("Finished");
-                searchButton.setEnabled(true);
+//                bluetoothSearchButton.setEnabled(true);
             }
 
             // Discovery has found a device
