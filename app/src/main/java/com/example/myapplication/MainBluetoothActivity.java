@@ -119,7 +119,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
         //initImageBitmaps(); //initialize images
     }
 
-    // Method that initializes settings tab
+    // Create options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -128,7 +128,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
     }
 
     // todo app crashed when using options bluetooth button, this is because bluetooth.finished() is never called
-    // Checks which item was clicked
+    // Links methods to tool bar options buttons
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
