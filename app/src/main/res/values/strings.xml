@@ -22,4 +22,10 @@
     <string name="register">REGISTER</string>
     <string name="device_registration">DEVICE REGISTRATION</string>
     <string name="sample_text">SAMPLE TEXT</string>
+    <string name="unregisteredRecyclerView">unregisteredRecyclerView</string>
+    <string name="registeredRecyclerView">registeredRecyclerView</string>
+    <string name="registeredTextView">registeredRecyclerView</string>
+    <string name="unregisteredTextView">unregisteredRecyclerView</string>
+    <string name="available_devices">AVAILABLE DEVICES</string>
+    <string name="paired_devices">PAIRED DEVICES</string>
 </resources>

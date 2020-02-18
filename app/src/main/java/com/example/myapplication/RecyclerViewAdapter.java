@@ -2,6 +2,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mImageNames = imageNames;
         mImages = images;
         mContext = context;
-
     }
 
     // Method that inflates view (recycles view holder)
@@ -41,21 +41,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: called."); //good for debugging
-        // Get images
-        Glide.with(mContext)
-                .asBitmap()                  //image type
-                .load(mImages.get(position)) //reference image URLs
-                .into(holder.image);         //target - circle image
+        Log.d(TAG, "onBindViewHolder: called.");
+        // Handles image loading to circleimageview
+//        Glide.with(mContext)
+//                .asBitmap()                  //image type
+//                .load(mImages.get(position)) //reference image URLs
+//                .into(holder.image);         //changes default mipmap circleimageview to drawable png
 
+        // Set the name of bluetooth device to the viewholder
         holder.imageName.setText(mImageNames.get(position));
 
-        // Display name when clicked on
+        // Display name when clicked on and open the device activity
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
+
+                // Show user name/power of bluetooth device
                 Toast.makeText(mContext, mImageNames.get(position), Toast.LENGTH_SHORT).show();
+
+                // Create intent getting the context of your View and the class where you want to go
+                Intent intent = new Intent(view.getContext(), SerialNumberActivity.class);
+                intent.putExtra("MAC", mImageNames.get(position));
+
+                // Start the activity from the view/context
+                view.getContext().startActivity(intent); //If you are inside activity, otherwise pass context to this function
+
             }
         });
     }

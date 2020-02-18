@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,7 +81,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
         // Enable Bluetooth if disabled on device
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 /*
@@ -135,7 +135,9 @@ public class MainBluetoothActivity extends AppCompatActivity {
             // Search for devices using bluetooth icon button
             case R.id.bluetoothSearchButton:
                 Toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
-                statusTextView.setText("Searching...");     //show text to user
+                statusTextView.setText("Scanning...");     //show text to user
+                ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
+                searchProgressBar.setVisibility(View.VISIBLE);
                 //disable button // not implemented
                 bluetoothDevices.clear();                   //remove redundancy in devices
                 bluetoothAdapter.startDiscovery();          //start searching for BT devices
@@ -234,11 +236,12 @@ public class MainBluetoothActivity extends AppCompatActivity {
             String action = intent.getAction();
             Log.i("Action", action); //log info from intent
 
-            //todo error getting here after searching for bluetooth devices
-            // Allow button to be pressed when searching finished
+            // Notify user that searching has finished
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                Toast.makeText(MainBluetoothActivity.this, "Finished", Toast.LENGTH_SHORT).show();
                 statusTextView.setText("Finished");
-//                bluetoothSearchButton.setEnabled(true);
+                ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
+                searchProgressBar.setVisibility(View.INVISIBLE);
             }
 
             // Discovery has found a device
