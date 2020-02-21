@@ -23,7 +23,7 @@ public class SerialNumberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial_number);
         //todo handle names in addition to already handling mac addresses
-        
+
         // Remove everything after MAC address
         String masterString = getIntent().getStringExtra("MAC"); //access intent from previous activity
         String targetString = "\n";                                    //RSSI label comes after this
