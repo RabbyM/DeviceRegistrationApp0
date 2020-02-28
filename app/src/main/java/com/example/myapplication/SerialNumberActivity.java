@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,12 +44,14 @@ public class SerialNumberActivity extends AppCompatActivity {
         startIndex = 0;
         stopIndex = stringbuilder.toString().indexOf(":") + 2;         //this is where the first number starts
         stringbuilder.delete(startIndex, stopIndex);
-        String MACAddress = stringbuilder.toString();
+        String macAddress = stringbuilder.toString();
 
         // Display the mac address that was selected
-        Log.d("onCreate", "MACAddress: " + MACAddress);
-        TextView MACAddressTextView = findViewById(R.id.MACAddressTextView);
-        MACAddressTextView.setText(MACAddress);
+        Log.d("onCreate", "MACAddress: " + macAddress);
+        TextView macAddressTextView = findViewById(R.id.macAddressTextView);
+        TextView ccdTextView = findViewById(R.id.ccdTextView);
+        macAddressTextView.setText(macAddress);
+        ccdTextView.setVisibility(View.VISIBLE);
     }
 
     // Method that executes upon pressing button on main page
@@ -60,12 +63,13 @@ public class SerialNumberActivity extends AppCompatActivity {
                 .setTitle("Confirm")
                 .setMessage("Are you sure you want to pair with this device?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Toast.makeText(SerialNumberActivity.this, "Pairing devices...", Toast.LENGTH_SHORT).show();
-
+                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
             }})
+
                 .setNegativeButton(android.R.string.no, null).show();
 
         // Find handles for text fields

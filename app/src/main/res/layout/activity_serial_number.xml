@@ -16,11 +16,12 @@
         android:inputType="number"
         android:textColor="#fff"
         android:textSize="20sp"
-        android:hint="ENTER MACHINE SERIAL NUMBER"
+        android:textStyle="bold"
+        android:hint="ENTER MACHINE SERIAL NUMBER "
         android:textColorHint="#B5BE99"/>
 
     <TextView
-        android:id="@+id/CCDTextView"
+        android:id="@+id/ccdTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/enterSerialEditText"
@@ -30,14 +31,15 @@
         android:text="Cycle Counter MAC: "
         android:inputType="textPersonName"
         android:textColor="#CCC"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:visibility="invisible"/>
 
     <TextView
-        android:id="@+id/MACAddressTextView"
+        android:id="@+id/macAddressTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/enterSerialEditText"
-        android:layout_toRightOf="@id/CCDTextView"
+        android:layout_toRightOf="@id/ccdTextView"
         android:layout_marginTop="100dp"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
@@ -45,14 +47,21 @@
         android:textColor="#B40E0E"
         android:textSize="20sp"/>
 
-    <RadioButton
+    <Button
         android:id="@+id/serialNumberButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@id/CCDTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ccdTextView"
         android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"
-        android:onClick="serialNumberClick"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/et_rounded_style"
+        android:onClick="serialNumberClick"
+        android:text="Associate"
+        android:textSize="18sp"
+        android:textAllCaps="false"/>
 
 
 

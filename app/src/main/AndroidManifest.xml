@@ -15,16 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".CheckmarkActivity"></activity>
         <activity
             android:name=".SerialNumberActivity"
-            android:label="Select your Cycle Counter"></activity>
+            android:label="Select your Cycle Counter" />
         <activity
             android:name=".RegisterActivity"
-            android:label="Register an Account"></activity>
+            android:label="Register an Account" />
         <activity
             android:name=".LoginActivity"
             android:label="Synchronize to Account"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainBluetoothActivity"
             android:label="Unifiller Registration">
