@@ -21,12 +21,15 @@ import java.net.URL;
 import java.net.URLEncoder;
 // tutorial: https://www.youtube.com/watch?v=UqY4DY2rHOs
 // Asynchronous task runs in the background
-public class BackgroundWorker extends AsyncTask<String,Void,String> {
+public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics or templates
     Context context;
     AlertDialog alertDialog;
+
+    // Pass context to constructor - needed because this is a seperate class
     BackgroundWorker (Context ctx) {
         context = ctx;
     }
+
     // Perform operation in background, returns string
     @Override
     protected String doInBackground(String... params) {
@@ -84,6 +87,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 // Catch error if unsuccessful
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
