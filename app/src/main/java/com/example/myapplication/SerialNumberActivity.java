@@ -1,12 +1,16 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import javax.crypto.Mac;
 
@@ -51,13 +55,31 @@ public class SerialNumberActivity extends AppCompatActivity {
     public void serialNumberClick(View view) {
         Log.i("SerialNumberActivity", "serialNumberClick pressed!");
 
+        // Confirmation dialog
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm")
+                .setMessage("Are you sure you want to pair with this device?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Toast.makeText(SerialNumberActivity.this, "Pairing devices...", Toast.LENGTH_SHORT).show();
+
+            }})
+                .setNegativeButton(android.R.string.no, null).show();
+
         // Find handles for text fields
         EditText enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
 
-        // Display information on info log
-        Log.i(  "Values", enterSerialEditText.getText().toString()); //grab information entered by user
-
         // Convert login credentials to strings
         String enterSerialString = enterSerialEditText.getText().toString();
+        Log.i(  "Serial Number: ", enterSerialString);
+
+
+
+
+
+
+
     }
 }

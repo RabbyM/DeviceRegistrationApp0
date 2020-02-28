@@ -9,23 +9,24 @@
 
     <EditText
         android:id="@+id/enterSerialEditText"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="100dp"
         android:inputType="number"
         android:textColor="#fff"
-        android:textSize="18sp"
-        android:hint="Enter serial number of machine."
-        android:textColorHint="#CFFF33"/>
+        android:textSize="20sp"
+        android:hint="ENTER MACHINE SERIAL NUMBER"
+        android:textColorHint="#B5BE99"/>
 
     <TextView
         android:id="@+id/CCDTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/enterSerialEditText"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="100dp"
         android:text="Cycle Counter MAC: "
         android:inputType="textPersonName"
         android:textColor="#CCC"
@@ -35,20 +36,23 @@
         android:id="@+id/MACAddressTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/enterSerialEditText"
         android:layout_toRightOf="@id/CCDTextView"
+        android:layout_marginTop="100dp"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="400dp"
         android:inputType="textPersonName"
-        android:textColor="#CFF"
+        android:textColor="#B40E0E"
         android:textSize="20sp"/>
 
     <RadioButton
+        android:id="@+id/serialNumberButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_below="@id/CCDTextView"
         android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:onClick="serialNumberClick"/>
 
 
 
