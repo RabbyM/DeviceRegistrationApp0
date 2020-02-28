@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+
 // tutorial: https://www.youtube.com/watch?v=UqY4DY2rHOs
 // Asynchronous task runs in the background
 public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics or templates
@@ -30,9 +31,11 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         context = ctx;
     }
 
-    // Perform operation in background, returns string
+    // Similar to run() method of thread - DO NOT PUT UI STUFF HERE
+    // It can send results multiple times to the UI thread by publishProgress() method
+    // To notify that the background processing has been completed, we just need to use return
     @Override
-    protected String doInBackground(String... params) {
+    protected String doInBackground(String... params) { //generics
         String type = params[0];                                  //first parameter defines type
         //String login_url = "http://10.0.2.2/login.php";         //local host ip
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //server address URL
@@ -95,6 +98,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         return null;
     }
 
+    // Set up GUI if needed
+    // Executed before the background processing starts
     @Override
     protected void onPreExecute() {
         //super.onPreExecute();
@@ -102,6 +107,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         alertDialog.setTitle("LoginStatus");
     }
 
+    // Use the return value (result) of doInBackground
     @Override
     protected void onPostExecute(String result) {
         //super.onPostExecute(aVoid);
@@ -109,6 +115,10 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         alertDialog.show();             //show response of the server
     }
 
+    // Change the value of the TextView - Notify the user of progress
+    // Receives progress updates from doInBackground method,
+    // which is published via publishProgress method
+    // Can update the UI thread
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
