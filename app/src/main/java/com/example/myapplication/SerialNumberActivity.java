@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import javax.crypto.Mac;
@@ -22,8 +24,9 @@ public class SerialNumberActivity extends AppCompatActivity {
         // Inflate layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial_number);
+
         //todo handle names in addition to already handling mac addresses
-        
+
         // Remove everything after MAC address
         String masterString = getIntent().getStringExtra("MAC"); //access intent from previous activity
         String targetString = "\n";                                    //RSSI label comes after this
@@ -42,5 +45,19 @@ public class SerialNumberActivity extends AppCompatActivity {
         Log.d("onCreate", "MACAddress: " + MACAddress);
         TextView MACAddressTextView = findViewById(R.id.MACAddressTextView);
         MACAddressTextView.setText(MACAddress);
+    }
+
+    // Method that executes upon pressing button on main page
+    public void serialNumberClick(View view) {
+        Log.i("SerialNumberActivity", "serialNumberClick pressed!");
+
+        // Find handles for text fields
+        EditText enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
+
+        // Display information on info log
+        Log.i(  "Values", enterSerialEditText.getText().toString()); //grab information entered by user
+
+        // Convert login credentials to strings
+        String enterSerialString = enterSerialEditText.getText().toString();
     }
 }

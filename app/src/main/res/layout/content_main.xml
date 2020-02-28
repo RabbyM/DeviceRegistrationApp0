@@ -83,7 +83,7 @@
         android:alpha="1"
         android:background="@drawable/et_rounded_style"
         android:ellipsize="start"
-        android:onClick="loginClickFunction"
+        android:onClick="loginClick"
         android:text="@string/login"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/instructionTextView"

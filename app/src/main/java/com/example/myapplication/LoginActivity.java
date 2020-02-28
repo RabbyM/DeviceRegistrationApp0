@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Method that executes upon pressing button on main page
-    public void loginClickFunction(View view) {
+    public void loginClick(View view) {
 
         // Find handles for text fields
         EditText usernameEditText = findViewById(R.id.usernameEditText); //resources.id.tag name
@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Hash 256
         String hashedPassword = sha256(password);
-        Log.d("Info", "loginClickFunction: "+ hashedPassword);
+        Log.d("Info", "loginClick: "+ hashedPassword);
 
         // Allow background to obtain context and store information
         BackgroundWorker backgroundWorker = new BackgroundWorker(this); // declare, instantiate, initialize
@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
 //        }, 10000);
 //        startActivity(new Intent(LoginActivity.this, MainBluetoothActivity.class));
 
-    }//loginClickFunction
+    }//loginClick
 
 
     public static String sha256(String base) {
