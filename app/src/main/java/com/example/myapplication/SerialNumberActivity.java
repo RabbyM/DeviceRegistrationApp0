@@ -1,15 +1,23 @@
 package com.example.myapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +31,13 @@ import javax.crypto.Mac;
 //        Int8 		Battery Level
 
 public class SerialNumberActivity extends AppCompatActivity {
+
+    EditText enterSerialEditText;
+    ImageView checkmarkImageView;
+    ImageView circleBackgroundImageView;
+    Button serialNumberButton;
+    AnimatedVectorDrawableCompat avd;
+    AnimatedVectorDrawable avd2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +73,16 @@ public class SerialNumberActivity extends AppCompatActivity {
     public void serialNumberClick(View view) {
         Log.i("SerialNumberActivity", "serialNumberClick pressed!");
 
+        // Find handles for text fields
+        enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
+        checkmarkImageView = findViewById(R.id.checkmarkImageView);
+        serialNumberButton = findViewById(R.id.serialNumberButton);
+        circleBackgroundImageView = findViewById(R.id.circleBackgroundImageView);
+
+        // Convert login credentials to strings
+        String enterSerialString = enterSerialEditText.getText().toString();
+        Log.i(  "Serial Number: ", enterSerialString);
+
         // Confirmation dialog
         new AlertDialog.Builder(this)
                 .setTitle("Confirm")
@@ -67,18 +92,41 @@ public class SerialNumberActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Toast.makeText(SerialNumberActivity.this, "Pairing devices...", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
+//                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
             }})
 
                 .setNegativeButton(android.R.string.no, null).show();
 
-        // Find handles for text fields
-        EditText enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
+        // Activate full screen activity
+        this.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
 
-        // Convert login credentials to strings
-        String enterSerialString = enterSerialEditText.getText().toString();
-        Log.i(  "Serial Number: ", enterSerialString);
 
+
+
+        serialNumberButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) //animated vector requires api level 21
+            @Override
+            public void onClick(View view) {
+
+                circleBackgroundImageView.setVisibility(View.VISIBLE);
+                Drawable drawable = checkmarkImageView.getDrawable();
+
+                    if(drawable instanceof AnimatedVectorDrawableCompat) {
+                        avd =(AnimatedVectorDrawableCompat) drawable;
+                        avd.start();
+                    } else if(drawable instanceof AnimatedVectorDrawable) {
+                        avd2 = (AnimatedVectorDrawable) drawable;
+                        avd2.start();
+                    }
+            }
+        });
 
 
 

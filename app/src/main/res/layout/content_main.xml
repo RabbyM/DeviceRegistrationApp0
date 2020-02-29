@@ -81,7 +81,7 @@
         android:layout_marginRight="161dp"
         android:layout_marginBottom="32dp"
         android:alpha="1"
-        android:background="@drawable/et_rounded_style"
+        android:background="@drawable/rounded_solid_gray"
         android:ellipsize="start"
         android:onClick="loginClick"
         android:text="@string/login"

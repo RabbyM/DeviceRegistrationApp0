@@ -28,4 +28,7 @@
     <string name="unregisteredTextView">unregisteredRecyclerView</string>
     <string name="available_devices">AVAILABLE DEVICES</string>
     <string name="paired_devices">PAIRED DEVICES</string>
+    <string name="enter_machine_serial_number">ENTER MACHINE SERIAL NUMBER</string>
+    <string name="cycle_counter_mac">Cycle Counter MAC:</string>
+    <string name="associate">Associate</string>
 </resources>

@@ -35,7 +35,7 @@
         android:id="@+id/unregisteredRecyclerView"
         android:layout_width="415dp"
         android:layout_height="220dp"
-        android:background="@drawable/background_rounded_style"
+        android:background="@drawable/rv_rounded_solid_gray"
         app:layout_constraintBottom_toTopOf="@id/statusTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -55,7 +55,7 @@
         android:id="@+id/registeredRecyclerView"
         android:layout_width="415dp"
         android:layout_height="220dp"
-        android:background="@drawable/background_rounded_style"
+        android:background="@drawable/rv_rounded_solid_gray"
         app:layout_constraintBottom_toTopOf="@+id/unregisteredTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
