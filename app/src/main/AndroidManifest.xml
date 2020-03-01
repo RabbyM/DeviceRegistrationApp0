@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CheckmarkActivity"></activity>
+        <activity android:name=".NavigationActivity"></activity>
+        <activity android:name=".CheckmarkActivity" />
         <activity
             android:name=".SerialNumberActivity"
             android:label="Select your Cycle Counter" />
@@ -35,6 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

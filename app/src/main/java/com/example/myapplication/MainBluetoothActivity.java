@@ -138,7 +138,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
                 statusTextView.setText("Scanning...");     //show text to user
                 ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
                 searchProgressBar.setVisibility(View.VISIBLE);
-                //disable button // not implemented
+                //todo disable button // not implemented
                 bluetoothDevices.clear();                   //remove redundancy in devices
                 bluetoothAdapter.startDiscovery();          //start searching for BT devices
                 return true;
@@ -283,11 +283,19 @@ public class MainBluetoothActivity extends AppCompatActivity {
         }
     };
 
+    // Turn off bluetooth and unregister action found when leaving activity
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+        // if app crashes, disable this
+        // If scanning already running, stop
+        if (bluetoothAdapter.isDiscovering()) {
+            bluetoothAdapter.cancelDiscovery();
+        }
+
         // Don't forget to unregister the ACTION_FOUND receiver.
         unregisterReceiver(broadcastReceiver);
+
     }
 }

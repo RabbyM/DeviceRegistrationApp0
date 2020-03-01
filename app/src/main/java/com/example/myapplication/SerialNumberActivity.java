@@ -33,11 +33,6 @@ import javax.crypto.Mac;
 public class SerialNumberActivity extends AppCompatActivity {
 
     EditText enterSerialEditText;
-    ImageView checkmarkImageView;
-    ImageView circleBackgroundImageView;
-    Button serialNumberButton;
-    AnimatedVectorDrawableCompat avd;
-    AnimatedVectorDrawable avd2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +70,6 @@ public class SerialNumberActivity extends AppCompatActivity {
 
         // Find handles for text fields
         enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
-        checkmarkImageView = findViewById(R.id.checkmarkImageView);
-        serialNumberButton = findViewById(R.id.serialNumberButton);
-        circleBackgroundImageView = findViewById(R.id.circleBackgroundImageView);
 
         // Convert login credentials to strings
         String enterSerialString = enterSerialEditText.getText().toString();
@@ -90,48 +82,10 @@ public class SerialNumberActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
 
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+            public void onClick(DialogInterface dialog, int yes) {
                 Toast.makeText(SerialNumberActivity.this, "Pairing devices...", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
+                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
             }})
-
                 .setNegativeButton(android.R.string.no, null).show();
-
-        // Activate full screen activity
-        this.getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
-
-
-
-
-        serialNumberButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) //animated vector requires api level 21
-            @Override
-            public void onClick(View view) {
-
-                circleBackgroundImageView.setVisibility(View.VISIBLE);
-                Drawable drawable = checkmarkImageView.getDrawable();
-
-                    if(drawable instanceof AnimatedVectorDrawableCompat) {
-                        avd =(AnimatedVectorDrawableCompat) drawable;
-                        avd.start();
-                    } else if(drawable instanceof AnimatedVectorDrawable) {
-                        avd2 = (AnimatedVectorDrawable) drawable;
-                        avd2.start();
-                    }
-            }
-        });
-
-
-
-
-
-
     }
 }

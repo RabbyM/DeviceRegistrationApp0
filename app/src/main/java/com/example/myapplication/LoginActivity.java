@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override //this method already exists in AppCompatActivity and we are adding to it
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //superclass (parent) object
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

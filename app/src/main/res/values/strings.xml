@@ -31,4 +31,5 @@
     <string name="enter_machine_serial_number">ENTER MACHINE SERIAL NUMBER</string>
     <string name="cycle_counter_mac">Cycle Counter MAC:</string>
     <string name="associate">Associate</string>
+    <string name="go_back">Associate</string>
 </resources>

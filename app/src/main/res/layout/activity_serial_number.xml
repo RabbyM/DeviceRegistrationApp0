@@ -68,23 +68,4 @@
         android:textSize="18sp"
         android:textAllCaps="false"/>
 
-    <ImageView
-        android:id="@+id/circleBackgroundImageView"
-        android:src="@drawable/green_circle"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/checkmarkImageView"
-        android:src="@drawable/green_checkmark"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="invisible"/>
-
-
 </RelativeLayout>
