@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_dark"
+    android:background="@drawable/ombre_black"
     tools:context=".SerialNumberActivity">
 
     <EditText
@@ -17,14 +17,18 @@
         android:layout_marginLeft="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:inputType="number"
-        android:textColor="#fff"
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:textStyle="bold"
+        android:padding="10dp"
+        android:fontFamily="@font/roboto"
         android:hint="@string/enter_machine_serial_number"
-        android:textColorHint="#B5BE99"
+        android:textColorHint="#FFFFFF"
         android:gravity="center"
         android:autofillHints=""
+        android:backgroundTint="#FFFFFF"
+        android:drawableLeft="@drawable/ic_kitchen_black_24dp"
+        android:drawablePadding="5dp"
         tools:targetApi="o" />
 
     <TextView
@@ -32,12 +36,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/enterSerialEditText"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="80dp"
         android:text="@string/cycle_counter_mac"
         android:textColor="#CCC"
         android:textSize="20sp"
+        android:fontFamily="@font/roboto"
         android:visibility="invisible"/>
 
     <TextView
@@ -49,8 +54,9 @@
         android:layout_marginTop="80dp"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:textColor="#B40E0E"
-        android:textSize="20sp"/>
+        android:textColor="#FA0000"
+        android:textSize="20sp"
+        android:fontFamily="@font/roboto"/>
 
     <Button
         android:id="@+id/serialNumberButton"

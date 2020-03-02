@@ -11,22 +11,22 @@
     tools:context=".LoginActivity"
     tools:showIn="@layout/activity_login">
 
-    <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="1"
-        android:background="#00FFEBEE"
-        android:padding="5dp"
-        android:text="CLOUD LOGIN"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp"
-        android:fontFamily="@font/roboto_thin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.050000012" />
+<!--    <TextView-->
+<!--        android:id="@+id/titleTextView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:alpha="1"-->
+<!--        android:background="#00FFEBEE"-->
+<!--        android:padding="5dp"-->
+<!--        android:text="CLOUD LOGIN"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
+<!--        android:textSize="30sp"-->
+<!--        android:fontFamily="@font/roboto_thin"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.050000012" />-->
 
     <TextView
         android:id="@+id/askRegisterTextView"

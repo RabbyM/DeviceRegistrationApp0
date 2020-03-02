@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -21,13 +22,13 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".SerialNumberActivity"
-            android:label="Select your Cycle Counter" />
+            android:label="Select your machine" />
         <activity
             android:name=".RegisterActivity"
             android:label="Register an Account" />
         <activity
             android:name=".LoginActivity"
-            android:label="Synchronize to Account"
+            android:label="Cloud Login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainBluetoothActivity"

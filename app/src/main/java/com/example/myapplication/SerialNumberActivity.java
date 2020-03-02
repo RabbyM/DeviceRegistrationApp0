@@ -7,12 +7,14 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +36,7 @@ import javax.crypto.Mac;
 public class SerialNumberActivity extends AppCompatActivity {
 
     EditText enterSerialEditText;
+    public Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,10 @@ public class SerialNumberActivity extends AppCompatActivity {
     // Method that executes upon pressing button on main page
     public void serialNumberClick(View view) {
         Log.i("SerialNumberActivity", "serialNumberClick pressed!");
+
+        // Obtain vibrator object and cast to vibrator type
+        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(50);
 
         // Find handles for text fields
         enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
