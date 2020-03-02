@@ -26,10 +26,10 @@
     <string name="registeredRecyclerView">registeredRecyclerView</string>
     <string name="registeredTextView">registeredRecyclerView</string>
     <string name="unregisteredTextView">unregisteredRecyclerView</string>
-    <string name="available_devices">AVAILABLE DEVICES</string>
-    <string name="paired_devices">PAIRED DEVICES</string>
     <string name="enter_machine_serial_number">ENTER MACHINE SERIAL NUMBER</string>
     <string name="cycle_counter_mac">Cycle Counter MAC:</string>
     <string name="associate">Associate</string>
     <string name="go_back">Associate</string>
+    <string name="paired_devices">Paired Devices ..................................</string>
+    <string name="available_devices">Available Devices .............................</string>
 </resources>

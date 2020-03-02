@@ -16,7 +16,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".NavigationActivity"></activity>
-        <activity android:name=".CheckmarkActivity" />
+        <activity
+            android:name=".CheckmarkActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".SerialNumberActivity"
             android:label="Select your Cycle Counter" />
@@ -32,11 +34,9 @@
             android:label="Unifiller Registration">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

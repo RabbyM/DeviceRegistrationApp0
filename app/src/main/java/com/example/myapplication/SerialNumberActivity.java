@@ -13,6 +13,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -75,17 +76,30 @@ public class SerialNumberActivity extends AppCompatActivity {
         String enterSerialString = enterSerialEditText.getText().toString();
         Log.i(  "Serial Number: ", enterSerialString);
 
-        // Confirmation dialog
-        new AlertDialog.Builder(this)
-                .setTitle("Confirm")
-                .setMessage("Are you sure you want to pair with this device?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
+        // Create confirmation dialog - yes means go back to main activity
+        AlertDialog.Builder builder = new AlertDialog.Builder(SerialNumberActivity.this);
+        builder.setTitle("Confirm");
+        builder.setMessage(Html.fromHtml("<font color='#ffffff'>Are you sure you want to pair with this device?</font>"));
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
 
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        // If user agrees, navigate back to the main activity
+        builder.setPositiveButton(Html.fromHtml("<font color='#E41E1E'>OK</font>"), new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int yes) {
-                Toast.makeText(SerialNumberActivity.this, "Pairing devices...", Toast.LENGTH_SHORT).show();
+                //todo microcontroller communications go here
                 startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
-            }})
-                .setNegativeButton(android.R.string.no, null).show();
+            }
+        });
+
+        // If user disagrees, stay on same page
+        builder.setNegativeButton(Html.fromHtml("<font color='#ffffff'>Cancel</font>"), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+
+
     }
 }
