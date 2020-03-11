@@ -1,6 +1,6 @@
 // MySQL Database
 
-package com.example.myapplication;
+package com.example.deviceregistration;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

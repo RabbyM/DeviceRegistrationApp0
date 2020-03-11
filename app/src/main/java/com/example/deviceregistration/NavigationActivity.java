@@ -1,12 +1,8 @@
-package com.example.myapplication;
+package com.example.deviceregistration;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 public class NavigationActivity extends AppCompatActivity {
 

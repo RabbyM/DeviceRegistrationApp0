@@ -1,12 +1,10 @@
 // Main activity that allows user to login credentials or create new account
 //todo this version is where Rabby is working on the UI
 //todo make this activity after selecting a device and successfully transferring
-package com.example.myapplication;
+package com.example.deviceregistration;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -178,4 +176,16 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-} //LoginActivity
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this,"Select an option", Toast.LENGTH_SHORT).show();
+//        if (!shouldAllowBack()) {
+//            doSomething();
+//        } else {
+//            super.onBackPressed();
+//        }
+    }
+
+
+} //LoginActivity class end

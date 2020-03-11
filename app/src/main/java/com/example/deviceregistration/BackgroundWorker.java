@@ -1,11 +1,10 @@
 // Does background work of saving information and temporarily storing it
 // Opens URLConnection with support for HTTP-specific features
 
-package com.example.myapplication;
+package com.example.deviceregistration;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.icu.util.Output;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
