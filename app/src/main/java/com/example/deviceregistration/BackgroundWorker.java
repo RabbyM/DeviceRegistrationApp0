@@ -25,11 +25,24 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
     Context context;
     AlertDialog alertDialog;
 
+
     // Pass context to constructor - needed because this is a seperate class
     BackgroundWorker (Context ctx) {
         context = ctx;
     }
 
+
+    // Set up alert dialog GUI element
+    // Executed before the background processing starts
+    @Override
+    protected void onPreExecute() {
+        //super.onPreExecute();
+        alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("LoginStatus");
+    }
+
+
+    // Opens a http URL connection and POSTS data to server
     // Similar to run() method of thread - DO NOT PUT UI STUFF HERE
     // It can send results multiple times to the UI thread by publishProgress() method
     // To notify that the background processing has been completed, we just need to use return
@@ -38,6 +51,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         String type = params[0];                                  //first parameter defines type
         //String login_url = "http://10.0.2.2/login.php";         //local host ip
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //server address URL
+
         // On successful login
         if(type.equals("login")) {
             //post some data
@@ -97,14 +111,17 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         return null;
     }
 
-    // Set up GUI if needed
-    // Executed before the background processing starts
+
+    // Change the value of the TextView - Notify the user of progress
+    // Receives progress updates from doInBackground method,
+    // which is published via publishProgress method
+    // Can update the UI thread
     @Override
-    protected void onPreExecute() {
-        //super.onPreExecute();
-        alertDialog  = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("LoginStatus");
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
+
     }
+
 
     // Use the return value (result) of doInBackground
     @Override
@@ -114,12 +131,5 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         alertDialog.show();             //show response of the server
     }
 
-    // Change the value of the TextView - Notify the user of progress
-    // Receives progress updates from doInBackground method,
-    // which is published via publishProgress method
-    // Can update the UI thread
-    @Override
-    protected void onProgressUpdate(Void... values) {
-        super.onProgressUpdate(values);
-    }
+
 }

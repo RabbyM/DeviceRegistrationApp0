@@ -116,44 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Allow background to obtain context and store information
         BackgroundWorker backgroundWorker = new BackgroundWorker(this); // declare, instantiate, initialize
-        backgroundWorker.execute(type, username, password);           // connect to database in background
-
-//        // Greet user
-//        Toast.makeText(this, "Welcome "+usernameEditText.getText().toString()+"!", Toast.LENGTH_LONG).show(); //display information to the user
-//
-//        // TODO: 1/27/2020 Use this for alert dialog in a different activity - RM
-////        // Alert dialog after login button pressed
-////        final TextView alertTextView = findViewById(R.id.alertTextView);
-////        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);//create new alert dialog
-////        builder.setCancelable(true);
-////        builder.setTitle("Title");
-////        builder.setMessage("Welcome "+usernameEditText.getText());
-////        //
-////        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-////            @Override
-////            public void onClick(DialogInterface dialogInterface, int i) {
-////                dialogInterface.cancel();
-////            }
-////        });
-////        //
-////        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-////            @Override
-////            public void onClick(DialogInterface dialogInterface, int i) {
-////                alertTextView.setVisibility(View.VISIBLE);
-////            }
-////        });
-////        builder.show();
-//
-//        // Login and go to bluetooth explore page(login button disabled)
-//        final Button loginButton = findViewById(R.id.loginButton);
-//        loginButton.setEnabled(false);
-//        loginButton.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                loginButton.setEnabled(true);
-//            }
-//        }, 10000);
-//        startActivity(new Intent(LoginActivity.this, MainBluetoothActivity.class));
+        backgroundWorker.execute(type, username, password);                 // pass user info as strings
 
     }//loginClick
 
@@ -179,12 +142,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this,"Select an option", Toast.LENGTH_SHORT).show();
-//        if (!shouldAllowBack()) {
-//            doSomething();
-//        } else {
-//            super.onBackPressed();
-//        }
+        Toast.makeText(this,"Restart the app", Toast.LENGTH_SHORT).show();
     }
 
 
