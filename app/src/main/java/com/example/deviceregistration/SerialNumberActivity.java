@@ -3,6 +3,7 @@ package com.example.deviceregistration;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.deviceregistration.providers.NotesContentProvider;
 
 
 //        Char[18] 	BLE MAC address // “AA:BB:CC:DD:EE:FF”
@@ -26,11 +29,14 @@ public class SerialNumberActivity extends AppCompatActivity {
     EditText enterSerialEditText;
     public Vibrator vibrator;
 
+    private static final String TAG = "SerialNumberActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Inflate layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial_number);
+        Log.i(TAG, "onCreate: called.");
 
         //todo handle names in addition to already handling mac addresses
 
@@ -58,16 +64,14 @@ public class SerialNumberActivity extends AppCompatActivity {
 
     // Method that executes upon pressing button on main page
     public void serialNumberClick(View view) {
-        Log.i("SerialNumberActivity", "serialNumberClick pressed!");
+        Log.i(TAG, "serialNumberClick: pressed!");
 
-        // Obtain vibrator object and cast to vibrator type
-        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate the phone when prompting
+        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE); //Obtain vibrator object and cast to vibrator type
         vibrator.vibrate(50);
 
         // Find handles for text fields
         enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
-
-        // Convert login credentials to strings
         String enterSerialString = enterSerialEditText.getText().toString();
         Log.i(  "Serial Number: ", enterSerialString);
 
@@ -82,6 +86,14 @@ public class SerialNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int yes) {
                 //todo microcontroller communications go here
+
+                //todo store onto local database
+
+                // Get the content resolver which will send a message to the content provider
+                ContentResolver resolver = getContentResolver();
+
+
+                // Show the successful pairing
                 startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
             }
         });

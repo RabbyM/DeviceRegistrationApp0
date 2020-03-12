@@ -43,6 +43,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <provider
+            android:name="com.example.deviceregistration.providers.NotesContentProvider"
+            android:authorities="com.example.deviceregistration.providers.NotesContentProvider" />
     </application>
 
 </manifest>
