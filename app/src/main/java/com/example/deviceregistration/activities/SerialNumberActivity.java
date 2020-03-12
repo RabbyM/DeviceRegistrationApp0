@@ -1,4 +1,4 @@
-package com.example.deviceregistration;
+package com.example.deviceregistration.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Html;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.deviceregistration.R;
 import com.example.deviceregistration.providers.NotesContentProvider;
 
 
@@ -28,6 +30,7 @@ public class SerialNumberActivity extends AppCompatActivity {
 
     EditText enterSerialEditText;
     public Vibrator vibrator;
+//    ContentProvider contentProvider = con
 
     private static final String TAG = "SerialNumberActivity";
 
@@ -90,8 +93,14 @@ public class SerialNumberActivity extends AppCompatActivity {
                 //todo store onto local database
 
                 // Get the content resolver which will send a message to the content provider
-                ContentResolver resolver = getContentResolver();
+                ContentResolver contentResolver = getContentResolver();
 
+                // Query method is equivalent to SELECT SQL statement
+                // Use custom content provider as URI
+                // Will run only on android oreo and up
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    Cursor cursor = contentResolver.query(NotesContentProvider.Note.Notes.CONTENT_URI, null, null, null);
+                }
 
                 // Show the successful pairing
                 startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));

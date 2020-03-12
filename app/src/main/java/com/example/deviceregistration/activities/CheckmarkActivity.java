@@ -1,4 +1,4 @@
-package com.example.deviceregistration;
+package com.example.deviceregistration.activities;
 
 //todo need to change this activity to start after successful pairing
 
@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.deviceregistration.R;
 
 public class CheckmarkActivity extends AppCompatActivity {
 

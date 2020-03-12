@@ -1,7 +1,7 @@
 // Does background work of saving information and temporarily storing it
 // Opens URLConnection with support for HTTP-specific features
 
-package com.example.deviceregistration;
+package com.example.deviceregistration.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,7 +27,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
 
 
     // Pass context to constructor - needed because this is a seperate class
-    BackgroundWorker (Context ctx) {
+    public BackgroundWorker(Context ctx) {
         context = ctx;
     }
 

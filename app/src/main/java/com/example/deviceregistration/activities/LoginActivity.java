@@ -1,7 +1,7 @@
 // Main activity that allows user to login credentials or create new account
 //todo this version is where Rabby is working on the UI
 //todo make this activity after selecting a device and successfully transferring
-package com.example.deviceregistration;
+package com.example.deviceregistration.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.deviceregistration.utils.BackgroundWorker;
+import com.example.deviceregistration.R;
 
 import java.security.MessageDigest;
 

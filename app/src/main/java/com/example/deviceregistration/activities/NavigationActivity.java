@@ -1,8 +1,10 @@
-package com.example.deviceregistration;
+package com.example.deviceregistration.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.deviceregistration.R;
 
 public class NavigationActivity extends AppCompatActivity {
 

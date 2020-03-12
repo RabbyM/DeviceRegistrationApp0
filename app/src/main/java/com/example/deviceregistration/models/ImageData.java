@@ -1,4 +1,4 @@
-package com.example.deviceregistration;
+package com.example.deviceregistration.models;
 
 public class ImageData implements java.io.Serializable {
     /**

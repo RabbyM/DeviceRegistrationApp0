@@ -1,4 +1,4 @@
-package com.example.deviceregistration;
+package com.example.deviceregistration.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,6 +23,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.deviceregistration.R;
+import com.example.deviceregistration.adapters.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 

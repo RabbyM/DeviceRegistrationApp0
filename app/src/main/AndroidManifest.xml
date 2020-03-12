@@ -18,22 +18,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.deviceregistration.NavigationActivity"></activity>
+        <activity android:name="com.example.deviceregistration.activities.NavigationActivity"></activity>
         <activity
-            android:name="com.example.deviceregistration.CheckmarkActivity"
+            android:name="com.example.deviceregistration.activities.CheckmarkActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.example.deviceregistration.SerialNumberActivity"
+            android:name="com.example.deviceregistration.activities.SerialNumberActivity"
             android:label="Select your machine" />
         <activity
-            android:name="com.example.deviceregistration.RegisterActivity"
+            android:name="com.example.deviceregistration.activities.RegisterActivity"
             android:label="Register an Account" />
         <activity
-            android:name="com.example.deviceregistration.LoginActivity"
+            android:name="com.example.deviceregistration.activities.LoginActivity"
             android:label="Cloud Login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.deviceregistration.MainBluetoothActivity"
+            android:name="com.example.deviceregistration.activities.MainBluetoothActivity"
             android:label="Unifiller Registration">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.deviceregistration;
+package com.example.deviceregistration.models;
 
 
 import android.util.Log;

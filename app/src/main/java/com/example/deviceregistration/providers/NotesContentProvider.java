@@ -16,9 +16,12 @@
 //        path: Optional segments separated by a forward slash (/) that identify some subset of the provider’s data for example this is used to identify some individual data tables.
 //        id: A unique numeric identifier for a single row in the subset of data.
 
+//todo close database after using it somehow
+
 package com.example.deviceregistration.providers;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -30,6 +33,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 
@@ -41,7 +45,7 @@ public class NotesContentProvider extends ContentProvider {
 
     private static final int DATABASE_VERSION = 1;
 
-    private static final String NOTES_TABLE_NAME = "notes";
+    public static final String NOTES_TABLE_NAME = "notes";
 
     public static final String AUTHORITY = "com.example.deviceregistration.providers.NotesContentProvider";
 
@@ -101,10 +105,10 @@ public class NotesContentProvider extends ContentProvider {
         }
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
 
-        c.setNotificationUri(getContext().getContentResolver(), uri);
-        return c;
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
     }
 
 //    @Nullable
@@ -186,5 +190,34 @@ public class NotesContentProvider extends ContentProvider {
         notesProjectionMap.put(Note.Notes.NOTE_ID, Note.Notes.NOTE_ID);
         notesProjectionMap.put(Note.Notes.TITLE, Note.Notes.TITLE);
         notesProjectionMap.put(Note.Notes.TEXT, Note.Notes.TEXT);
+    }
+
+    public static class Note {
+
+        // Constructor
+        public Note() {
+        }
+
+        // Keeps all columns organized and readily accessible
+        public static final class Notes implements BaseColumns {
+
+            // Constructor
+            private Notes() {
+            }
+
+            public static final Uri CONTENT_URI = Uri.parse("content://" + NotesContentProvider.AUTHORITY + "/notes");
+
+            //todo change this name later
+            public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/serialnumber.tasksDB/"+ NOTES_TABLE_NAME;
+
+            public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/serialnumber/tasksDB" + NOTES_TABLE_NAME;
+
+            public static final String NOTE_ID = "_id";
+
+            public static final String TITLE = "title";
+
+            public static final String TEXT = "text";
+        }
+
     }
 }//end ContentProvider outer class

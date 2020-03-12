@@ -1,5 +1,5 @@
 // Custom adapter class for RecyclerView used for displaying bluetooth devices //
-package com.example.deviceregistration;
+package com.example.deviceregistration.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.deviceregistration.R;
+import com.example.deviceregistration.activities.SerialNumberActivity;
 
 import java.util.ArrayList;
 
