@@ -50,9 +50,10 @@ public class NotesContentProvider extends ContentProvider {
     public static final String AUTHORITY = "com.example.deviceregistration.providers.NotesContentProvider";
 
     // Codes to return when uri is matched
-    private static final int NOTES = 1;
-    private static final int NOTES_ID = 2;
+    private static final int NOTES = 1; // all notes
+    private static final int NOTES_ID = 2; // single note
 
+    // Map table columns
     private static HashMap<String, String> notesProjectionMap;
 
     // Create Uri Matcher which has to be in static block so that it can run first
