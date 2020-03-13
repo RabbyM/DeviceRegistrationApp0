@@ -39,6 +39,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     ArrayList<String> bluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
+    ArrayList<String> pairedBluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
     TextView statusTextView;
     BluetoothAdapter bluetoothAdapter;
 
@@ -88,11 +89,9 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
 //        Log.d(TAG, "refreshBluetooth:  bluetooth devices refreshed.");
         RecyclerView recyclerView = findViewById(R.id.registeredRecyclerView);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, bluetoothDevices, mImageUrls);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, pairedBluetoothDevices, mImageUrls);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //todo make the items in the registered recycler view unclickable??
 
         // Add names and addresses of paired devices to array
         if (pairedDevices.size() > 0) {
@@ -119,10 +118,10 @@ public class MainBluetoothActivity extends AppCompatActivity {
                 }
 
                 // Make sure that the string is not on the list already to avoid duplicates
-                if (!bluetoothDevices.contains(deviceString))
+                if (!pairedBluetoothDevices.contains(deviceString))
                 {
                     // Add the string to the bluetoothDevices string list
-                    bluetoothDevices.add(deviceString);
+                    pairedBluetoothDevices.add(deviceString);
                     String path = "android.resource://" + getPackageName() + "/" + R.drawable.outline_bluetooth_white_36dp; //must be jpg
                     mImageUrls.add(path);
 
@@ -165,6 +164,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Search for devices using bluetooth icon button
             case R.id.bluetoothSearchButton:
+
                 // Display to user the bluetooth search is in progress
                 Toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
                 statusTextView.setText("Scanning...");

@@ -60,35 +60,6 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
 
         getNotes();
 
-        //todo store onto local database
-        // Get the content resolver which will send a message to the content provider
-//        ContentResolver contentResolver = getContentResolver();
-
-        // cursor iterates over rows of a table
-        // contentResolver.query method is equivalent to SELECT SQL statement
-        // Args:
-        // 1 - Content URI: Use custom content provider as URI - tells us which table to query
-        // 2 - Projection: number of columns/particular set of columns that you want to query - string array of names of columns
-        // 3 - Selection Clause: equivalent to where clause - condition
-        // 4 - Sort Order: Which order you want the query to be sorted
-//        Cursor cursor = contentResolver.query(NotesContentProvider.Note.Notes.CONTENT_URI, null, null, null, null);
-//
-//        if ((cursor!=null) && (cursor.getCount()>0)) {
-//            StringBuilder stringBuilderQueryResult = new StringBuilder("");
-//            while (cursor.moveToNext()) {
-//                stringBuilderQueryResult.append(cursor.getString(0)+" , "+cursor.getString(1)+" , "+cursor.getString(2)+"\n");
-//            }
-//            queryResultTextView.setText(stringBuilderQueryResult.toString());
-//        } else {
-//            queryResultTextView.setText("Invalid");
-//        }
-
-
-
-//        // Show the database
-//        myHelper = new NotesContentProvider.DatabaseHelper(this);
-//
-////        updateUI();
     }
 
     void addNote() {
@@ -135,9 +106,16 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
 
     void getNotes() {
 
+        // contentResolver.query method is equivalent to SELECT SQL statement
+        // Args:
+        // 1 - Content URI: Use custom content provider as URI - tells us which table to query
+        // 2 - Projection: number of columns/particular set of columns that you want to query - string array of names of columns
+        // 3 - Selection Clause: equivalent to where clause - condition
+        // 4 - Sort Order: Which order you want the query to be sorted
         Cursor cur = getContentResolver().query(NotesContentProvider.Note.Notes.CONTENT_URI,
                 null, null, null, null);
 
+        // cursor iterates over rows of a table
         if (cur.getCount() > 0) {
             Log.i(TAG, "Showing values.....");
             while (cur.moveToNext()) {
