@@ -51,10 +51,11 @@ public class MainBluetoothActivity extends AppCompatActivity {
         // Overwrite the current state, set the layout, and change the Action Bar title
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
+        Log.d(TAG, "onCreate: started.");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Bluetooth Devices");
         }
-        Log.d(TAG, "onCreate: started.");
+
 
         // IDs
         //recyclerView = findViewById(R.id.recyclerView);

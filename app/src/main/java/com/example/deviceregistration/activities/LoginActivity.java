@@ -25,6 +25,8 @@ import java.security.MessageDigest;
 // Modify the existing activity template with login page
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
+
     // Method created on start-up to initialize login page
     @Override //this method already exists in AppCompatActivity and we are adding to it
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Log.d(TAG, "onCreate: started");
 
         // Go to registration page if not registered
         TextView registerTextView = findViewById(R.id.registerTextView);

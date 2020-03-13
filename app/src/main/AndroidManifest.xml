@@ -3,8 +3,7 @@
     package="com.example.deviceregistration">
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,33 +17,37 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.deviceregistration.activities.NavigationActivity"></activity>
+        <activity android:name=".activities.DatabaseActivity"></activity>
+        <activity android:name=".activities.NavigationActivity" />
         <activity
-            android:name="com.example.deviceregistration.activities.CheckmarkActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".activities.CheckmarkActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.deviceregistration.activities.SerialNumberActivity"
+            android:name=".activities.SerialNumberActivity"
             android:label="Select your machine" />
         <activity
-            android:name="com.example.deviceregistration.activities.RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:label="Register an Account" />
         <activity
-            android:name="com.example.deviceregistration.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="Cloud Login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.deviceregistration.activities.MainBluetoothActivity"
+            android:name=".activities.MainBluetoothActivity"
             android:label="Unifiller Registration">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <provider
-            android:name="com.example.deviceregistration.providers.NotesContentProvider"
+            android:name=".providers.NotesContentProvider"
             android:authorities="com.example.deviceregistration.providers.NotesContentProvider" />
     </application>
 

@@ -71,10 +71,10 @@ public class NotesContentProvider extends ContentProvider {
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
 
-    public class DatabaseHelper extends SQLiteOpenHelper {
+    public static class DatabaseHelper extends SQLiteOpenHelper {
 
         // Constructor
-        DatabaseHelper(Context context) {
+        public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
@@ -209,13 +209,19 @@ public class NotesContentProvider extends ContentProvider {
         return count;
     }
 
+    //    Uri uri: The URI to query. It can be the URI of a single record, or the URI of a table.
+    //    ContentValues contentValues: A set of key-value pairs, with the column name as a key and the values to update as values.
+    //    String s: A selection to match the rows which are going to be updated.
+    //    String[] strings: The arguments of the above rows.
+
+    // Change an existing record of a table in the database
     @Override
     public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int count;
-        switch (sUriMatcher.match(uri)) {
+        switch (sUriMatcher.match(uri)) { //check if uri matches a table or record
             case NOTES:
-                count = db.update(NOTES_TABLE_NAME, values, where, whereArgs);
+                count = db.update(NOTES_TABLE_NAME, values, where, whereArgs); //pass the same parameters as the method except use table URI
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);

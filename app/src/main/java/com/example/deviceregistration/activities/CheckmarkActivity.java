@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 import com.example.deviceregistration.R;
 
 public class CheckmarkActivity extends AppCompatActivity {
+
+    private static final String TAG = "CheckmarkActivity";
 
     ImageView checkmarkImageView;
     ImageView circleBackgroundImageView;
@@ -35,6 +38,7 @@ public class CheckmarkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkmark);
+        Log.d(TAG, "onCreate: started");
 
         // Obtain handles
         checkmarkImageView = findViewById(R.id.checkmarkImageView);
