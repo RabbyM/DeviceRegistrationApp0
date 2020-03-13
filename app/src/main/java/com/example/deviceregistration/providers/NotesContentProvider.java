@@ -49,13 +49,27 @@ public class NotesContentProvider extends ContentProvider {
 
     public static final String AUTHORITY = "com.example.deviceregistration.providers.NotesContentProvider";
 
-    private static final UriMatcher sUriMatcher;
-
+    // Codes to return when uri is matched
     private static final int NOTES = 1;
-
     private static final int NOTES_ID = 2;
 
     private static HashMap<String, String> notesProjectionMap;
+
+    // Create Uri Matcher which has to be in static block so that it can run first
+    private static final UriMatcher sUriMatcher;
+    static {
+        sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        sUriMatcher.addURI(AUTHORITY, NOTES_TABLE_NAME, NOTES);
+        sUriMatcher.addURI(AUTHORITY, NOTES_TABLE_NAME + "/#", NOTES_ID);
+
+        notesProjectionMap = new HashMap<String, String>();
+        notesProjectionMap.put(Note.Notes.NOTE_ID, Note.Notes.NOTE_ID);
+        notesProjectionMap.put(Note.Notes.TITLE, Note.Notes.TITLE);
+        notesProjectionMap.put(Note.Notes.TEXT, Note.Notes.TEXT);
+    }
+
+    private SQLiteDatabase db;
+    private DatabaseHelper dbHelper;
 
     public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -64,41 +78,62 @@ public class NotesContentProvider extends ContentProvider {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        // Create new table
         @Override
         public void onCreate(SQLiteDatabase db) {
+            Log.d("DatabaseHelper: ", "onCreate called");
             db.execSQL("CREATE TABLE " + NOTES_TABLE_NAME + " (" + Note.Notes.NOTE_ID
-                    + " INTEGER PRIMARY KEY AUTOINCREMENT," + Note.Notes.TITLE + " VARCHAR(255)," + Note.Notes.TEXT + " LONGTEXT" + ");");
+                    + " INTEGER PRIMARY KEY AUTOINCREMENT," + Note.Notes.TITLE
+                    + " VARCHAR(255)," + Note.Notes.TEXT + " LONGTEXT" + ");");
         }
 
+        // Drop table if it exists
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
+            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
+                    + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + NOTES_TABLE_NAME);
             onCreate(db);
         }
-    }
-
-    private DatabaseHelper dbHelper;
+    }//end DatabaseHelper inner class
 
 
+    // Creates the database if does not already exist
+    // Returns false if the database is inaccessible
     @Override
     public boolean onCreate() {
+        boolean ret = true;
         dbHelper = new DatabaseHelper(getContext());
-        return true;
-    }
+        db = dbHelper.getWritableDatabase();
 
-//    @Nullable
+        if (db == null) {
+            ret = false;
+        }
+
+        if (db.isReadOnly()) {
+            db.close();
+            db = null;
+            ret = false;
+        }
+        return ret;
+    }//end onCreate
+
+
+    // Used to retrieve the data stored in the database and return a cursor instance
+    // A cursor is used to navigate the rows of the database
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(NOTES_TABLE_NAME);
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder(); //new instance of query builder
+        qb.setTables(NOTES_TABLE_NAME); //set the table name
         qb.setProjectionMap(notesProjectionMap);
 
+        // if URI matches
         switch (sUriMatcher.match(uri)) {
             case NOTES:
                 break;
             case NOTES_ID:
-                selection = selection + "_id = " + uri.getLastPathSegment();
+//                qb.appendWhere(ID+" = "+uri.getLastPathSegment());
+                selection = selection + "_id = " + uri.getLastPathSegment(); //old code
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -122,13 +157,18 @@ public class NotesContentProvider extends ContentProvider {
         }
     }
 
-//    @Nullable
+    // Insert the values into the table
+    // Returns the uri of the new record
     @Override
     public Uri insert(Uri uri, ContentValues initialValues) {
+        // Check if the uri received matches the uri of the table
         if (sUriMatcher.match(uri) != NOTES) {
             throw new IllegalArgumentException("Unknown URI " + uri);
         }
 
+        //todo do i need this?
+        //if the values are not null then put them in an instance of content values
+        //otherwise create a new empty instance of contentvalues
         ContentValues values;
         if (initialValues != null) {
             values = new ContentValues(initialValues);
@@ -136,14 +176,18 @@ public class NotesContentProvider extends ContentProvider {
             values = new ContentValues();
         }
 
+        // Store the values into the table
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         long rowId = db.insert(NOTES_TABLE_NAME, Note.Notes.TEXT, values);
+
+        // Return uri if there is a record added to the table
         if (rowId > 0) {
-            Uri noteUri = ContentUris.withAppendedId(Note.Notes.CONTENT_URI, rowId);
+            Uri noteUri = ContentUris.withAppendedId(Note.Notes.CONTENT_URI, rowId); //create new uri
             getContext().getContentResolver().notifyChange(noteUri, null);
             return noteUri;
         }
 
+        // Throw an exception if record is not stored
         throw new SQLException("Failed to insert row into " + uri);
     }
 
@@ -181,16 +225,7 @@ public class NotesContentProvider extends ContentProvider {
         return count;
     }
 
-    static {
-        sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(AUTHORITY, NOTES_TABLE_NAME, NOTES);
-        sUriMatcher.addURI(AUTHORITY, NOTES_TABLE_NAME + "/#", NOTES_ID);
 
-        notesProjectionMap = new HashMap<String, String>();
-        notesProjectionMap.put(Note.Notes.NOTE_ID, Note.Notes.NOTE_ID);
-        notesProjectionMap.put(Note.Notes.TITLE, Note.Notes.TITLE);
-        notesProjectionMap.put(Note.Notes.TEXT, Note.Notes.TEXT);
-    }
 
     public static class Note {
 

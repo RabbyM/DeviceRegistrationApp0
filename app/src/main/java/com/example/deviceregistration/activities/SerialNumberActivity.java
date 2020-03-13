@@ -1,5 +1,6 @@
 package com.example.deviceregistration.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Html;
@@ -28,12 +30,14 @@ import com.example.deviceregistration.providers.NotesContentProvider;
 
 public class SerialNumberActivity extends AppCompatActivity {
 
-    EditText enterSerialEditText;
-    public Vibrator vibrator;
-//    ContentProvider contentProvider = con
-
     private static final String TAG = "SerialNumberActivity";
 
+    EditText enterSerialEditText;
+    TextView queryResultTextView;
+    public Vibrator vibrator;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Inflate layout
@@ -41,7 +45,7 @@ public class SerialNumberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_serial_number);
         Log.i(TAG, "onCreate: called.");
 
-        //todo handle names in addition to already handling mac addresses
+        //todo handle names in addition to already handling mac addresses and put this inside of a function
 
         // Remove everything after MAC address
         String masterString = getIntent().getStringExtra("MAC"); //access intent from previous activity
@@ -63,6 +67,39 @@ public class SerialNumberActivity extends AppCompatActivity {
         TextView ccdTextView = findViewById(R.id.ccdTextView);
         macAddressTextView.setText(macAddress);
         ccdTextView.setVisibility(View.VISIBLE);
+
+
+
+
+        // Get the content resolver which will send a message to the content provider
+        ContentResolver contentResolver = getContentResolver();
+
+        // cursor iterates over rows of a table
+        // contentResolver.query method is equivalent to SELECT SQL statement
+        // Args:
+        // 1 - Content URI: Use custom content provider as URI - tells us which table to query
+        // 2 - Projection: number of columns/particular set of columns that you want to query - string array of names of columns
+        // 3 - Selection Clause: equivalent to where clause - condition
+        // 4 - Sort Order: Which order you want the query to be sorted
+        Cursor cursor = contentResolver.query(NotesContentProvider.Note.Notes.CONTENT_URI, null, null, null);
+
+        if ((cursor!=null) && (cursor.getCount()>0)) {
+            StringBuilder stringBuilderQueryResult = new StringBuilder("");
+            while (cursor.moveToNext()) {
+                stringBuilderQueryResult.append(cursor.getString(0)+" , "+cursor.getString(1)+" , "+cursor.getString(2)+"\n");
+            }
+            queryResultTextView.setText(stringBuilderQueryResult.toString());
+        } else {
+            queryResultTextView.setText("Invalid");
+        }
+
+
+
+
+
+
+
+
     }
 
     // Method that executes upon pressing button on main page
@@ -73,7 +110,8 @@ public class SerialNumberActivity extends AppCompatActivity {
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE); //Obtain vibrator object and cast to vibrator type
         vibrator.vibrate(50);
 
-        // Find handles for text fields
+        //todo need to use this for the data base entry
+        // Convert user input to string
         enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
         String enterSerialString = enterSerialEditText.getText().toString();
         Log.i(  "Serial Number: ", enterSerialString);
@@ -86,21 +124,12 @@ public class SerialNumberActivity extends AppCompatActivity {
 
         // If user agrees, navigate back to the main activity
         builder.setPositiveButton(Html.fromHtml("<font color='#E41E1E'>OK</font>"), new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O) // Will run only on android oreo and up
             @Override
             public void onClick(DialogInterface dialog, int yes) {
                 //todo microcontroller communications go here
 
                 //todo store onto local database
-
-                // Get the content resolver which will send a message to the content provider
-                ContentResolver contentResolver = getContentResolver();
-
-                // Query method is equivalent to SELECT SQL statement
-                // Use custom content provider as URI
-                // Will run only on android oreo and up
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    Cursor cursor = contentResolver.query(NotesContentProvider.Note.Notes.CONTENT_URI, null, null, null);
-                }
 
                 // Show the successful pairing
                 startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
@@ -118,4 +147,6 @@ public class SerialNumberActivity extends AppCompatActivity {
 
 
     }
-}
+
+
+}//SerialNumberActivity end
