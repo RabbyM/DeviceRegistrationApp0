@@ -1,3 +1,4 @@
+// Searches for bluetooth devices in the vicinity
 package com.example.deviceregistration.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,20 +29,18 @@ import com.example.deviceregistration.R;
 import com.example.deviceregistration.adapters.RecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 // Modify the existing activity template with bluetooth features
 public class MainBluetoothActivity extends AppCompatActivity {
 
     private static final String TAG = "MainBluetoothActivity";
 
-    //variables
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     ArrayList<String> bluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
-
-    //RecyclerView recyclerView;
     TextView statusTextView;
-    BluetoothAdapter bluetoothAdapter; //bluetooth adapter object
+    BluetoothAdapter bluetoothAdapter;
 
     int REQUEST_ENABLE_BT = 1;
 
@@ -56,11 +55,8 @@ public class MainBluetoothActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Bluetooth Devices");
         }
 
-
-        // IDs
-        //recyclerView = findViewById(R.id.recyclerView);
+        // Get tags
         statusTextView = findViewById(R.id.statusTextView);
-//        searchButton = findViewById(R.id.searchButton);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // Checks if permission is granted, if not it will default and ask for permission
@@ -86,22 +82,54 @@ public class MainBluetoothActivity extends AppCompatActivity {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
-/*
+
         // Get all paired devices as set (set = unsorted array/list)
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
 
-//        // Add names and addresses of paired devices to array
-//        if (pairedDevices.size() > 0) {
-//            // There are paired devices. Get the name and address of each paired device.
-//            // for loop every element of pairedDevices is passed and temporary copied into "device"
-//            for (BluetoothDevice device : pairedDevices) {
-//                String deviceName = device.getName();
-//                String deviceHardwareAddress = device.getAddress(); // MAC address
-//                // add items to adapter
-//                btArrayAdapter.add(deviceName + "\n"
-//                        + deviceHardwareAddress);
-//            }
-//        }*/
+//        Log.d(TAG, "refreshBluetooth:  bluetooth devices refreshed.");
+        RecyclerView recyclerView = findViewById(R.id.registeredRecyclerView);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, bluetoothDevices, mImageUrls);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //todo make the items in the registered recycler view unclickable??
+
+        // Add names and addresses of paired devices to array
+        if (pairedDevices.size() > 0) {
+            // There are paired devices. Get the name and address of each paired device.
+            // for loop every element of pairedDevices is passed and temporary copied into "device"
+            for (BluetoothDevice device : pairedDevices) {
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+                // add items to adapter
+//                adapter.add(deviceName + "\n" + deviceHardwareAddress);
+
+                String deviceString = ""; // Init the device string
+
+                // If device has no name, use the address
+                if (deviceName == null || deviceName.equals(""))
+                {
+                    deviceString = "MAC: " + deviceHardwareAddress;
+                }
+
+                // Use the name if it is available
+                else
+                {
+                    deviceString = "MAC: " + deviceHardwareAddress + "\n" + deviceName;
+                }
+
+                // Make sure that the string is not on the list already to avoid duplicates
+                if (!bluetoothDevices.contains(deviceString))
+                {
+                    // Add the string to the bluetoothDevices string list
+                    bluetoothDevices.add(deviceString);
+                    String path = "android.resource://" + getPackageName() + "/" + R.drawable.outline_bluetooth_white_36dp; //must be jpg
+                    mImageUrls.add(path);
+
+                }
+            }
+
+        }
 
         // If scanning already running, stop
         if (bluetoothAdapter.isDiscovering()) {
@@ -137,13 +165,15 @@ public class MainBluetoothActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Search for devices using bluetooth icon button
             case R.id.bluetoothSearchButton:
+                // Display to user the bluetooth search is in progress
                 Toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
-                statusTextView.setText("Scanning...");     //show text to user
-                ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
-                searchProgressBar.setVisibility(View.VISIBLE);
-                //todo disable button // not implemented
-                bluetoothDevices.clear();                   //remove redundancy in devices
-                bluetoothAdapter.startDiscovery();          //start searching for BT devices
+                statusTextView.setText("Scanning...");
+                findViewById(R.id.searchProgressBar).setVisibility(View.VISIBLE);
+                findViewById(R.id.bluetoothSearchButton).setClickable(false);// Don't allow button to be pressed again
+
+                // Remove redundancy and start searching
+                bluetoothDevices.clear();
+                bluetoothAdapter.startDiscovery();
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
@@ -239,12 +269,13 @@ public class MainBluetoothActivity extends AppCompatActivity {
             String action = intent.getAction();
             Log.i("Action", action); //log info from intent
 
-            // Notify user that searching has finished
+            // On bluetooth search finish
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 Toast.makeText(MainBluetoothActivity.this, "Finished", Toast.LENGTH_SHORT).show();
                 statusTextView.setText("Finished");
                 ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
                 searchProgressBar.setVisibility(View.INVISIBLE);
+                findViewById(R.id.bluetoothSearchButton).setClickable(true);
             }
 
             // Discovery has found a device
@@ -267,7 +298,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
                 // Use the name if it is available
                 else
                 {
-                    deviceString = name + "\nRSSI: " + rssi + "dBm";
+                    deviceString = "MAC: " + address + "\nRSSI: " + rssi + "dBm" + "\n" + name;
                 }
 
                 // Make sure that the string is not on the list already to avoid duplicates
@@ -301,4 +332,5 @@ public class MainBluetoothActivity extends AppCompatActivity {
         unregisterReceiver(broadcastReceiver);
 
     }
+
 }

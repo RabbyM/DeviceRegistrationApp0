@@ -1,6 +1,4 @@
 // Main activity that allows user to login credentials or create new account
-//todo this version is where Rabby is working on the UI
-//todo make this activity after selecting a device and successfully transferring
 package com.example.deviceregistration.activities;
 
 import android.content.Intent;
@@ -43,16 +41,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
-
-//        // Provide phone number or something TBD
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     } //onCreate
 
     // Method that initializes settings tab
@@ -146,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    // Prevent the user from pressing back button
     @Override
     public void onBackPressed() {
         Toast.makeText(this,"Restart the app", Toast.LENGTH_SHORT).show();

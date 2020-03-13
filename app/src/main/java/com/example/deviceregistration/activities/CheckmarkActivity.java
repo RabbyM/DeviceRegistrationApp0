@@ -56,9 +56,6 @@ public class CheckmarkActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
 
-//                circleBackgroundImageView.setVisibility(View.VISIBLE);
-//                checkmarkImageView.setVisibility(View.VISIBLE);
-
 
         // Animate checkmark vectors drawables
         if(drawable instanceof AnimatedVectorDrawableCompat) {

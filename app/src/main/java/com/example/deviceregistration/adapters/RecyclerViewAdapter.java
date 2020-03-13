@@ -34,7 +34,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mContext = context;
     }
 
-    // Method that inflates view (recycles view holder)
+    // Called when adapter is created in main
+    // Uses the layout provided by the xml layout file
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem, parent, false);
@@ -42,6 +43,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return holder;
     }
 
+
+    // This method is called for each ViewHolder to bind it to the adapter
+    // This is where we will pass our data to our ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
@@ -74,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
     }
 
-    // Tells adapter how many list items are in list
+    // Tells adapter how many list items are in the list
     @Override
     public int getItemCount() {
         return mImageNames.size();
