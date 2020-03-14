@@ -84,10 +84,10 @@ public class MainBluetoothActivity extends AppCompatActivity {
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
-        // Get all paired devices as set (set = unsorted array/list)
+        // Get all paired devices as a set (set = unsorted array/list)
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
 
-//        Log.d(TAG, "refreshBluetooth:  bluetooth devices refreshed.");
+        // Set up recylerview and inflate bluetooth devices
         RecyclerView recyclerView = findViewById(R.id.registeredRecyclerView);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, pairedBluetoothDevices, mImageUrls);
         recyclerView.setAdapter(adapter);
