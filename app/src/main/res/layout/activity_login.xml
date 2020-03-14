@@ -44,17 +44,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/passwordEditText"
         app:layout_constraintTop_toTopOf="@+id/passwordEditText" />
-
-    <ImageView
-        android:id="@+id/welcomeImageView"
-        android:layout_width="match_parent"
-        android:layout_height="209dp"
-        android:adjustViewBounds="false"
-        android:alpha="0"
-        android:contentDescription="@string/todo"
-        android:cropToPadding="true"
-        android:scaleType="fitCenter"
-        android:visibility="visible"
-        app:srcCompat="@drawable/welcome" />
+    
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
