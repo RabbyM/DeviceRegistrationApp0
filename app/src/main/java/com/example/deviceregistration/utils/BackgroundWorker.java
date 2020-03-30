@@ -3,9 +3,13 @@
 
 package com.example.deviceregistration.utils;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+
+import androidx.core.content.ContextCompat;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -78,6 +82,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 httpURLConnection.setRequestMethod("POST"); //clients sends info in body, servers response with empty body
                 httpURLConnection.setDoOutput(true); //
                 httpURLConnection.setDoInput(true);
+//                httpURLConnection.setUseCaches(false); // Don't use a Cached Copy
+//                httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
 
                 // Set buffer writer to the output stream of httpURL connection type
                 OutputStream outputStream = httpURLConnection.getOutputStream();
