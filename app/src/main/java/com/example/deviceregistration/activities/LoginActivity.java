@@ -1,11 +1,19 @@
 // Main activity that allows user to login credentials or create new account
 package com.example.deviceregistration.activities;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +26,7 @@ import android.widget.Toast;
 import com.example.deviceregistration.utils.BackgroundWorker;
 import com.example.deviceregistration.R;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 
 // Modify the existing activity template with login page
@@ -90,6 +99,12 @@ public class LoginActivity extends AppCompatActivity {
     // Method that executes upon pressing button on main page
     public void loginClick(View view) {
 
+        // Checks for network availability and actual connection
+        if (!(isNetworkAvailable() || isOnline())) {
+            makeToast("Network off.");
+            return;
+        }
+
         // Find handles for text fields
         EditText usernameEditText = findViewById(R.id.usernameEditText); //resources.id.tag name
         EditText passwordEditText = findViewById(R.id.passwordEditText);
@@ -134,11 +149,51 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    // Toast user
+    private void makeToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+    }
+
+
     // Prevent the user from pressing back button
     @Override
     public void onBackPressed() {
         Toast.makeText(this,"Restart the app", Toast.LENGTH_SHORT).show();
     }
 
+
+    // Check if network is available
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+//    public Boolean isOnline() {
+//        try {
+//            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+//            int returnVal = p1.waitFor();
+//            boolean reachable = (returnVal==0);
+//            return reachable;
+//        } catch (Exception e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
+
+    // Checks for ACTUAL connection
+    // Uses ICMP protocol to ping google DNS - guaranteed available
+    public boolean isOnline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8"); // google DNS
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        }
+        catch (IOException e)          { e.printStackTrace(); }
+        catch (InterruptedException e) { e.printStackTrace(); }
+        return false;
+    }
 
 } //LoginActivity class end

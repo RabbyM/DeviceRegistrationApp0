@@ -62,6 +62,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    // Title and content required to ADD a note
     void addNote() {
         if (title.getText().toString().length() > 0 && content.getText().toString().length() > 0) {
             ContentValues values = new ContentValues();
@@ -75,6 +76,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    //
     void deleteNote(String str_id) {
         try {
             int id = Integer.parseInt(str_id);

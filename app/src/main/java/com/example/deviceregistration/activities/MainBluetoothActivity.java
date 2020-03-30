@@ -42,6 +42,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
     ArrayList<String> pairedBluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
     TextView statusTextView;
     BluetoothAdapter bluetoothAdapter;
+    private Toast toast = null;
 
     int REQUEST_ENABLE_BT = 1;
 
@@ -166,7 +167,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
             case R.id.bluetoothSearchButton:
 
                 // Display to user the bluetooth search is in progress
-                Toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
                 statusTextView.setText("Scanning...");
                 findViewById(R.id.searchProgressBar).setVisibility(View.VISIBLE);
                 findViewById(R.id.bluetoothSearchButton).setClickable(false);// Don't allow button to be pressed again
@@ -176,28 +177,28 @@ public class MainBluetoothActivity extends AppCompatActivity {
                 bluetoothAdapter.startDiscovery();
                 return true;
             case R.id.item2:
-                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item3:
-                Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.subitem2_1:
-                Toast.makeText(this, "Sub Item 1 selected", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Sub Item 1 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.subitem2_2:
-                Toast.makeText(this, "Sub Item 2 selected", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Sub Item 2 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.subitem2_3:
-                Toast.makeText(this, "Sub Item 3 selected", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Sub Item 3 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.subitem3_1:
-                Toast.makeText(this, "Sub Item 1 selected", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Sub Item 1 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.subitem3_2:
-                Toast.makeText(this, "Sub Item 2 selected", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Sub Item 2 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.subitem3_3:
-                Toast.makeText(this, "Sub Item 3 selected", Toast.LENGTH_SHORT).show();
+                toast.makeText(this, "Sub Item 3 selected", Toast.LENGTH_SHORT).show();
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
@@ -271,7 +272,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
             // On bluetooth search finish
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                Toast.makeText(MainBluetoothActivity.this, "Finished", Toast.LENGTH_SHORT).show();
+                toast.makeText(MainBluetoothActivity.this, "Finished", Toast.LENGTH_SHORT).show();
                 statusTextView.setText("Finished");
                 ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
                 searchProgressBar.setVisibility(View.INVISIBLE);
@@ -328,8 +329,11 @@ public class MainBluetoothActivity extends AppCompatActivity {
             bluetoothAdapter.cancelDiscovery();
         }
 
-        // Don't forget to unregister the ACTION_FOUND receiver.
+        // Unregister the ACTION_FOUND receiver.
         unregisterReceiver(broadcastReceiver);
+
+        // Clear toasts
+        toast.cancel();
 
     }
 
