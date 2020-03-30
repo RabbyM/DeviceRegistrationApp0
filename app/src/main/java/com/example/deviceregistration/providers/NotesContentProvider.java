@@ -63,6 +63,7 @@ public class NotesContentProvider extends ContentProvider {
         sUriMatcher.addURI(AUTHORITY, NOTES_TABLE_NAME, NOTES);
         sUriMatcher.addURI(AUTHORITY, NOTES_TABLE_NAME + "/#", NOTES_ID);
 
+        // Key-value pairs
         notesProjectionMap = new HashMap<String, String>();
         notesProjectionMap.put(Note.Notes.NOTE_ID, Note.Notes.NOTE_ID);
         notesProjectionMap.put(Note.Notes.TITLE, Note.Notes.TITLE);

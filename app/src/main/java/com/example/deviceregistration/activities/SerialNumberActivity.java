@@ -98,15 +98,16 @@ public class SerialNumberActivity extends AppCompatActivity {
         builder.setMessage(Html.fromHtml("<font color='#ffffff'>Are you sure you want to pair with this device?</font>"));
         builder.setIcon(android.R.drawable.ic_dialog_alert);
 
-        // If user agrees, navigate back to the main activity
+        // If user agrees, add to the database
         builder.setPositiveButton(Html.fromHtml("<font color='#E41E1E'>OK</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int yes) {
                 //todo microcontroller communications go here
 
+                //todo store into database
                 // Show the successful pairing
-//                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
-                startActivity(new Intent(SerialNumberActivity.this, DatabaseActivity.class));
+                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
+//                startActivity(new Intent(SerialNumberActivity.this, DatabaseActivity.class));
             }
         });
 
