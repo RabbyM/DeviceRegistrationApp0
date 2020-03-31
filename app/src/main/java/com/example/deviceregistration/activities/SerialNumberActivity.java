@@ -37,7 +37,10 @@ public class SerialNumberActivity extends AppCompatActivity {
     private static final String TAG = "SerialNumberActivity";
 
     EditText enterSerialEditText;
+    TextView macAddressTextView;
     Vibrator vibrator;
+    String enterSerialString;
+    String macAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +89,13 @@ public class SerialNumberActivity extends AppCompatActivity {
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE); //Obtain vibrator object and cast to vibrator type
         vibrator.vibrate(50);
 
-        //todo need to use this for the data base entry
-        // Convert user input to string
+        // Display serial number of machine and MAC address of cycle counter on the LogCat
         enterSerialEditText = findViewById(R.id.enterSerialEditText); //resources.id.tag name
-        String enterSerialString = enterSerialEditText.getText().toString();
+        macAddressTextView = findViewById(R.id.macAddressTextView);
+        enterSerialString = enterSerialEditText.getText().toString();
+        macAddress = macAddressTextView.getText().toString();
         Log.i(  "Serial Number: ", enterSerialString);
+        Log.i(  "MAC: ", macAddress);
 
         // Create confirmation dialog - yes means go back to main activity
         AlertDialog.Builder builder = new AlertDialog.Builder(SerialNumberActivity.this);
@@ -104,10 +109,16 @@ public class SerialNumberActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int yes) {
                 //todo microcontroller communications go here
 
-                //todo store into database
+
                 // Show the successful pairing
 //                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
-                startActivity(new Intent(SerialNumberActivity.this, DatabaseActivity.class));
+
+                //todo do this in background
+                // Create intent getting the context of activity and store values into the database activity
+                Intent intent = new Intent(SerialNumberActivity.this, DatabaseActivity.class);
+                intent.putExtra("SN", enterSerialString);
+                intent.putExtra("MAC", macAddress);
+                SerialNumberActivity.this.startActivity(intent);
             }
         });
 

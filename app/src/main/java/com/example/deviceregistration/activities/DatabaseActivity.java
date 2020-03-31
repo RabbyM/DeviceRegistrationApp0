@@ -58,6 +58,11 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         showNotes = (Button) findViewById(R.id.show_notes);
         showNotes.setOnClickListener(this);
 
+        String SN = getIntent().getStringExtra("SN"); //access intent from previous activity
+        String MAC = getIntent().getStringExtra("MAC"); //access intent from previous activity
+
+        title.setText(SN);
+        content.setText(MAC);
         getNotes();
 
     }
@@ -123,7 +128,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
                 String Id = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.NOTE_ID));
                 String title = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.TITLE));
                 String text = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.TEXT));
-                System.out.println("Id = " + Id + ", Note: " + text + ", Title : " + title);
+                System.out.println("Id = " + Id + ", SN : " + title + ", MAC: " + text);
             }
             makeToast("Check the LogCat for Notes");
         } else {
@@ -136,6 +141,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v == add) {
+            // add note with title and content
             addNote();
         }
         if (v == update) {
