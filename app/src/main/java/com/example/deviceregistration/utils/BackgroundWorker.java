@@ -125,7 +125,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 e.printStackTrace();
             }
         }
-        return null;
+        return result;
     }
 
 

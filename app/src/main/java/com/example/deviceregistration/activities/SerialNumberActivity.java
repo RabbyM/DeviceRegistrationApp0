@@ -104,7 +104,7 @@ public class SerialNumberActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int yes) {
                 //todo microcontroller communications go here
 
-                //todo store into database
+                // todo store into database
                 // Show the successful pairing
                 startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
 //                startActivity(new Intent(SerialNumberActivity.this, DatabaseActivity.class));
