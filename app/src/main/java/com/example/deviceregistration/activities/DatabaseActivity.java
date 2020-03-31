@@ -70,9 +70,12 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
     // Title and content required to ADD a note
     void addNote() {
         if (title.getText().toString().length() > 0 && content.getText().toString().length() > 0) {
+            // Store a set of values that the ContentResolver can process
             ContentValues values = new ContentValues();
             values.put(NotesContentProvider.Note.Notes.TITLE, title.getText().toString());
             values.put(NotesContentProvider.Note.Notes.TEXT, content.getText().toString());
+
+            // Content resolver queries the content provider and notify success
             getContentResolver().insert(NotesContentProvider.Note.Notes.CONTENT_URI, values);
             Log.d(TAG, "Inserted");
             makeToast("Note Added");

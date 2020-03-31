@@ -168,7 +168,6 @@ public class NotesContentProvider extends ContentProvider {
             throw new IllegalArgumentException("Unknown URI " + uri);
         }
 
-        //todo do i need this?
         //if the values are not null then put them in an instance of content values
         //otherwise create a new empty instance of contentvalues
         ContentValues values;
