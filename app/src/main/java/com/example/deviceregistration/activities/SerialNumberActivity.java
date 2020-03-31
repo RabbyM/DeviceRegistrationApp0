@@ -106,8 +106,8 @@ public class SerialNumberActivity extends AppCompatActivity {
 
                 //todo store into database
                 // Show the successful pairing
-                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
-//                startActivity(new Intent(SerialNumberActivity.this, DatabaseActivity.class));
+//                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
+                startActivity(new Intent(SerialNumberActivity.this, DatabaseActivity.class));
             }
         });
 
