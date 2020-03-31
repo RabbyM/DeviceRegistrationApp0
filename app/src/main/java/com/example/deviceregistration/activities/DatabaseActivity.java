@@ -2,41 +2,23 @@
 package com.example.deviceregistration.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.deviceregistration.R;
 import com.example.deviceregistration.providers.NotesContentProvider;
 
 public class DatabaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "DatabaseActivity";
-
     private EditText title, content, delete_id;
     private Button add, update, delete, showNotes;
-
-    private ListView myTaskListView;
-    private NotesContentProvider.DatabaseHelper myHelper;
-    TextView queryResultTextView;
-
-    private String[] columnProjection = new String[] {
-            ContactsContract.Contacts.DISPLAY_NAME,
-            ContactsContract.Contacts.CONTACT_STATUS,
-            ContactsContract.Contacts.HAS_PHONE_NUMBER};
-
-//    private String selectionClause = ContactsContract.Contacts.
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +26,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database);
 
+        // Find IDs
         title = (EditText) findViewById(R.id.title);
         content = (EditText) findViewById(R.id.content);
         delete_id = (EditText) findViewById(R.id.delete_id);
@@ -58,9 +41,9 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         showNotes = (Button) findViewById(R.id.show_notes);
         showNotes.setOnClickListener(this);
 
+        // Autofill MAC and SN
         String SN = getIntent().getStringExtra("SN"); //access intent from previous activity
         String MAC = getIntent().getStringExtra("MAC"); //access intent from previous activity
-
         title.setText(SN);
         content.setText(MAC);
         getNotes();
@@ -71,12 +54,12 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
     void addNote() {
         if (title.getText().toString().length() > 0 && content.getText().toString().length() > 0) {
             // Store a set of values that the ContentResolver can process
-            ContentValues values = new ContentValues();
-            values.put(NotesContentProvider.Note.Notes.TITLE, title.getText().toString());
-            values.put(NotesContentProvider.Note.Notes.TEXT, content.getText().toString());
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(NotesContentProvider.Note.Notes.TITLE, title.getText().toString());
+            contentValues.put(NotesContentProvider.Note.Notes.TEXT, content.getText().toString());
 
             // Content resolver queries the content provider and notify success
-            getContentResolver().insert(NotesContentProvider.Note.Notes.CONTENT_URI, values);
+            getContentResolver().insert(NotesContentProvider.Note.Notes.CONTENT_URI, contentValues);
             Log.d(TAG, "Inserted");
             makeToast("Note Added");
         } else {
@@ -102,10 +85,10 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         try {
             int id = Integer.parseInt(str_id);
             Log.i(TAG, "Updating with id = " + id);
-            ContentValues values = new ContentValues();
-            values.put(NotesContentProvider.Note.Notes.TITLE, title.getText().toString());
-            values.put(NotesContentProvider.Note.Notes.TEXT, content.getText().toString());
-            getContentResolver().update(NotesContentProvider.Note.Notes.CONTENT_URI, values,
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(NotesContentProvider.Note.Notes.TITLE, title.getText().toString());
+            contentValues.put(NotesContentProvider.Note.Notes.TEXT, content.getText().toString());
+            getContentResolver().update(NotesContentProvider.Note.Notes.CONTENT_URI, contentValues,
                     NotesContentProvider.Note.Notes.NOTE_ID + " = " + id, null);
             makeToast("Note Updated");
         } catch (Exception e) {
@@ -124,14 +107,14 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         Cursor cur = getContentResolver().query(NotesContentProvider.Note.Notes.CONTENT_URI,
                 null, null, null, null);
 
-        // cursor iterates over rows of a table
+        // Cursor iterates over rows of a table
         if (cur.getCount() > 0) {
             Log.i(TAG, "Showing values.....");
             while (cur.moveToNext()) {
-                String Id = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.NOTE_ID));
+                String ID = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.NOTE_ID));
                 String title = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.TITLE));
                 String text = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.TEXT));
-                System.out.println("Id = " + Id + ", SN : " + title + ", MAC: " + text);
+                System.out.println("ID = " + ID + ", SN : " + title + ", MAC: " + text);
             }
             makeToast("Check the LogCat for Notes");
         } else {
@@ -146,13 +129,15 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         if (v == add) {
             // add note with title and content
             addNote();
+            startActivity(new Intent(DatabaseActivity.this, CheckmarkActivity.class));
         }
         if (v == update) {
-            // update note with Id
+            // update note with ID
             updateNote(delete_id.getText().toString());
+            startActivity(new Intent(DatabaseActivity.this, CheckmarkActivity.class));
         }
         if (v == delete) {
-            // delete note with Id
+            // delete note with ID
             deleteNote(delete_id.getText().toString());
         }
         if (v == showNotes) {

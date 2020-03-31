@@ -20,7 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.DatabaseActivity"></activity>
+        <activity
+            android:name=".activities.DatabaseActivity"
+            android:label="Press add or update" />
         <activity android:name=".activities.NavigationActivity" />
         <activity
             android:name=".activities.CheckmarkActivity"

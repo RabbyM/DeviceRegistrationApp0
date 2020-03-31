@@ -41,12 +41,10 @@ public class NotesContentProvider extends ContentProvider {
 
     private static final String TAG = "NotesContentProvider";
 
+    //Database info
     private static final String DATABASE_NAME = "notes.db";
-
     private static final int DATABASE_VERSION = 1;
-
     public static final String NOTES_TABLE_NAME = "notes";
-
     public static final String AUTHORITY = "com.example.deviceregistration.providers.NotesContentProvider";
 
     // Codes to return when uri is matched
@@ -69,7 +67,7 @@ public class NotesContentProvider extends ContentProvider {
         notesProjectionMap.put(Note.Notes.TITLE, Note.Notes.TITLE);
         notesProjectionMap.put(Note.Notes.TEXT, Note.Notes.TEXT);
     }
-
+    // Creates an instance of the SQLiteOpenHelper, which invokes SQLiteDatabase features + extra
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
 
@@ -94,6 +92,10 @@ public class NotesContentProvider extends ContentProvider {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
+
+            // Upgrade logic goes here if needed...
+
+            // Remove older tables
             db.execSQL("DROP TABLE IF EXISTS " + NOTES_TABLE_NAME);
             onCreate(db);
         }

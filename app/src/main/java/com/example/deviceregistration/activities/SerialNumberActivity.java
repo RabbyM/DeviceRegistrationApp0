@@ -1,36 +1,19 @@
 package com.example.deviceregistration.activities;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.provider.ContactsContract;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.deviceregistration.R;
-import com.example.deviceregistration.providers.NotesContentProvider;
-
-
-
-//        Char[18] 	BLE MAC address // “AA:BB:CC:DD:EE:FF”
-//        Char[22] 	Machine Serial Number
-//        Int16		Temperature
-//        Uint32 	Cycle Count
-//        Int8 		Battery Level
 
 public class SerialNumberActivity extends AppCompatActivity {
 
@@ -48,8 +31,6 @@ public class SerialNumberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial_number);
         Log.d(TAG, "onCreate: called.");
-
-        //todo handle names in addition to already handling mac addresses and put this inside of a function
 
         // Remove everything after MAC address
         String masterString = getIntent().getStringExtra("MAC"); //access intent from previous activity
@@ -113,7 +94,7 @@ public class SerialNumberActivity extends AppCompatActivity {
                 // Show the successful pairing
 //                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
 
-                //todo do this in background
+                // todo do this in background
                 // Create intent getting the context of activity and store values into the database activity
                 Intent intent = new Intent(SerialNumberActivity.this, DatabaseActivity.class);
                 intent.putExtra("SN", enterSerialString);

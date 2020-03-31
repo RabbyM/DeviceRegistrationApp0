@@ -27,12 +27,6 @@ public class CheckmarkActivity extends AppCompatActivity {
 
     private static final String TAG = "CheckmarkActivity";
 
-    ImageView checkmarkImageView;
-    ImageView circleBackgroundImageView;
-    Button serialNumberButton;
-    AnimatedVectorDrawableCompat avd;
-    AnimatedVectorDrawable avd2;
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +35,7 @@ public class CheckmarkActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started");
 
         // Obtain handles
-        checkmarkImageView = findViewById(R.id.checkmarkImageView);
-        serialNumberButton = findViewById(R.id.serialNumberButton);
-        circleBackgroundImageView = findViewById(R.id.circleBackgroundImageView);
+        ImageView checkmarkImageView = findViewById(R.id.checkmarkImageView);
         Drawable drawable = checkmarkImageView.getDrawable();
 
         // Activate full screen activity
@@ -58,6 +50,8 @@ public class CheckmarkActivity extends AppCompatActivity {
 
 
         // Animate checkmark vectors drawables
+        AnimatedVectorDrawableCompat avd;
+        AnimatedVectorDrawable avd2;
         if(drawable instanceof AnimatedVectorDrawableCompat) {
             avd =(AnimatedVectorDrawableCompat) drawable;
             avd.start();

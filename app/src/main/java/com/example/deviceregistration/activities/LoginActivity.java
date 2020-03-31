@@ -1,19 +1,16 @@
 // Main activity that allows user to login credentials or create new account
 package com.example.deviceregistration.activities;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,10 +19,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.deviceregistration.providers.NotesContentProvider;
 import com.example.deviceregistration.utils.BackgroundWorker;
 import com.example.deviceregistration.R;
-
 import java.io.IOException;
 import java.security.MessageDigest;
 
@@ -33,6 +29,10 @@ import java.security.MessageDigest;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
+
+    // Only used to retrieve data, consider creating a manager class if more functions needed
+    private SQLiteDatabase sqLiteDatabase;
+    private SQLiteOpenHelper sqLiteOpenHelper;
 
     // Method created on start-up to initialize login page
     @Override //this method already exists in AppCompatActivity and we are adding to it
@@ -99,12 +99,13 @@ public class LoginActivity extends AppCompatActivity {
     // Method that executes upon pressing button on main page
     public void loginClick(View view) {
 
-        // Checks for network availability and actual connection
+        // Checks for both network availability and ACTUAL connection
         if (!(isNetworkAvailable() || isOnline())) {
             makeToast("Network off.");
             return;
         }
 
+//        getNotes();
         // Find handles for text fields
         EditText usernameEditText = findViewById(R.id.usernameEditText); //resources.id.tag name
         EditText passwordEditText = findViewById(R.id.passwordEditText);
@@ -119,13 +120,19 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
         String type = "login";
 
+        // Obtain SN and MAC //todo make this send more than one pair
+        Cursor cursor = getInfo();
+        cursor.moveToFirst();
+        String SN = cursor.getString(1);
+        String MAC = cursor.getString(2);
+
         // Hash 256
         String hashedPassword = sha256(password);
         Log.d("Info", "loginClick: "+ hashedPassword);
 
         // Allow background to obtain context and store information
         BackgroundWorker backgroundWorker = new BackgroundWorker(this); // declare, instantiate, initialize
-        backgroundWorker.execute(type, username, password);                 // pass user info as strings
+        backgroundWorker.execute(type, username, password, SN, MAC);                 // pass user info as strings
 
     }//loginClick
 
@@ -176,7 +183,6 @@ public class LoginActivity extends AppCompatActivity {
 //            boolean reachable = (returnVal==0);
 //            return reachable;
 //        } catch (Exception e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 //        return false;
@@ -196,4 +202,14 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
+    // Queries the database to obtain the SN + MAC address pairs
+    public Cursor getInfo() {
+        Cursor cursor = getContentResolver().query(NotesContentProvider.Note.Notes.CONTENT_URI,
+                null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToNext();
+        }
+        return cursor;
+    }
 } //LoginActivity class end

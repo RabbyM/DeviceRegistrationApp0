@@ -36,7 +36,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
     private static final String TAG = "MainBluetoothActivity";
 
-    private ArrayList<String> mNames = new ArrayList<>();
+//    private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     ArrayList<String> bluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
     ArrayList<String> pairedBluetoothDevices = new ArrayList<>(); //list of BT devices to pop up

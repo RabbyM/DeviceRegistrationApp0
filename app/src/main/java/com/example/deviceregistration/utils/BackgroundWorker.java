@@ -56,6 +56,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         String type = params[0];                        //first parameter defines type
         String username = params[1];                    //obtain username and password
         String password = params[2];
+        String SN       = params[3];
+        String MAC      = params[4];
         //String login_url = "http://10.0.2.2/login.php";         //local host ip
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //server address URL
         int serverResponseCode = 0;
