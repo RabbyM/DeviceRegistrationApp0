@@ -58,17 +58,24 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         showNotes = (Button) findViewById(R.id.show_notes);
         showNotes.setOnClickListener(this);
 
+        String SN = getIntent().getStringExtra("SN"); //access intent from previous activity
+        String MAC = getIntent().getStringExtra("MAC"); //access intent from previous activity
+
+        title.setText(SN);
+        content.setText(MAC);
         getNotes();
 
     }
 
     // Title and content required to ADD a note
     void addNote() {
-        if (title.getText().toString().length() > 0
-                && content.getText().toString().length() > 0) {
+        if (title.getText().toString().length() > 0 && content.getText().toString().length() > 0) {
+            // Store a set of values that the ContentResolver can process
             ContentValues values = new ContentValues();
             values.put(NotesContentProvider.Note.Notes.TITLE, title.getText().toString());
             values.put(NotesContentProvider.Note.Notes.TEXT, content.getText().toString());
+
+            // Content resolver queries the content provider and notify success
             getContentResolver().insert(NotesContentProvider.Note.Notes.CONTENT_URI, values);
             Log.d(TAG, "Inserted");
             makeToast("Note Added");
@@ -122,9 +129,9 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
             Log.i(TAG, "Showing values.....");
             while (cur.moveToNext()) {
                 String Id = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.NOTE_ID));
-                String title = cur.getString(cur
-                        .getColumnIndex(NotesContentProvider.Note.Notes.TITLE));
-                System.out.println("Id = " + Id + ", Note Title : " + title);
+                String title = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.TITLE));
+                String text = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.TEXT));
+                System.out.println("Id = " + Id + ", SN : " + title + ", MAC: " + text);
             }
             makeToast("Check the LogCat for Notes");
         } else {
@@ -133,21 +140,22 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-
+    // onclick interface for all buttons
     @Override
-    public void onClick(View arg0) {
-        if (arg0 == add) {
+    public void onClick(View v) {
+        if (v == add) {
+            // add note with title and content
             addNote();
         }
-        if (arg0 == update) {
+        if (v == update) {
             // update note with Id
             updateNote(delete_id.getText().toString());
         }
-        if (arg0 == delete) {
+        if (v == delete) {
             // delete note with Id
             deleteNote(delete_id.getText().toString());
         }
-        if (arg0 == showNotes) {
+        if (v == showNotes) {
             // show all
             getNotes();
         }
