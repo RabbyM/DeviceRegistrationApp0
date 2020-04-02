@@ -125,28 +125,30 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
         String type = "login";
 
-        // Obtain table values of serial numbers and MAC addresses
+        // Obtain table values of serial numbers and MAC addresses from SQLite DB and store into JSON
         Cursor cursor = getInfo(); //row iterator of SQLiteDB
         JSONObject rowObject;
         JSONArray resultArray = new JSONArray();
+
+        // Iterate through each row
         cursor.moveToFirst();
         while (cursor.moveToNext()) {
             rowObject = new JSONObject();
             try {
-                rowObject.put(cursor.getColumnName(2), cursor.getString(2));
+                rowObject.put(cursor.getColumnName(2), cursor.getString(2)); //obtain title
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                rowObject.put(cursor.getColumnName(1), cursor.getString(1));
+                rowObject.put(cursor.getColumnName(1), cursor.getString(1)); //obtain text
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            resultArray.put(rowObject);
+            resultArray.put(rowObject); //store each JSON row object into a JSON array
         }
         JSONObject returnObject = new JSONObject();
         try {
-            returnObject.put("SN and MAC", resultArray);
+            returnObject.put("SN and MAC", resultArray); //store the JSON array into an outer JSON object
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -162,7 +164,9 @@ public class LoginActivity extends AppCompatActivity {
         // Perform logging in (networking operations) in background
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute(type, username, password, jString);
-        
+
+
+
     }//loginClick
 
 
