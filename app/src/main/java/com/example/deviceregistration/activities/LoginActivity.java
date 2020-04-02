@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
         String type = "login";
 
         // Obtain table values of serial numbers and MAC addresses
-        Cursor cursor = getInfo(); //cursor holds all rows of data
+        Cursor cursor = getInfo(); //row iterator of SQLiteDB
         JSONObject rowObject;
         JSONArray resultArray = new JSONArray();
         cursor.moveToFirst();
@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         JSONObject returnObject = new JSONObject();
         try {
-            returnObject.put("data", resultArray);
+            returnObject.put("SN and MAC", resultArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -157,12 +157,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // Hash 256
         String hashedPassword = sha256(password);
-        Log.d("Info", "loginClick: "+ hashedPassword);
+        Log.d("Info", "loginClick: " + hashedPassword);
 
-        // Allow background to obtain context and store information
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this); // declare, instantiate, initialize
-        backgroundWorker.execute(type, username, password, jString);                 // pass user info as strings
-
+        // Perform logging in (networking operations) in background
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type, username, password, jString);
+        
     }//loginClick
 
 

@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
@@ -28,7 +29,7 @@ import java.net.URLEncoder;
 public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics or templates
     Context context;
     AlertDialog alertDialog;
-
+    private static final String TAG = "BackgroundWorker";
 
     // Pass context to constructor - needed because this is a seperate class
     public BackgroundWorker(Context ctx) {
@@ -57,28 +58,22 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         String username = params[1];                    //obtain username and password
         String password = params[2];
         String jString = params[3];
-        //String login_url = "http://10.0.2.2/login.php";         //local host ip
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //server address URL
         int serverResponseCode = 0;
+        String response = "";
         HttpURLConnection httpURLConnection = null;
         InputStream inputStream = null;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-        String response = "";
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
+        BufferedReader bReader = null;
 
         // On successful login
-        if(type.equals("login")) {
+        if (type.equals("login")) {
             //post some data
             try {
                 // Obtain new connection and cast result
                 URL url = new URL(login_url);
-                httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection = (HttpURLConnection) url.openConnection();
 
-                // REQUEST BODY for Username and Password
+                // REQUEST BODY for inputting Username and Password
                 httpURLConnection.setRequestMethod("POST"); //clients sends info in body, servers response with empty body
                 httpURLConnection.setDoOutput(true); //
                 httpURLConnection.setDoInput(true);
@@ -87,29 +82,25 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-                // Encode username and data and POST to server (writes to buffer first)
-                String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username,"UTF-8")+"&"
-                    +URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password,"UTF-8");
+                // Encoded username and password
+                String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&"
+                        + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
                 bufferedWriter.write(post_data);
 
                 // Read the response from the server
-                int status = httpURLConnection.getResponseCode();
+                serverResponseCode = httpURLConnection.getResponseCode();
                 inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                response = this.convertStreamToString(inputStream);
+                if (response.length() != 0) {
+                    System.out.println(response);
+                } else {
+                    System.out.println("Echo is empty");
+                    return null;
+                }
 
-                // Flush buffer and close output
+                // Flush and close I/O
                 outputStream.flush();
                 outputStream.close();
-
-                // Read the response
-                response = "";
-                String line = "";
-                while ((line = bufferedReader.readLine()) != null){
-                    response += line;
-                }
-                System.out.println(response);
-                // Close input
-                bufferedReader.close();
                 inputStream.close();
 
                 // Catch error if unsuccessful
@@ -118,9 +109,22 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
 
             } catch (IOException e) {
                 e.printStackTrace();
+                // Ensure I/O disconnected and closed
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+                if (bReader != null) {
+                    try {
+                        bReader.close();
+                    } catch (IOException e) {
+                        Log.e(TAG, "doInBackground: Error closing buffered reader.", e);
+                    }
+                }
             }
         }
-        return response;
+        return String.valueOf(serverResponseCode);
+//        return result;
     }
 
 
@@ -143,5 +147,27 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         alertDialog.show();             //show response of the server
     }
 
+
+    // Convert an i/o stream into a string using string builder class
+    private String convertStreamToString(InputStream inputStream) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder stringBuilder = new StringBuilder();
+        String line = null;
+
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return stringBuilder.toString();
+    }
 
 }
