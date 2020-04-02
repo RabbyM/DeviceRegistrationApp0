@@ -36,7 +36,8 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="Cloud Login"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true"/>
         <activity
             android:name=".activities.MainBluetoothActivity"
             android:label="Unifiller Registration">

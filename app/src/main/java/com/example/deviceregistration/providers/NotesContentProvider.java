@@ -44,6 +44,7 @@ public class NotesContentProvider extends ContentProvider {
     //Database info
     private static final String DATABASE_NAME = "notes.db";
     private static final int DATABASE_VERSION = 1;
+    public String databasePath = "";
     public static final String NOTES_TABLE_NAME = "notes";
     public static final String AUTHORITY = "com.example.deviceregistration.providers.NotesContentProvider";
 
@@ -68,14 +69,16 @@ public class NotesContentProvider extends ContentProvider {
         notesProjectionMap.put(Note.Notes.TEXT, Note.Notes.TEXT);
     }
     // Creates an instance of the SQLiteOpenHelper, which invokes SQLiteDatabase features + extra
-    private SQLiteDatabase db;
-    private DatabaseHelper dbHelper;
+    private SQLiteDatabase db;       //sqlite db
+    private DatabaseHelper dbHelper; //sqlite helper
 
-    public static class DatabaseHelper extends SQLiteOpenHelper {
+
+    public class DatabaseHelper extends SQLiteOpenHelper { //changed this from static to non static, check for any issues
 
         // Constructor
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
+//            databasePath = context.getDatabasePath(dbHelper.getDatabaseName()).toString();
         }
 
         // Create new table

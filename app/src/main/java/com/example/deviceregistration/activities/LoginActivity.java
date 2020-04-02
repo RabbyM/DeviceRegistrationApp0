@@ -22,6 +22,11 @@ import android.widget.Toast;
 import com.example.deviceregistration.providers.NotesContentProvider;
 import com.example.deviceregistration.utils.BackgroundWorker;
 import com.example.deviceregistration.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.security.MessageDigest;
 
@@ -120,11 +125,35 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
         String type = "login";
 
-        // Obtain SN and MAC //todo make this send more than one pair
-        Cursor cursor = getInfo();
+        // Obtain table values of serial numbers and MAC addresses
+        Cursor cursor = getInfo(); //cursor holds all rows of data
+        JSONObject rowObject;
+        JSONArray resultArray = new JSONArray();
         cursor.moveToFirst();
-        String SN = cursor.getString(1);
-        String MAC = cursor.getString(2);
+        while (cursor.moveToNext()) {
+            rowObject = new JSONObject();
+            try {
+                rowObject.put(cursor.getColumnName(2), cursor.getString(2));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                rowObject.put(cursor.getColumnName(1), cursor.getString(1));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            resultArray.put(rowObject);
+        }
+        JSONObject returnObject = new JSONObject();
+        try {
+            returnObject.put("data", resultArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String jString = returnObject.toString();
+//        String SN = cursor.getString(1);
+//        String MAC = cursor.getString(2);
 
         // Hash 256
         String hashedPassword = sha256(password);
@@ -132,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Allow background to obtain context and store information
         BackgroundWorker backgroundWorker = new BackgroundWorker(this); // declare, instantiate, initialize
-        backgroundWorker.execute(type, username, password, SN, MAC);                 // pass user info as strings
+        backgroundWorker.execute(type, username, password, jString);                 // pass user info as strings
 
     }//loginClick
 

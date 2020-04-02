@@ -56,8 +56,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         String type = params[0];                        //first parameter defines type
         String username = params[1];                    //obtain username and password
         String password = params[2];
-        String SN       = params[3];
-        String MAC      = params[4];
+        String jString = params[3];
         //String login_url = "http://10.0.2.2/login.php";         //local host ip
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //server address URL
         int serverResponseCode = 0;
@@ -66,7 +65,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         String lineEnd = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
-        String result = "";
+        String response = "";
         int bytesRead, bytesAvailable, bufferSize;
         byte[] buffer;
         int maxBufferSize = 1 * 1024 * 1024;
@@ -79,42 +78,36 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 URL url = new URL(login_url);
                 httpURLConnection = (HttpURLConnection)url.openConnection();
 
-                // consider changing this to https later with ssl
-                // Ready for transferring data from client to server
+                // REQUEST BODY for Username and Password
                 httpURLConnection.setRequestMethod("POST"); //clients sends info in body, servers response with empty body
                 httpURLConnection.setDoOutput(true); //
                 httpURLConnection.setDoInput(true);
-//                httpURLConnection.setUseCaches(false); // Don't use a Cached Copy
-//                httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
 
                 // Set buffer writer to the output stream of httpURL connection type
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-                //todo add date from the database
-                
                 // Encode username and data and POST to server (writes to buffer first)
                 String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username,"UTF-8")+"&"
                     +URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password,"UTF-8");
-//                String post_data = URLEncoder.encode(username, "UTF-8");
                 bufferedWriter.write(post_data);
 
-                // Flush buffer and close output
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-
                 // Read the response from the server
+                int status = httpURLConnection.getResponseCode();
                 inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
 
-                // Keep reading the read buffer and store into a concatenated string
-                result = "";
+                // Flush buffer and close output
+                outputStream.flush();
+                outputStream.close();
+
+                // Read the response
+                response = "";
                 String line = "";
                 while ((line = bufferedReader.readLine()) != null){
-                    result += line;
+                    response += line;
                 }
-
+                System.out.println(response);
                 // Close input
                 bufferedReader.close();
                 inputStream.close();
@@ -127,7 +120,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 e.printStackTrace();
             }
         }
-        return result;
+        return response;
     }
 
 
