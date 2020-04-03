@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         // Find handles for text fields
         EditText usernameEditText = findViewById(R.id.usernameEditText); //resources.id.tag name
         EditText passwordEditText = findViewById(R.id.passwordEditText);
+        TextView alertTextView = findViewById(R.id.alertTextView);
 
         // Display information on info log
         Log.i(  "Info", "Login button pressed!");            //display a message when button is pressed
@@ -125,15 +126,28 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
         String type = "login";
 
-        // Obtain table values of serial numbers and MAC addresses from SQLite DB and store into JSON
-        Cursor cursor = getInfo(); //row iterator of SQLiteDB
-        JSONObject rowObject;
+        // Store username and password into the front of the the JSON array
+        JSONObject rowObject = new JSONObject();
         JSONArray resultArray = new JSONArray();
+        try {
+            rowObject.put("username", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultArray.put(rowObject);
+        rowObject = new JSONObject(); //create a new object for every row
+        try {
+            rowObject.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultArray.put(rowObject);
 
-        // Iterate through each row
-        cursor.moveToFirst();
+        // Iterate through each row of the SQLite DB and store into JSON
+        Cursor cursor = getInfo(); //row iterator for SQLiteDB through content provider
+        cursor.moveToFirst(); //ensure the rows starts from the beginning
         while (cursor.moveToNext()) {
-            rowObject = new JSONObject();
+            rowObject = new JSONObject(); //create a new object for every row
             try {
                 rowObject.put(cursor.getColumnName(2), cursor.getString(2)); //obtain title
             } catch (JSONException e) {
@@ -146,23 +160,22 @@ public class LoginActivity extends AppCompatActivity {
             }
             resultArray.put(rowObject); //store each JSON row object into a JSON array
         }
+
+        // Store the JSON array into an outer JSON object and convert it into a string
         JSONObject returnObject = new JSONObject();
         try {
-            returnObject.put("SN and MAC", resultArray); //store the JSON array into an outer JSON object
+            returnObject.put("Login", resultArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         String jString = returnObject.toString();
-//        String SN = cursor.getString(1);
-//        String MAC = cursor.getString(2);
 
         // Hash 256
         String hashedPassword = sha256(password);
         Log.d("Info", "loginClick: " + hashedPassword);
 
         // Perform logging in (networking operations) in background
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this, alertTextView);
         backgroundWorker.execute(type, username, password, jString);
 
 

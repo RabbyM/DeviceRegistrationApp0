@@ -1,3 +1,4 @@
+//todo this was using only SLQite DB and not content provider, no longer used
 package com.example.deviceregistration.models;
 
 import android.database.Cursor;

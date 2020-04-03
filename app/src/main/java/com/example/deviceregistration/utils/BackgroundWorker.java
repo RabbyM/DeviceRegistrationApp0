@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
@@ -19,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,13 +29,15 @@ import java.net.URLEncoder;
 // tutorial: https://www.youtube.com/watch?v=UqY4DY2rHOs
 // Asynchronous task runs in the background
 public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics or templates
+    private static final String TAG = "BackgroundWorker";
     Context context;
     AlertDialog alertDialog;
-    private static final String TAG = "BackgroundWorker";
+    TextView alertTextView;
 
     // Pass context to constructor - needed because this is a seperate class
-    public BackgroundWorker(Context ctx) {
-        context = ctx;
+    public BackgroundWorker(Context ctx, TextView alertTV) {
+        this.context = ctx;
+        this.alertTextView = alertTV;
     }
 
 
@@ -77,15 +81,27 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 httpURLConnection.setRequestMethod("POST"); //clients sends info in body, servers response with empty body
                 httpURLConnection.setDoOutput(true); //
                 httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8"); //request format
+//                httpURLConnection.setRequestProperty("Accept", "application/json"); //response format
 
                 // Set buffer writer to the output stream of httpURL connection type
                 OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+//                byte[] input = jString.getBytes("UTF-8");
+//                outputStream.write(input, 0, input.length);
 
-                // Encoded username and password
-                String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&"
-                        + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
-                bufferedWriter.write(post_data);
+                // Set output class as character orientated, takes an output stream in its constructor, wrapped inside of an output stream writer
+                PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8")); //printwriter is character oriented - pushes multiple chars at a time
+                printWriter.write(jString);
+//                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8")); //bufferedwriter is character oriented - pushes a single char at a time
+//
+//                // Encoded username and password
+//                String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&"
+//                        + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+//                bufferedWriter.write(post_data);
+
+                // Only need to close the outer most wrapper
+                printWriter.flush();
+                printWriter.close();
 
                 // Read the response from the server
                 serverResponseCode = httpURLConnection.getResponseCode();
@@ -99,8 +115,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 }
 
                 // Flush and close I/O
-                outputStream.flush();
-                outputStream.close();
+//                outputStream.flush(); // I don't think this is necessary
+//                outputStream.close(); // I don't think this is necessary
                 inputStream.close();
 
                 // Catch error if unsuccessful
@@ -123,8 +139,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 }
             }
         }
-        return String.valueOf(serverResponseCode);
-//        return result;
+        return String.valueOf(serverResponseCode) + "\nResponse: " + response;
     }
 
 
@@ -145,6 +160,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         //super.onPostExecute(aVoid);
         alertDialog.setMessage(result); //show result
         alertDialog.show();             //show response of the server
+        alertTextView.setText(result);
     }
 
 

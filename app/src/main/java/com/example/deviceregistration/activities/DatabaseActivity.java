@@ -1,3 +1,5 @@
+//todo clear the database on app launch
+
 // Used as example to display the database
 package com.example.deviceregistration.activities;
 
@@ -47,6 +49,9 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         title.setText(SN);
         content.setText(MAC);
         getNotes();
+
+        // Automatically add SN and MAC
+        addNote();
 
     }
 
