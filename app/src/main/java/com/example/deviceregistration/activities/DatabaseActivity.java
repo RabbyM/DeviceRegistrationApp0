@@ -134,7 +134,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         if (v == add) {
             // add note with title and content
             addNote();
-            startActivity(new Intent(DatabaseActivity.this, CheckmarkActivity.class));
+//            startActivity(new Intent(DatabaseActivity.this, CheckmarkActivity.class));
         }
         if (v == update) {
             // update note with ID
