@@ -48,7 +48,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         //super.onPreExecute();
         alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Server Response Code");
-//        alertDialog.setTitle("LoginStatus");
     }
 
 
@@ -63,85 +62,20 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         String password = params[2];
         String jString = params[3];
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //server address URL
-        int serverResponseCode = 0;
-        String response = "";
-        HttpURLConnection httpURLConnection = null;
-        InputStream inputStream = null;
-        BufferedReader bReader = null;
+        String register_url = ""; //todo get the register webpage url
+        String result = "";
 
-        // On successful login
+        // If user came from the login page
         if (type.equals("login")) {
-            //post some data
-            try {
-                // Obtain new connection and cast result
-                URL url = new URL(login_url);
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                // REQUEST BODY for inputting Username and Password
-                httpURLConnection.setRequestMethod("POST"); //clients sends info in body, servers response with empty body
-                httpURLConnection.setDoOutput(true); //
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8"); //request format
-//                httpURLConnection.setRequestProperty("Accept", "application/json"); //response format
-
-                // Set buffer writer to the output stream of httpURL connection type
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-//                byte[] input = jString.getBytes("UTF-8");
-//                outputStream.write(input, 0, input.length);
-
-                // Set output class as character orientated, takes an output stream in its constructor, wrapped inside of an output stream writer
-                PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8")); //printwriter is character oriented - pushes multiple chars at a time
-                printWriter.write(jString);
-//                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8")); //bufferedwriter is character oriented - pushes a single char at a time
-//
-//                // Encoded username and password
-//                String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&"
-//                        + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
-//                bufferedWriter.write(post_data);
-
-                // Only need to close the outer most wrapper
-                printWriter.flush();
-                printWriter.close();
-
-                // Read the response from the server
-                serverResponseCode = httpURLConnection.getResponseCode();
-                inputStream = httpURLConnection.getInputStream();
-                response = this.convertStreamToString(inputStream);
-                if (response.length() != 0) {
-                    System.out.println(response);
-                } else {
-                    System.out.println("Echo is empty");
-                    return null;
-                }
-
-                // Flush and close I/O
-//                outputStream.flush(); // I don't think this is necessary
-//                outputStream.close(); // I don't think this is necessary
-                inputStream.close();
-
-                // Catch error if unsuccessful
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Ensure I/O disconnected and closed
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-                if (bReader != null) {
-                    try {
-                        bReader.close();
-                    } catch (IOException e) {
-                        Log.e(TAG, "doInBackground: Error closing buffered reader.", e);
-                    }
-                }
-            }
+            result = postJSON(login_url, jString);
         }
-        return String.valueOf(serverResponseCode) + "\nResponse: " + response;
-    }
+        // If user came from the register page
+        else if (type.equals("register")) {
+            result = postJSON(register_url, jString);
+        }
+        return result;
 
+    }
 
     // Change the value of the TextView - Notify the user of progress
     // Receives progress updates from doInBackground method,
@@ -163,7 +97,63 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         alertTextView.setText(result);
     }
 
+    protected String postJSON(String URL, String jString) {
+        int serverResponseCode = 0;
+        String response = "";
+        HttpURLConnection httpURLConnection = null;
+        InputStream inputStream = null;
 
+        //post some data
+        try {
+            // Obtain new connection and cast result
+            URL url = new URL(URL);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+
+            // REQUEST BODY for inputting Username and Password
+            httpURLConnection.setRequestMethod("POST"); //clients sends info in body, servers response with empty body
+            httpURLConnection.setDoOutput(true); //
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8"); //request format
+//                httpURLConnection.setRequestProperty("Accept", "application/json"); //if response is in JSON file format
+
+            // Set buffer writer to the output stream of httpURL connection type
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+
+            // Set output class as character orientated, takes an output stream in its constructor, wrapped inside of an output stream writer
+            PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8")); //printwriter is character oriented - pushes multiple chars at a time
+            printWriter.write(jString);
+
+            // Only need to close the outer most wrapper
+            printWriter.flush();
+            printWriter.close();
+
+            // Read the response from the server
+            serverResponseCode = httpURLConnection.getResponseCode();
+            inputStream = httpURLConnection.getInputStream();
+            response = this.convertStreamToString(inputStream);
+            if (response.length() != 0) {
+                System.out.println(response);
+            } else {
+                System.out.println("Echo is empty");
+                return null;
+            }
+
+            // Close input
+            inputStream.close();
+
+            // Catch error if unsuccessful
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Ensure I/O disconnected and closed
+        } finally {
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
+        }
+        return String.valueOf(serverResponseCode) + "\nResponse: " + response; //http status plus echo
+    }
     // Convert an i/o stream into a string using string builder class
     private String convertStreamToString(InputStream inputStream) {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
