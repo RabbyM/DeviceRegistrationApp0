@@ -149,7 +149,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
         //initImageBitmaps(); //initialize images
     }
 
-
     // Create options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,7 +156,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
         inflater.inflate(R.menu.bluetooth_settings_menu, menu);
         return true;
     }
-
 
     // Links methods to tool bar options buttons
     @Override

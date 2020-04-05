@@ -74,10 +74,7 @@
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginLeft="161dp"
-        android:layout_marginEnd="161dp"
-        android:layout_marginRight="161dp"
+        app:layout_constraintHorizontal_bias=".5"
         android:layout_marginBottom="32dp"
         android:alpha="1"
         android:background="@drawable/rounded_solid_gray"
@@ -88,7 +85,6 @@
         app:layout_constraintBottom_toTopOf="@id/instructionTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <EditText
         android:id="@+id/usernameEditText"
@@ -138,7 +134,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:drawableStart="@drawable/lock_resized" />
 
-
     <TextView
         android:id="@+id/alertTextView"
         android:layout_width="wrap_content"
@@ -149,6 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/askRegisterTextView"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.2"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

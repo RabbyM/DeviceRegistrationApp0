@@ -87,7 +87,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
 
     }
 
-
     // Use the return value (result) of doInBackground
     @Override
     protected void onPostExecute(String result) {

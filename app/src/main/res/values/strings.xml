@@ -19,7 +19,7 @@
     <string name="search">Search</string>
     <string name="device_1">Device 1</string>
     <string name="not_registered">Not Registered?</string>
-    <string name="register">REGISTER</string>
+    <string name="register">Register</string>
     <string name="device_registration">DEVICE REGISTRATION</string>
     <string name="unregisteredRecyclerView">unregisteredRecyclerView</string>
     <string name="registeredRecyclerView">registeredRecyclerView</string>

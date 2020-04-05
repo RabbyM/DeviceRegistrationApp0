@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,10 +49,11 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         String MAC = getIntent().getStringExtra("MAC"); //access intent from previous activity
         title.setText(SN);
         content.setText(MAC);
-        getNotes();
 
-        // Automatically add SN and MAC
+        // Automatically add SN and MAC, display the database in the log, and proceed
         addNote();
+        getNotes();
+        startActivity(new Intent(this, LoginActivity.class));
 
     }
 
@@ -112,7 +114,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         Cursor cur = getContentResolver().query(NotesContentProvider.Note.Notes.CONTENT_URI,
                 null, null, null, null);
 
-        // Cursor iterates over rows of a table
+        // If there is more than one row stored, keep iterating rows and obtain values
         if (cur.getCount() > 0) {
             Log.i(TAG, "Showing values.....");
             while (cur.moveToNext()) {
@@ -120,9 +122,12 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
                 String title = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.TITLE));
                 String text = cur.getString(cur.getColumnIndex(NotesContentProvider.Note.Notes.TEXT));
                 System.out.println("ID = " + ID + ", SN : " + title + ", MAC: " + text);
+                Log.i(TAG, "Database: ID = " + ID + ", SN : " + title + ", MAC: " + text);
             }
             makeToast("Check the LogCat for Notes");
+        // Put the cursor back at the beginning
         } else {
+            cur.moveToFirst();
             Log.i(TAG, "No Notes added");
             makeToast("No Notes added");
         }
@@ -134,12 +139,11 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         if (v == add) {
             // add note with title and content
             addNote();
-//            startActivity(new Intent(DatabaseActivity.this, CheckmarkActivity.class));
         }
         if (v == update) {
             // update note with ID
             updateNote(delete_id.getText().toString());
-            startActivity(new Intent(DatabaseActivity.this, CheckmarkActivity.class));
+//            startActivity(new Intent(DatabaseActivity.this, CheckmarkActivity.class)); //for debugging only
         }
         if (v == delete) {
             // delete note with ID
@@ -151,9 +155,8 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-
     private void makeToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
     @Override

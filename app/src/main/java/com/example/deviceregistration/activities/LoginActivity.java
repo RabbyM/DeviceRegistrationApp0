@@ -35,10 +35,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
-    // Only used to retrieve data, consider creating a manager class if more functions needed
-    private SQLiteDatabase sqLiteDatabase;
-    private SQLiteOpenHelper sqLiteOpenHelper;
-
     // Method created on start-up to initialize login page
     @Override //this method already exists in AppCompatActivity and we are adding to it
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     // Method that executes upon pressing button on main page
     public void loginClick(View view) {
 
@@ -116,15 +113,16 @@ public class LoginActivity extends AppCompatActivity {
         EditText passwordEditText = findViewById(R.id.passwordEditText);
         TextView alertTextView = findViewById(R.id.alertTextView);
 
-        // Display information on info log
-        Log.i(  "Info", "Login button pressed!");            //display a message when button is pressed
-        Log.i(  "Values", usernameEditText.getText().toString()); //grab information entered by username
-        Log.i(  "Values", passwordEditText.getText().toString()); //and pw
-
         // Convert login credentials to strings
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String type = "login";
+
+        // Display information on info log
+        Log.i(  "Info", "Login button pressed!");            //display a message when button is pressed
+        Log.i(  "Username", username); //grab information entered by username
+        Log.i(  "Password", password); //and pw
+        Log.i(  "Type", type); //and pw
 
         // Store username and password into the front of the the JSON array
         JSONObject rowObject = new JSONObject();
@@ -204,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Toast user
     private void makeToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -216,23 +214,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
     // Check if network is available
-    private Boolean isNetworkAvailable() {
+    public Boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
-//    public Boolean isOnline() {
-//        try {
-//            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
-//            int returnVal = p1.waitFor();
-//            boolean reachable = (returnVal==0);
-//            return reachable;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
 
     // Checks for ACTUAL connection
     // Uses ICMP protocol to ping google DNS - guaranteed available
