@@ -62,7 +62,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         String password = params[2];
         String jString = params[3];
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //server address URL
-        String register_url = ""; //todo get the register webpage url
+        String register_url = "http://24.84.210.161:8080/remote_register.php"; //todo get the register webpage url
         String result = "";
 
         // If user came from the login page
@@ -134,6 +134,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 System.out.println(response);
             } else {
                 System.out.println("Echo is empty");
+                response = "Echo is empty";
                 return null;
             }
 
