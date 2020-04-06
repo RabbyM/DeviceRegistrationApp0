@@ -147,12 +147,12 @@ public class LoginActivity extends AppCompatActivity {
         while (cursor.moveToNext()) {
             rowObject = new JSONObject(); //create a new object for every row
             try {
-                rowObject.put(cursor.getColumnName(2), cursor.getString(2)); //obtain title
+                rowObject.put(cursor.getColumnName(1), cursor.getString(1)); //obtain title
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                rowObject.put(cursor.getColumnName(1), cursor.getString(1)); //obtain text
+                rowObject.put(cursor.getColumnName(0), cursor.getString(0)); //obtain text
             } catch (JSONException e) {
                 e.printStackTrace();
             }

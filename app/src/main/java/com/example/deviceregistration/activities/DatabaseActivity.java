@@ -1,4 +1,5 @@
 //todo clear the database on app launch
+//todo do this in the background
 
 // Used as example to display the database
 package com.example.deviceregistration.activities;

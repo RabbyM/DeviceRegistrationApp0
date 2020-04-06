@@ -42,7 +42,7 @@ public class NotesContentProvider extends ContentProvider {
     private static final String TAG = "NotesContentProvider";
 
     //Database info
-    private static final String DATABASE_NAME = "notes.db";
+    private static final String DATABASE_NAME = "machines.db";
     private static final int DATABASE_VERSION = 1;
     public String databasePath = "";
     public static final String NOTES_TABLE_NAME = "notes";
@@ -87,7 +87,7 @@ public class NotesContentProvider extends ContentProvider {
             Log.d("DatabaseHelper: ", "onCreate called");
             db.execSQL("CREATE TABLE " + NOTES_TABLE_NAME + " (" + Note.Notes.NOTE_ID
                     + " INTEGER PRIMARY KEY AUTOINCREMENT," + Note.Notes.TITLE
-                    + " VARCHAR(255)," + Note.Notes.TEXT + " LONGTEXT" + ");");
+                    + " VARCHAR(255)," + Note.Notes.TEXT + " VARCHAR(255)" + ");");
         }
 
         // Drop table if it exists
@@ -261,9 +261,9 @@ public class NotesContentProvider extends ContentProvider {
 
             public static final String NOTE_ID = "_id";
 
-            public static final String TITLE = "title";
+            public static final String TITLE = "serialNumber";
 
-            public static final String TEXT = "text";
+            public static final String TEXT = "macAddress";
         }
 
     }

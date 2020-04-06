@@ -88,12 +88,6 @@ public class SerialNumberActivity extends AppCompatActivity {
         builder.setPositiveButton(Html.fromHtml("<font color='#E41E1E'>OK</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int yes) {
-                //todo microcontroller communications go here
-
-
-                // Show the successful pairing
-//                startActivity(new Intent(SerialNumberActivity.this, CheckmarkActivity.class));
-
                 // todo do this in background
                 // Create intent getting the context of activity and store values into the database activity
                 Intent intent = new Intent(SerialNumberActivity.this, DatabaseActivity.class);
