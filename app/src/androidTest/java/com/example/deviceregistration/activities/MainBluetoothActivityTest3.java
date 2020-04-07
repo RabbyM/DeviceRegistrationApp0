@@ -1,7 +1,6 @@
 package com.example.deviceregistration.activities;
 
 
-import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -21,9 +20,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Objects;
-import java.util.Timer;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -40,7 +36,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainBluetoothActivityTest2 {
+public class MainBluetoothActivityTest3 {
 
     @Rule
     public ActivityTestRule<MainBluetoothActivity> mActivityTestRule = new ActivityTestRule<>(MainBluetoothActivity.class);
@@ -51,7 +47,7 @@ public class MainBluetoothActivityTest2 {
                     "android.permission.ACCESS_FINE_LOCATION");
 
     @Test
-    public void mainBluetoothActivityTest2() {
+    public void mainBluetoothActivityTest3() {
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.bluetoothSearchButton), withContentDescription("Bluetooth"),
                         childAtPosition(
@@ -61,8 +57,6 @@ public class MainBluetoothActivityTest2 {
                                 0),
                         isDisplayed()));
         actionMenuItemView.perform(click());
-
-        //SystemClock.sleep(3000);
 
         ViewInteraction relativeLayout = onView(
                 allOf(withId(R.id.parent_layout),
@@ -75,23 +69,6 @@ public class MainBluetoothActivityTest2 {
                         isDisplayed()));
         relativeLayout.perform(click());
 
-        //SystemClock.sleep(3000);
-
-        //onView(withText(R.string.toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
-
-        ViewInteraction relativeLayout2 = onView(
-                allOf(withId(R.id.parent_layout),
-                        childAtPosition(
-                                allOf(withId(R.id.unregisteredRecyclerView),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                4)),
-                                0),
-                        isDisplayed()));
-        relativeLayout2.perform(click());
-
-        //SystemClock.sleep(3000);
-
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.enterSerialEditText),
                         childAtPosition(
@@ -100,12 +77,10 @@ public class MainBluetoothActivityTest2 {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("123"), closeSoftKeyboard());
-
-        SystemClock.sleep(3000);
+        appCompatEditText.perform(replaceText("2222"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.enterSerialEditText), withText("123"),
+                allOf(withId(R.id.enterSerialEditText), withText("2222"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -113,8 +88,6 @@ public class MainBluetoothActivityTest2 {
                                 0),
                         isDisplayed()));
         appCompatEditText2.perform(pressImeActionButton());
-
-        SystemClock.sleep(3000);
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.serialNumberButton), withText("Associate"),
@@ -125,8 +98,6 @@ public class MainBluetoothActivityTest2 {
                                 3),
                         isDisplayed()));
         appCompatButton.perform(click());
-
-        SystemClock.sleep(3000);
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(android.R.id.button1), withText("OK"),
