@@ -1,6 +1,7 @@
 package com.example.deviceregistration.activities;
 
 
+import android.app.Activity;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,7 @@ public class MainBluetoothActivityTest2 {
                         isDisplayed()));
         relativeLayout.perform(click());
 
-        //SystemClock.sleep(3000);
+        SystemClock.sleep(3000);
 
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.enterSerialEditText),
@@ -108,16 +109,6 @@ public class MainBluetoothActivityTest2 {
 
         SystemClock.sleep(3000);
 
-
-        ViewInteraction appCompatButton3 = onView(
-                allOf(withId(android.R.id.button1), withText("NO"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.buttonPanel),
-                                        0),
-                                3)));
-        appCompatButton3.perform(scrollTo(), click());
-/*
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(android.R.id.button2), withText("No"),
                         childAtPosition(
@@ -125,8 +116,11 @@ public class MainBluetoothActivityTest2 {
                                         withId(R.id.buttonPanel),
                                         0),
                                 2)));
-        appCompatButton3.perform(scrollTo(), click());*/
+        appCompatButton3.perform(scrollTo(), click());
 
+        SystemClock.sleep(3000);
+
+        //Activity.equals("LoginActivity.java");
     }
 
     private static Matcher<View> childAtPosition(
