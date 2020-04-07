@@ -69,6 +69,15 @@ public class JSONPlaceHolderApi {
         }
         resultArray.put(rowObject);
 
+        // E-mail
+        rowObject = new JSONObject(); //create a new object for every row
+        try {
+            rowObject.put("email", email);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultArray.put(rowObject);
+
         // Password
         rowObject = new JSONObject(); //create a new object for every row
         try {
@@ -82,15 +91,6 @@ public class JSONPlaceHolderApi {
         rowObject = new JSONObject(); //create a new object for every row
         try {
             rowObject.put("password_2", cPassword);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        resultArray.put(rowObject);
-
-        // E-mail
-        rowObject = new JSONObject(); //create a new object for every row
-        try {
-            rowObject.put("email", email);
         } catch (JSONException e) {
             e.printStackTrace();
         }

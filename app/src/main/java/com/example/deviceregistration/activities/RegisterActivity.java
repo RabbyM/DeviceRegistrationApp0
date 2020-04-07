@@ -119,6 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Ensure user enters the desired password
         if (!(password.equals(confirmPassword))) {
+            makeToast("Passwords do not match!");
             return;
         }
 
