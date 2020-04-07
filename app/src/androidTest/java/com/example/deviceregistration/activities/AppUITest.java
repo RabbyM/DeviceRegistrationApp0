@@ -42,7 +42,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainBluetoothActivityTest2 {
+public class AppUITest {
 
     @Rule
     public ActivityTestRule<MainBluetoothActivity> mActivityTestRule = new ActivityTestRule<>(MainBluetoothActivity.class);
@@ -54,6 +54,7 @@ public class MainBluetoothActivityTest2 {
 
     @Test
     public void mainBluetoothActivityTest2() {
+        // Bluetoothsearch button
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.bluetoothSearchButton), withContentDescription("Bluetooth"),
                         childAtPosition(
@@ -64,8 +65,7 @@ public class MainBluetoothActivityTest2 {
                         isDisplayed()));
         actionMenuItemView.perform(click());
 
-        SystemClock.sleep(3000);
-
+        // Recycler view
         ViewInteraction relativeLayout = onView(
                 allOf(withId(R.id.parent_layout),
                         childAtPosition(
@@ -77,38 +77,11 @@ public class MainBluetoothActivityTest2 {
                         isDisplayed()));
         relativeLayout.perform(click());
 
-        SystemClock.sleep(3000);
-
+        // Serial number activity
         onView(withId(R.id.enterSerialEditText)).perform(typeText("SN1000"),closeSoftKeyboard());
-        onView(withId(R.id.serialNumberButton)).perform(click());
-//        onView(withText(R.string.toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
-        
-
-        SystemClock.sleep(3000);
-
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.enterSerialEditText),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatEditText.perform(replaceText("123"), closeSoftKeyboard());
-
-        SystemClock.sleep(3000);
-
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.enterSerialEditText), withText("123"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatEditText2.perform(pressImeActionButton());
-
-        SystemClock.sleep(3000);
+//        onView(withId(R.id.serialNumberButton)).perform(click());
+//        onView(withText("Confirm")).check(matches(isDisplayed())); //alert dialog
+//        onView(withId(android.R.id.button1)).perform(click()); //alert dialog button
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.serialNumberButton), withText("Associate"),
@@ -119,8 +92,6 @@ public class MainBluetoothActivityTest2 {
                                 3),
                         isDisplayed()));
         appCompatButton.perform(click());
-
-        SystemClock.sleep(3000);
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(android.R.id.button1), withText("OK"),
