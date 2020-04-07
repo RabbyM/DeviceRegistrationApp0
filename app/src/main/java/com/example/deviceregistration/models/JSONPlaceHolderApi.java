@@ -1,19 +1,14 @@
-//todo this was using only SLQite DB and not content provider, no longer used
 package com.example.deviceregistration.models;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
+import android.database.Cursor;
+
+import com.example.deviceregistration.activities.RegisterActivity;
 import com.example.deviceregistration.providers.NotesContentProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 //            1) Initilize an ArrayList
 //            2) Retrieve all the data from your database and store it in the ArrayList
@@ -21,44 +16,99 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 //            4) DONE. You now have a string containing all the data from your database.
 public class JSONPlaceHolderApi {
 
-
-    private ArrayList<String> machineInfo = new ArrayList<>();
-
-    private JSONArray getResults(String TABLE_NAME, String path) {
-        String searchQuery = "SELECT * FROM " + TABLE_NAME; //SQL select all rows
-
-        String myPath = path;
-
-        SQLiteDatabase myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-
-        Cursor cursor = myDataBase.rawQuery(searchQuery, null);
-
-        JSONArray resultSet = new JSONArray();
-
-        cursor.moveToFirst();
-        while (cursor.isAfterLast() == false) {
-            int totalColumn = cursor.getColumnCount();
-            JSONObject rowObject = new JSONObject();
-
-            for (int i = 0; i < totalColumn; i++) {
-                if (cursor.getColumnName(i) != null) {
-                    try {
-                        if (cursor.getString(i) != null) {
-                            Log.d(TAG, "getResults: " + cursor.getString(i));
-                            rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-                        } else {
-                            rowObject.put(cursor.getColumnName(i), "");
-                        }
-                    } catch (JSONException e) {
-                        Log.d(TAG, "getResults: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-            }
-            resultSet.put(rowObject);
-            cursor.moveToNext();
+    public String JSONObjectLogin(String username, String password, Cursor cursor) {
+        // Store username and password into the front of the the JSON array
+        JSONObject rowObject = new JSONObject();
+        JSONArray resultArray = new JSONArray();
+        try {
+            rowObject.put("username", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        Log.d(TAG, "getResults: " + resultSet.toString());
-        return resultSet;
+        resultArray.put(rowObject);
+        rowObject = new JSONObject(); //create a new object for every row
+        try {
+            rowObject.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultArray.put(rowObject);
+
+        // Iterate through each row of the SQLite DB and store into JSON
+//        Cursor cursor = getInfo(); //row iterator for SQLiteDB through content provider
+        cursor.moveToFirst(); //ensure the rows starts from the beginning
+        while (cursor.moveToNext()) {
+            rowObject = new JSONObject(); //create a new object for every row
+            try {
+                rowObject.put(cursor.getColumnName(1), cursor.getString(1)); //obtain title
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                rowObject.put(cursor.getColumnName(0), cursor.getString(0)); //obtain text
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            resultArray.put(rowObject); //store each JSON row object into a JSON array
+        }
+
+        // Store the JSON array into an outer JSON object, label it, and convert it into a string
+        JSONObject returnObject = new JSONObject();
+        try {
+            returnObject.put("Login", resultArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnObject.toString();
+    }
+
+    public String JSONObject(String username, String password, String cPassword, String email) {
+        // Store username and password into the front of the the JSON array
+        JSONObject rowObject = new JSONObject();
+        JSONArray resultArray = new JSONArray();
+
+        // Username
+        try {
+            rowObject.put("username", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultArray.put(rowObject);
+
+        // Password
+        rowObject = new JSONObject(); //create a new object for every row
+        try {
+            rowObject.put("password_1", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultArray.put(rowObject);
+
+        // Confirmed password
+        rowObject = new JSONObject(); //create a new object for every row
+        try {
+            rowObject.put("password_2", cPassword);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultArray.put(rowObject);
+
+        // E-mail
+        rowObject = new JSONObject(); //create a new object for every row
+        try {
+            rowObject.put("email", email);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultArray.put(rowObject);
+
+        // Store the JSON array into an outer JSON object, label it, and convert it into a string
+        JSONObject returnObject = new JSONObject();
+        try {
+            returnObject.put("Register", resultArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnObject.toString();
     }
 }

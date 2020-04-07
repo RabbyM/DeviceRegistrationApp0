@@ -16,13 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.deviceregistration.R;
+import com.example.deviceregistration.models.JSONPlaceHolderApi;
 import com.example.deviceregistration.providers.NotesContentProvider;
 import com.example.deviceregistration.utils.BackgroundWorker;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.io.IOException;
-
 import static com.example.deviceregistration.activities.LoginActivity.sha256;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -103,69 +100,31 @@ public class RegisterActivity extends AppCompatActivity {
         EditText rUsernameEditText = findViewById(R.id.rUsernameEditText);
         EditText rPasswordEditText = findViewById(R.id.rPasswordEditText);
         EditText rConfirmPasswordEditText = findViewById(R.id.rConfirmPasswordEditText);
+        EditText emailEditText = findViewById(R.id.emailEditText);
         TextView alertTextView = findViewById(R.id.alertTextView);
 
         // Convert login credentials to strings
         String username = rUsernameEditText.getText().toString();
         String password = rPasswordEditText.getText().toString();
         String confirmPassword = rConfirmPasswordEditText.getText().toString();
-        String type = "login";
+        String email = emailEditText.getText().toString();
+        String type = "register";
 
         // Display information on info log
         Log.i("Info", "Login button pressed!");            //display a message when button is pressed
         Log.i("Values", username); //grab information entered by username
         Log.i("Values", password); //and pw
         Log.i("Values", confirmPassword); //and pw
+        Log.i("Values", email); //and pw
 
         // Ensure user enters the desired password
-        if (password != confirmPassword) {
+        if (!(password.equals(confirmPassword))) {
             return;
         }
 
-        // Store username and password into the front of the the JSON array
-        JSONObject rowObject = new JSONObject();
-        JSONArray resultArray = new JSONArray();
-        try {
-            rowObject.put("username", username);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        resultArray.put(rowObject);
-        rowObject = new JSONObject(); //create a new object for every row
-        try {
-            rowObject.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        resultArray.put(rowObject);
-
-        //todo add new database for registering user
-        // Iterate through each row of the SQLite DB and store into JSON
-        Cursor cursor = getInfo(); //row iterator for SQLiteDB through content provider
-        cursor.moveToFirst(); //ensure the rows starts from the beginning
-        while (cursor.moveToNext()) {
-            rowObject = new JSONObject(); //create a new object for every row
-            try {
-                rowObject.put(cursor.getColumnName(2), cursor.getString(2)); //obtain title
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                rowObject.put(cursor.getColumnName(1), cursor.getString(1)); //obtain text
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            resultArray.put(rowObject); //store each JSON row object into a JSON array
-        }
-
-        // Store the JSON array into an outer JSON object and convert it into a string
-        JSONObject returnObject = new JSONObject();
-        try {
-            returnObject.put("Register", resultArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String jString = returnObject.toString();
+        // Put the user info into a JSON
+        JSONPlaceHolderApi jsonPlaceHolderApi = new JSONPlaceHolderApi();
+        String jString = jsonPlaceHolderApi.JSONObject(username, password, confirmPassword, email);
 
         // Hash 256
         String hashedPassword = sha256(password);
@@ -173,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Perform logging in (networking operations) in background
         BackgroundWorker backgroundWorker = new BackgroundWorker(this, alertTextView);
-        backgroundWorker.execute(type, username, password, jString);
+        backgroundWorker.execute(type, jString);
 
 
     }//loginClick
@@ -190,14 +149,12 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(this, "Restart the app", Toast.LENGTH_SHORT).show();
     }
 
-
     // Check if network is available
     public Boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
-
 
     // Checks for ACTUAL connection
     // Uses ICMP protocol to ping google DNS - guaranteed available
@@ -215,14 +172,4 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
-    // Queries the database to obtain the SN + MAC address pairs
-    public Cursor getInfo() {
-        Cursor cursor = getContentResolver().query(NotesContentProvider.Note.Notes.CONTENT_URI,
-                null, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToNext();
-        }
-        return cursor;
-    }
 }

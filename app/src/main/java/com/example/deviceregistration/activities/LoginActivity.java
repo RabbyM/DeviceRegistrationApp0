@@ -4,8 +4,6 @@ package com.example.deviceregistration.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,14 +17,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.deviceregistration.models.JSONPlaceHolderApi;
 import com.example.deviceregistration.providers.NotesContentProvider;
 import com.example.deviceregistration.utils.BackgroundWorker;
 import com.example.deviceregistration.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.security.MessageDigest;
 
@@ -97,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     // Method that executes upon pressing button on main page
     public void loginClick(View view) {
 
@@ -124,49 +117,54 @@ public class LoginActivity extends AppCompatActivity {
         Log.i(  "Password", password); //and pw
         Log.i(  "Type", type); //and pw
 
-        // Store username and password into the front of the the JSON array
-        JSONObject rowObject = new JSONObject();
-        JSONArray resultArray = new JSONArray();
-        try {
-            rowObject.put("username", username);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        resultArray.put(rowObject);
-        rowObject = new JSONObject(); //create a new object for every row
-        try {
-            rowObject.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        resultArray.put(rowObject);
-
-        // Iterate through each row of the SQLite DB and store into JSON
+        // Put the username, password, and database contents into a JSON file
         Cursor cursor = getInfo(); //row iterator for SQLiteDB through content provider
-        cursor.moveToFirst(); //ensure the rows starts from the beginning
-        while (cursor.moveToNext()) {
-            rowObject = new JSONObject(); //create a new object for every row
-            try {
-                rowObject.put(cursor.getColumnName(1), cursor.getString(1)); //obtain title
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                rowObject.put(cursor.getColumnName(0), cursor.getString(0)); //obtain text
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            resultArray.put(rowObject); //store each JSON row object into a JSON array
-        }
+        JSONPlaceHolderApi jsonPlaceHolderApi = new JSONPlaceHolderApi();
+        String jString = jsonPlaceHolderApi.JSONObjectLogin(username, password, cursor);
 
-        // Store the JSON array into an outer JSON object and convert it into a string
-        JSONObject returnObject = new JSONObject();
-        try {
-            returnObject.put("Login", resultArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String jString = returnObject.toString();
+//        // Store username and password into the front of the the JSON array
+//        JSONObject rowObject = new JSONObject();
+//        JSONArray resultArray = new JSONArray();
+//        try {
+//            rowObject.put("username", username);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        resultArray.put(rowObject);
+//        rowObject = new JSONObject(); //create a new object for every row
+//        try {
+//            rowObject.put("password", password);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        resultArray.put(rowObject);
+//
+//        // Iterate through each row of the SQLite DB and store into JSON
+//        Cursor cursor = getInfo(); //row iterator for SQLiteDB through content provider
+//        cursor.moveToFirst(); //ensure the rows starts from the beginning
+//        while (cursor.moveToNext()) {
+//            rowObject = new JSONObject(); //create a new object for every row
+//            try {
+//                rowObject.put(cursor.getColumnName(1), cursor.getString(1)); //obtain title
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                rowObject.put(cursor.getColumnName(0), cursor.getString(0)); //obtain text
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            resultArray.put(rowObject); //store each JSON row object into a JSON array
+//        }
+//
+//        // Store the JSON array into an outer JSON object and convert it into a string
+//        JSONObject returnObject = new JSONObject();
+//        try {
+//            returnObject.put("Login", resultArray);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        String jString = returnObject.toString();
 
         // Hash 256
         String hashedPassword = sha256(password);
@@ -174,12 +172,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Perform logging in (networking operations) in background
         BackgroundWorker backgroundWorker = new BackgroundWorker(this, alertTextView);
-        backgroundWorker.execute(type, username, password, jString);
-
-
-
+        backgroundWorker.execute(type, jString);
     }//loginClick
-
 
     public static String sha256(String base) {
         try{
@@ -199,12 +193,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     // Toast user
     private void makeToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
-
 
     // Prevent the user from pressing back button
     @Override
@@ -212,14 +204,12 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this,"Restart the app", Toast.LENGTH_SHORT).show();
     }
 
-
     // Check if network is available
     public Boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
-
 
     // Checks for ACTUAL connection
     // Uses ICMP protocol to ping google DNS - guaranteed available
