@@ -29,10 +29,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SerialNumberActivity"
-            android:label="Select your machine" />
+            android:label="Select your machine"
+            android:exported="true"/>
         <activity
             android:name=".activities.RegisterActivity"
-            android:label="Register an Account" />
+            android:label="Register an Account"
+            android:exported="true"/>
         <activity
             android:name=".activities.LoginActivity"
             android:label="Cloud Login"
