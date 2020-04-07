@@ -42,7 +42,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
     ArrayList<String> pairedBluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
     TextView statusTextView;
     BluetoothAdapter bluetoothAdapter;
-    private Toast toast = null;
+    public Toast toast = null;
 
     int REQUEST_ENABLE_BT = 1;
 
