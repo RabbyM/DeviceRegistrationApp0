@@ -53,7 +53,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         // Automatically add SN and MAC, display the database in the log, and proceed
         addNote();
         getNotes();
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, CheckmarkActivity.class));
 
     }
 
