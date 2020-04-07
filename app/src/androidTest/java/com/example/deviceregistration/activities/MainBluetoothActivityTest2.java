@@ -62,7 +62,7 @@ public class MainBluetoothActivityTest2 {
                         isDisplayed()));
         actionMenuItemView.perform(click());
 
-        //SystemClock.sleep(3000);
+        SystemClock.sleep(3000);
 
         ViewInteraction relativeLayout = onView(
                 allOf(withId(R.id.parent_layout),
@@ -97,8 +97,6 @@ public class MainBluetoothActivityTest2 {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        SystemClock.sleep(3000);
-
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(android.R.id.button1), withText("OK"),
                         childAtPosition(
@@ -107,6 +105,18 @@ public class MainBluetoothActivityTest2 {
                                         0),
                                 3)));
         appCompatButton2.perform(scrollTo(), click());
+
+        SystemClock.sleep(3000);
+
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(android.R.id.button1), withText("NO"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.buttonPanel),
+                                        0),
+                                3)));
+        appCompatButton3.perform(scrollTo(), click());
 /*
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(android.R.id.button2), withText("No"),
@@ -116,6 +126,7 @@ public class MainBluetoothActivityTest2 {
                                         0),
                                 2)));
         appCompatButton3.perform(scrollTo(), click());*/
+
     }
 
     private static Matcher<View> childAtPosition(
