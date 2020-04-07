@@ -30,6 +30,8 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -77,18 +79,10 @@ public class MainBluetoothActivityTest2 {
 
         SystemClock.sleep(3000);
 
-        //onView(withText(R.string.toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
-
-        ViewInteraction relativeLayout2 = onView(
-                allOf(withId(R.id.parent_layout),
-                        childAtPosition(
-                                allOf(withId(R.id.unregisteredRecyclerView),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                4)),
-                                0),
-                        isDisplayed()));
-        relativeLayout2.perform(click());
+        onView(withId(R.id.enterSerialEditText)).perform(typeText("SN1000"),closeSoftKeyboard());
+        onView(withId(R.id.serialNumberButton)).perform(click());
+//        onView(withText(R.string.toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+        
 
         SystemClock.sleep(3000);
 
