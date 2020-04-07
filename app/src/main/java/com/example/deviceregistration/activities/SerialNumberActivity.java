@@ -88,7 +88,6 @@ public class SerialNumberActivity extends AppCompatActivity {
         builder.setPositiveButton(Html.fromHtml("<font color='#E41E1E'>OK</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int yes) {
-                // todo do this in background
                 // Create intent getting the context of activity and store values into the database activity
                 Intent intent = new Intent(SerialNumberActivity.this, DatabaseActivity.class);
                 intent.putExtra("SN", enterSerialString);
