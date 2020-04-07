@@ -1,6 +1,5 @@
 package com.example.deviceregistration.models;
 
-
 import android.database.Cursor;
 
 import com.example.deviceregistration.activities.RegisterActivity;
@@ -10,10 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//            1) Initilize an ArrayList
-//            2) Retrieve all the data from your database and store it in the ArrayList
-//            3) Use gson.toJson(NameOfArrayList);
-//            4) DONE. You now have a string containing all the data from your database.
 public class JSONPlaceHolderApi {
 
     public String JSONObjectLogin(String username, String password, Cursor cursor) {
@@ -35,7 +30,6 @@ public class JSONPlaceHolderApi {
         resultArray.put(rowObject);
 
         // Iterate through each row of the SQLite DB and store into JSON
-//        Cursor cursor = getInfo(); //row iterator for SQLiteDB through content provider
         cursor.moveToFirst(); //ensure the rows starts from the beginning
         while (cursor.moveToNext()) {
             rowObject = new JSONObject(); //create a new object for every row

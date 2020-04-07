@@ -202,46 +202,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
         }
     }
 
-//    // Dummy Method for testing recyclerView - contains image names and their source
-//    private void initImageBitmaps() {
-//        Log.d(TAG, "initImageBitmaps:  preparing bitmaps.");
-//
-//        mImageUrls.add("https://icobench.com/images/users/vasyl-baryshnikov-1534813977.jpg");
-//        mNames.add("Vasyl");
-//
-//        mImageUrls.add("https://cdn.pixabay.com/photo/2015/10/12/15/01/cat-984097_1280.jpg");
-//        mNames.add("Cool Cat");
-//
-//        mImageUrls.add("https://cdn.pixabay.com/photo/2017/11/13/07/14/cat-eyes-2944820__340.jpg");
-//        mNames.add("Dark Cat");
-//
-//        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
-//        mNames.add("Washington");
-//
-//        mImageUrls.add("https://i1.sndcdn.com/artworks-000144829194-rz17hz-t500x500.jpg");
-//        mNames.add("SS3 Goku");
-//
-//        mImageUrls.add("https://img2.thejournal.ie/inline/4432819/original/?width=630&version=4432819");
-//        mNames.add("You");
-//
-//        mImageUrls.add("https://cleobuttera.com/wp-content/uploads/2019/06/kk-ice-cream-full-mood-1-768x1152.jpg");
-//        mNames.add("Ice Cream");
-//
-//        mImageUrls.add("https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png");
-//        mNames.add("Kitten");
-//
-//        //initRecyclerView();
-//    }
-//
-//    // Method to set up recycler view - for testing
-//    private void initRecyclerView() {
-//        Log.d(TAG, "initRecyclerView: init recyclerview.");
-//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-//        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//    }
-
     // Update Bluetooth devices and image sources
     private void refreshBluetooth() {
         Log.d(TAG, "refreshBluetooth:  bluetooth devices refreshed.");
@@ -250,16 +210,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
-//    // Method that executes upon pressing search button
-//    public void searchClickFunction(View view) {
-//
-//        statusTextView.setText("Searching...");     //show text to user
-//        searchButton.setEnabled(false);             //turn off button to restrict user
-//        bluetoothDevices.clear();                   //remove redundancy in devices
-//        bluetoothAdapter.startDiscovery();          //start searching for BT devices
-//
-//    }
 
     // Method that contains properties for a broadcast receiver
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -312,7 +262,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
                 // Update bluetooth devices every time another device is found
                 refreshBluetooth();
             }
-
         }
     };
 
@@ -332,7 +281,5 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
         // Clear toasts
         toast.cancel();
-
     }
-
 }

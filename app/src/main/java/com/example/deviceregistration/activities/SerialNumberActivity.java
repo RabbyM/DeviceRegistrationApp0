@@ -52,8 +52,6 @@ public class SerialNumberActivity extends AppCompatActivity {
         TextView ccdTextView = findViewById(R.id.ccdTextView);
         macAddressTextView.setText(macAddress);
         ccdTextView.setVisibility(View.VISIBLE);
-
-
     }
 
     @Override
@@ -104,8 +102,5 @@ public class SerialNumberActivity extends AppCompatActivity {
             }
         });
         builder.create().show();
-
-
     }//end serialNumberClick
-
 }//end SerialNumberActivity

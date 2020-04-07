@@ -106,12 +106,13 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
 
     void getNotes() {
 
-        // contentResolver.query method is equivalent to SELECT SQL statement
+        /** contentResolver.query method is equivalent to SELECT SQL statement
         // Args:
-        // 1 - Content URI: Use custom content provider as URI - tells us which table to query
-        // 2 - Projection: number of columns/particular set of columns that you want to query - string array of names of columns
-        // 3 - Selection Clause: equivalent to where clause - condition
-        // 4 - Sort Order: Which order you want the query to be sorted
+        1 - Content URI: Use custom content provider as URI - tells us which table to query
+        2 - Projection: number of columns/particular set of columns that you want to query - string array of names of columns
+        3 - Selection Clause: equivalent to where clause - condition
+        4 - Sort Order: Which order you want the query to be sorted
+        */
         Cursor cur = getContentResolver().query(NotesContentProvider.Note.Notes.CONTENT_URI,
                 null, null, null, null);
 

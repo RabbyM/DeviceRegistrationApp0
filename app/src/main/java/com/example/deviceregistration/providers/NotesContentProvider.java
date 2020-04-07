@@ -1,22 +1,22 @@
-// Custom Content Provider
-// Uses SQLite Database for a self sustained serverless storage that can be shared with other apps
-// Used to share and access to a structured set of data
+/** Custom Content Provider
+ Uses SQLite Database for a self sustained serverless storage that can be shared with other apps
+ Used to share and access to a structured set of data
 
-// Methods to use in a Content Provider
-//        query(Uri, String[], String, String[], String) which returns data to the client request
-//        insert(Uri, ContentValues) which inserts new data into the content provider
-//        update(Uri, ContentValues, String, String[]) which updates existing data in the content provider
-//        delete(Uri, String, String[]) which deletes data from the content provider
-//        getType(Uri) which returns the MIME type of data in the content provider
+ Methods to use in a Content Provider
+        query(Uri, String[], String, String[], String) which returns data to the client request
+        insert(Uri, ContentValues) which inserts new data into the content provider
+        update(Uri, ContentValues, String, String[]) which updates existing data in the content provider
+        delete(Uri, String, String[]) which deletes data from the content provider
+        getType(Uri) which returns the MIME type of data in the content provider
 
-// Content URIs
-//        A Content URIs identifies the structured set of data in a provider. The Content URIs have the syntax content://authority/path/id
-//        content: Is the scheme portion of the URI and always looks like “content://”
-//        authority: Content Provider identifier. All the content URIs for the provider must start with this field . To guarantee a unique authority it is advisable to use the same as the provider class package identifier.
-//        path: Optional segments separated by a forward slash (/) that identify some subset of the provider’s data for example this is used to identify some individual data tables.
-//        id: A unique numeric identifier for a single row in the subset of data.
-
-//todo close database after using it somehow
+ Content URIs
+        A Content URIs identifies the structured set of data in a provider. The Content URIs have the syntax content://authority/path/id
+        content: Is the scheme portion of the URI and always looks like “content://”
+        authority: Content Provider identifier. All the content URIs for the provider must start with this field . To guarantee a unique authority it is advisable to use the same as the provider class package identifier.
+        path: Optional segments separated by a forward slash (/) that identify some subset of the provider’s data for example this is used to identify some individual data tables.
+        id: A unique numeric identifier for a single row in the subset of data.
+*/
+//todo close and delete database after using it somehow
 
 package com.example.deviceregistration.providers;
 
@@ -35,7 +35,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
 import android.util.Log;
-
 
 public class NotesContentProvider extends ContentProvider {
 
@@ -215,10 +214,11 @@ public class NotesContentProvider extends ContentProvider {
         return count;
     }
 
-    //    Uri uri: The URI to query. It can be the URI of a single record, or the URI of a table.
-    //    ContentValues contentValues: A set of key-value pairs, with the column name as a key and the values to update as values.
-    //    String s: A selection to match the rows which are going to be updated.
-    //    String[] strings: The arguments of the above rows.
+    /** Uri uri: The URI to query. It can be the URI of a single record, or the URI of a table.
+        ContentValues contentValues: A set of key-value pairs, with the column name as a key and the values to update as values.
+        String s: A selection to match the rows which are going to be updated.
+        String[] strings: The arguments of the above rows.
+     */
 
     // Change an existing record of a table in the database
     @Override
@@ -236,8 +236,6 @@ public class NotesContentProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
     }
-
-
 
     public static class Note {
 
@@ -265,6 +263,5 @@ public class NotesContentProvider extends ContentProvider {
 
             public static final String TEXT = "macAddress";
         }
-
     }
 }//end ContentProvider outer class

@@ -1,20 +1,15 @@
-// Does background work of saving information and temporarily storing it
-// Opens URLConnection with support for HTTP-specific features
+/**
+ * Does background work of saving information and temporarily storing it
+ * Opens URLConnection with support for HTTP-specific features
+ */
 
 package com.example.deviceregistration.utils;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
-
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,9 +19,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
-// tutorial: https://www.youtube.com/watch?v=UqY4DY2rHOs
 // Asynchronous task runs in the background
 public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics or templates
     private static final String TAG = "BackgroundWorker";
@@ -40,7 +33,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         this.alertTextView = alertTV;
     }
 
-
     // Set up alert dialog GUI element
     // Executed before the background processing starts
     @Override
@@ -50,11 +42,12 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         alertDialog.setTitle("Server Response Code");
     }
 
-
-    // Opens a http URL connection and POSTS data to server
-    // Similar to run() method of thread - DO NOT PUT UI STUFF HERE
-    // It can send results multiple times to the UI thread by publishProgress() method
-    // To notify that the background processing has been completed, we just need to use return
+    /**
+     * Opens a http URL connection and POSTS data to server
+     * Similar to run() method of thread - DO NOT PUT UI STUFF HERE
+     * It can send results multiple times to the UI thread by publishProgress() method
+     * to notify that the background processing has been completed, we just need to use return
+    */
     @Override
     protected String doInBackground(String... params) { //generics
         String type = params[0];                        //first parameter defines type
@@ -75,10 +68,12 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
 
     }
 
-    // Change the value of the TextView - Notify the user of progress
-    // Receives progress updates from doInBackground method,
-    // which is published via publishProgress method
-    // Can update the UI thread
+     /**
+     * Change the value of the TextView - Notify the user of progress
+     * Receives progress updates from doInBackground method,
+     * which is published via publishProgress method
+     * Can update the UI thread
+     */
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
