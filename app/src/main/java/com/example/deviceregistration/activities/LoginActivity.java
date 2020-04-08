@@ -122,50 +122,6 @@ public class LoginActivity extends AppCompatActivity {
         JSONPlaceHolderApi jsonPlaceHolderApi = new JSONPlaceHolderApi();
         String jString = jsonPlaceHolderApi.JSONObjectLogin(username, password, cursor);
 
-//        // Store username and password into the front of the the JSON array
-//        JSONObject rowObject = new JSONObject();
-//        JSONArray resultArray = new JSONArray();
-//        try {
-//            rowObject.put("username", username);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        resultArray.put(rowObject);
-//        rowObject = new JSONObject(); //create a new object for every row
-//        try {
-//            rowObject.put("password", password);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        resultArray.put(rowObject);
-//
-//        // Iterate through each row of the SQLite DB and store into JSON
-//        Cursor cursor = getInfo(); //row iterator for SQLiteDB through content provider
-//        cursor.moveToFirst(); //ensure the rows starts from the beginning
-//        while (cursor.moveToNext()) {
-//            rowObject = new JSONObject(); //create a new object for every row
-//            try {
-//                rowObject.put(cursor.getColumnName(1), cursor.getString(1)); //obtain title
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                rowObject.put(cursor.getColumnName(0), cursor.getString(0)); //obtain text
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            resultArray.put(rowObject); //store each JSON row object into a JSON array
-//        }
-//
-//        // Store the JSON array into an outer JSON object and convert it into a string
-//        JSONObject returnObject = new JSONObject();
-//        try {
-//            returnObject.put("Login", resultArray);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        String jString = returnObject.toString();
-
         // Hash 256
         String hashedPassword = sha256(password);
         Log.d("Info", "loginClick: " + hashedPassword);
