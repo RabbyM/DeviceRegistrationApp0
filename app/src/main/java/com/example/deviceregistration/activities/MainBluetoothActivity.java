@@ -280,6 +280,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
         unregisterReceiver(broadcastReceiver);
 
         // Clear toasts
-        toast.cancel();
+        //toast.cancel();
     }
 }
