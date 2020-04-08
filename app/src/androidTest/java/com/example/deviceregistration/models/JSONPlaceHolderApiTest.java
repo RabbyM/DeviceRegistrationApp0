@@ -1,7 +1,7 @@
 package com.example.deviceregistration.models;
 
 import android.content.Context;
-import android.database.Cursor
+import android.database.Cursor;
 import com.example.deviceregistration.providers.NotesContentProvider;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;

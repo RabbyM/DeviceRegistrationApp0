@@ -43,7 +43,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainBluetoothActivityTest2 {
+public class BluetoothSetupUITest {
 
     @Rule
     public ActivityTestRule<MainBluetoothActivity> mActivityTestRule = new ActivityTestRule<>(MainBluetoothActivity.class);
