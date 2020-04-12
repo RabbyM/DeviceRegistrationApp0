@@ -4,22 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ombre_black"
+    android:background="@color/midnightBlack"
     tools:context=".activities.MainBluetoothActivity">
 
-    <!--    <Button-->
-    <!--        android:id="@+id/searchButton"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginBottom="16dp"-->
-    <!--        android:onClick="searchClickFunction"-->
-    <!--        android:text="Scan"-->
-    <!--        android:textSize="15sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+<!--    <android.support.v7.widget.Toolbar-->
+<!--        android:id="@+id/toolbar_top"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:minHeight="?attr/actionBarSize"-->
+<!--        android:background="@color/royalBlue"-->
+<!--        app:theme="@style/ToolbarTheme" >-->
+
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Toolbar Title"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:id="@+id/toolbar_title" />-->
+
+
+<!--    </android.support.v7.widget.Toolbar>-->
 
     <TextView
         android:id="@+id/registeredTextView"
@@ -28,19 +33,24 @@
         android:fontFamily="@font/roboto"
         android:text="@string/paired_devices"
         android:textSize="20sp"
-        android:textColor="#ddd"
+        android:textColor="@color/offWhite"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="10dp"/>
+        app:layout_constraintBottom_toTopOf="@id/registeredRecyclerView"
+        android:padding="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/registeredRecyclerView"
-        android:layout_width="415dp"
-        android:layout_height="250dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/rv_rounded_solid_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registeredTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/registeredTextView"
+        app:layout_constraintBottom_toTopOf="@id/unregisteredTextView" />
 
     <TextView
         android:id="@+id/unregisteredTextView"
@@ -49,10 +59,15 @@
         android:fontFamily="@font/roboto"
         android:text="@string/available_devices"
         android:textSize="20sp"
-        android:textColor="#ddd"
+        android:textColor="@color/offWhite"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registeredRecyclerView"
-        android:paddingStart="10dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.55"
+        android:padding="10dp"/>
 
     <ProgressBar
         android:id="@+id/searchProgressBar"
@@ -64,16 +79,19 @@
         android:progress="60"
         android:progressDrawable="@drawable/loading_circle"
         android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/registeredRecyclerView"
         app:layout_constraintBottom_toTopOf="@id/unregisteredRecyclerView"
         app:layout_constraintStart_toEndOf="@id/unregisteredTextView"
-        app:layout_constraintTop_toBottomOf="@id/registeredRecyclerView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/unregisteredRecyclerView"
-        android:layout_width="415dp"
-        android:layout_height="250dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/rv_rounded_solid_gray"
         app:layout_constraintTop_toBottomOf="@id/unregisteredTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

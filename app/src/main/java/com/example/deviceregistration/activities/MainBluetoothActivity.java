@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -55,6 +56,8 @@ public class MainBluetoothActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started.");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Bluetooth Devices");
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.midnightBlack)));
+//            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
         // Get tags
@@ -280,6 +283,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
         unregisterReceiver(broadcastReceiver);
 
         // Clear toasts
-        //toast.cancel();
+//        toast.cancel();
     }
 }

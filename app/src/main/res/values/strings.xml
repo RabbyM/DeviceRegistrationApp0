@@ -29,6 +29,6 @@
     <string name="cycle_counter_mac">MAC Address:</string>
     <string name="associate">Associate</string>
     <string name="go_back">Associate</string>
-    <string name="paired_devices">Paired Devices ..................................</string>
-    <string name="available_devices">Available Devices .............................</string>
+    <string name="paired_devices">Paired devices</string>
+    <string name="available_devices">Available devices</string>
 </resources>
