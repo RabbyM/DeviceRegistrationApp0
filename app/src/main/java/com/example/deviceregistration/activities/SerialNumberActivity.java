@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.example.deviceregistration.R;
+import com.example.deviceregistration.providers.NotesContentProvider;
 
 public class SerialNumberActivity extends AppCompatActivity {
 
@@ -115,10 +116,18 @@ public class SerialNumberActivity extends AppCompatActivity {
         builder.setPositiveButton(Html.fromHtml("<font color='#E41E1E'>OK</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int yes) {
+
+                // Give context and machine info to content provider
+                Context context = getApplicationContext();
+                NotesContentProvider.NotesHelper notesHelper = new NotesContentProvider.NotesHelper(context, enterSerialString, macAddress);
+
+                // Delete the current list of machines and add each machine
+                notesHelper.addRow();
+
                 // Create intent getting the context of activity and store values into the database activity
-                Intent intent = new Intent(SerialNumberActivity.this, DatabaseActivity.class);
-                intent.putExtra("SN", enterSerialString);
-                intent.putExtra("MAC", macAddress);
+                Intent intent = new Intent(SerialNumberActivity.this, CheckmarkActivity.class);
+//                intent.putExtra("SN", enterSerialString);
+//                intent.putExtra("MAC", macAddress);
                 SerialNumberActivity.this.startActivity(intent);
             }
         });

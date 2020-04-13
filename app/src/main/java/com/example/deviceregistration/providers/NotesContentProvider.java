@@ -35,15 +35,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.deviceregistration.BuildConfig;
 
 public class NotesContentProvider extends ContentProvider {
 
     private static final String TAG = "NotesContentProvider";
 
-    //Database info
-    private static final String DATABASE_NAME = "machines.db";
-    private static final int DATABASE_VERSION = 1;
-    public String databasePath = "";
+    //Content Provider and table info
     public static final String NOTES_TABLE_NAME = "notes";
     public static final String AUTHORITY = "com.example.deviceregistration.providers.NotesContentProvider";
 
@@ -72,13 +72,29 @@ public class NotesContentProvider extends ContentProvider {
     private DatabaseHelper dbHelper; //sqlite helper
 
 
-    public class DatabaseHelper extends SQLiteOpenHelper { //changed this from static to non static, check for any issues
+    public static class DatabaseHelper extends SQLiteOpenHelper { //changed this from static to non static, check for any issues
+
+        // Database info
+        private static final String DATABASE_NAME = "machines.db";
+        private static final int DATABASE_VERSION = 1;
+        private final Context context;
+        public String databasePath = "";
+        private static DatabaseHelper dbInstance = null;
 
         // Constructor
         public DatabaseHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+            super(context, DATABASE_NAME, null, DATABASE_VERSION); //used to be DATABASE_VERSION
+            this.context = context;
 //            databasePath = context.getDatabasePath(dbHelper.getDatabaseName()).toString();
         }
+
+//        // Get instance
+//        public static synchronized DatabaseHelper getInstance(Context ctx) {
+//            if (dbInstance == null) {
+//                dbInstance = new DatabaseHelper(ctx.getApplicationContext());
+//            }
+//            return dbInstance;
+//        }
 
         // Create new table
         @Override
@@ -101,6 +117,8 @@ public class NotesContentProvider extends ContentProvider {
             db.execSQL("DROP TABLE IF EXISTS " + NOTES_TABLE_NAME);
             onCreate(db);
         }
+
+        // Clear tables on start up
     }//end DatabaseHelper inner class
 
 
@@ -262,6 +280,80 @@ public class NotesContentProvider extends ContentProvider {
             public static final String TITLE = "serialNumber";
 
             public static final String TEXT = "macAddress";
+        }
+    }
+
+    // Helper class to access content provider using context of calling activity
+    public static class NotesHelper {
+
+        private final Context context;
+        private final String title, content;
+
+        // Constructor
+        public NotesHelper(Context context, String title, String content) {
+            this.context = context;
+            this.title = title;
+            this.content = content;
+        }
+
+        // Title and content required to ADD a note
+        public void addRow() {
+            if (title.length() > 0 && content.length() > 0) {
+                // Store a set of values that the ContentResolver can process
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(NotesContentProvider.Note.Notes.TITLE, title);
+                contentValues.put(NotesContentProvider.Note.Notes.TEXT, content);
+
+                // Content resolver queries the content provider and notify success
+                context.getContentResolver().insert(NotesContentProvider.Note.Notes.CONTENT_URI, contentValues);
+                Log.d(TAG, "Inserted");
+                makeToast("Machine Added");
+            } else {
+                makeToast("Empty Field");
+            }
+        }
+
+        // Delete a single note using the id
+        public void deleteRow(String str_id) {
+            try {
+                int id = Integer.parseInt(str_id);
+                Log.i(TAG, "Deleting with id = " + id);
+                context.getContentResolver().delete(NotesContentProvider.Note.Notes.CONTENT_URI,
+                        NotesContentProvider.Note.Notes.NOTE_ID + " = " + id, null);
+                Log.i(TAG, "Deleted");
+                makeToast("Machine Deleted");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Delete all notes using URI of database
+        public void deleteAllRows() {
+            try {
+                context.getContentResolver().delete(NotesContentProvider.Note.Notes.CONTENT_URI, null, null);
+                Log.i(TAG, "Deleting all machines");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void updateRow(String str_id) {
+            try {
+                int id = Integer.parseInt(str_id);
+                Log.i(TAG, "Updating with id = " + id);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(NotesContentProvider.Note.Notes.TITLE, title);
+                contentValues.put(NotesContentProvider.Note.Notes.TEXT, content);
+                context.getContentResolver().update(NotesContentProvider.Note.Notes.CONTENT_URI, contentValues,
+                        NotesContentProvider.Note.Notes.NOTE_ID + " = " + id, null);
+                makeToast("Note Updated");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void makeToast(String text) {
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
         }
     }
 }//end ContentProvider outer class

@@ -286,6 +286,19 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
     // Turn off bluetooth and unregister action found when leaving activity
     @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+
+        // if app crashes, disable this
+        // If scanning already running, stop
+        if (bluetoothAdapter.isDiscovering()) {
+            bluetoothAdapter.cancelDiscovery();
+        }
+    }
+
+    // Turn off bluetooth and unregister action found when leaving activity
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 

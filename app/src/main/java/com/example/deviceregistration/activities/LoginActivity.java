@@ -1,4 +1,5 @@
-// Main activity that allows user to login credentials or create new account
+/** Activity that logins in and sends machine info in a JSON to server */
+
 package com.example.deviceregistration.activities;
 
 import android.content.Context;

@@ -1,5 +1,4 @@
-//todo clear the database on app launch
-//todo do this in the background
+/** This activity is for debugging purposes */
 
 // Used as example to display the database
 package com.example.deviceregistration.activities;
@@ -54,7 +53,8 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         // Automatically add SN and MAC, display the database in the log, and proceed
         addNote();
         getNotes();
-        startActivity(new Intent(this, CheckmarkActivity.class));
+//        deleteAllNotes();
+//        startActivity(new Intent(this, CheckmarkActivity.class));
 
     }
 
@@ -75,7 +75,7 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    //
+    // Delete a single note using the id
     void deleteNote(String str_id) {
         try {
             int id = Integer.parseInt(str_id);
@@ -84,6 +84,16 @@ public class DatabaseActivity extends AppCompatActivity implements View.OnClickL
                     NotesContentProvider.Note.Notes.NOTE_ID + " = " + id, null);
             Log.i(TAG, "Deleted");
             makeToast("Note Deleted");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Delete all notes using URI of database
+    void deleteAllNotes() {
+        try {
+            getContentResolver().delete(NotesContentProvider.Note.Notes.CONTENT_URI, null, null);
+            Log.i(TAG, "Deleting all notes");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -9,6 +9,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
+
+import com.example.deviceregistration.providers.NotesContentProvider;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +57,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         String jString = params[1];                     //json object as a string
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //login page URL
         String register_url = "http://24.84.210.161:8080/remote_register.php"; //register page URL
-        String result = "";
+        String result = "", response = "";
 
         // If user came from the login page
         if (type.equals("login")) {
@@ -64,6 +67,14 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         else if (type.equals("register")) {
             result = postJSON(register_url, jString);
         }
+
+        // Delete database only if successful
+        response =  result.substring(0,3);
+        if (response.equals("200")) {
+            NotesContentProvider.NotesHelper notesHelper = new NotesContentProvider.NotesHelper(context, null, null);
+            notesHelper.deleteAllRows();
+        }
+
         return result;
 
     }
@@ -145,7 +156,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
                 httpURLConnection.disconnect();
             }
         }
-        return String.valueOf(serverResponseCode) + "\nResponse: " + response; //http status plus echo
+        return String.valueOf(serverResponseCode) + " ,Response: " + response; //http status plus echo
     }
     // Convert an i/o stream into a string using string builder class
     private String convertStreamToString(InputStream inputStream) {
