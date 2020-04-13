@@ -15,7 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,12 +25,17 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.deviceregistration.R;
+import com.example.deviceregistration.adapters.DividerItemDecoration;
 import com.example.deviceregistration.adapters.RecyclerViewAdapter;
+import com.example.deviceregistration.adapters.VerticalSpaceItemDecoration;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.Set;
+
 
 // Modify the existing activity template with bluetooth features
 public class MainBluetoothActivity extends AppCompatActivity {
@@ -54,11 +59,21 @@ public class MainBluetoothActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
         Log.d(TAG, "onCreate: started.");
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Bluetooth Devices");
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.midnightBlack)));
-//            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
+
+        // Expandable toolbar settings
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("Bluetooth Devices");
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+        collapsingToolbar.setExpandedTitleMarginBottom(0);
+        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setTitle("Bluetooth Devices");
+//            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.midnightBlack)));
+////            getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        }
 
         // Get tags
         statusTextView = findViewById(R.id.statusTextView);
@@ -96,6 +111,10 @@ public class MainBluetoothActivity extends AppCompatActivity {
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, pairedBluetoothDevices, mImageUrls);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Add underlines using customer divider
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
+//        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(10));
 
         // Add names and addresses of paired devices to array
         if (pairedDevices.size() > 0) {
@@ -212,6 +231,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, bluetoothDevices, mImageUrls);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
     }
 
     // Method that contains properties for a broadcast receiver

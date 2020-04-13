@@ -26,10 +26,12 @@
             android:exported="true"/>
         <activity
             android:name=".activities.CheckmarkActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.SerialNumberActivity"
             android:label="Select your machine"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme"
             android:exported="true"/>
         <activity
             android:name=".activities.RegisterActivity"

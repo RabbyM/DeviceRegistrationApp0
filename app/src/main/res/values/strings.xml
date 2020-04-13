@@ -31,4 +31,6 @@
     <string name="go_back">Associate</string>
     <string name="paired_devices">Paired devices</string>
     <string name="available_devices">Available devices</string>
+    <string name="hide">Show/Hide ActionBar when scroll</string>
+    <string name="paralax">ActionBar Parallax Animations</string>
 </resources>
