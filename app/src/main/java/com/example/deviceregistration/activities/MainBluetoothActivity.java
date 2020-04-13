@@ -63,17 +63,13 @@ public class MainBluetoothActivity extends AppCompatActivity {
         // Expandable toolbar settings
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Bluetooth Devices");
-        collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
-        collapsingToolbar.setExpandedTitleMarginBottom(0);
-        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
-//        if (getSupportActionBar() != null) {
-//            getSupportActionBar().setTitle("Bluetooth Devices");
-//            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.midnightBlack)));
-////            getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        }
+        if (getSupportActionBar() != null) { //method invocation may produce null pointer exception if toolbar not set in xml
+            CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+            collapsingToolbar.setTitle("Bluetooth Devices");
+            collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+            collapsingToolbar.setExpandedTitleMarginBottom(0);
+            collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+        }
 
         // Get tags
         statusTextView = findViewById(R.id.statusTextView);

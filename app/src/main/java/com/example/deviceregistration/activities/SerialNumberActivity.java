@@ -2,6 +2,8 @@ package com.example.deviceregistration.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -35,7 +38,17 @@ public class SerialNumberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_serial_number);
         Log.d(TAG, "onCreate: called.");
 
-        // Remove everything after MAC address
+        // Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Register Your Machine");
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back button
+            getSupportActionBar().setTitle("Registration");
+            getSupportActionBar().setSubtitle("Insert your machine serial number");
+        }
+
+        // Remove everything after acquired MAC address
         String masterString = getIntent().getStringExtra("MAC"); //access intent from previous activity
         String targetString = "\n";                                    //RSSI label comes after this
         int startIndex = masterString.indexOf(targetString);           //start at /n
@@ -43,7 +56,7 @@ public class SerialNumberActivity extends AppCompatActivity {
         StringBuilder stringbuilder = new StringBuilder(masterString); //declare a new stringbuilder class that allows deleting parts of string via indicies
         stringbuilder.delete(startIndex, stopIndex);                   //delete starting from /n to the end of the string
 
-        // Remove everything before MAC address
+        // Remove everything before acquired MAC address
         startIndex = 0;
         stopIndex = stringbuilder.toString().indexOf(":") + 2;         //this is where the first number starts
         stringbuilder.delete(startIndex, stopIndex);
@@ -62,6 +75,18 @@ public class SerialNumberActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // return to previous page
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // Method that executes upon pressing button on main page
