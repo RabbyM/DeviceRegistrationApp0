@@ -37,11 +37,13 @@
             android:name=".activities.RegisterActivity"
             android:label="Register an Account"
             android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true"/>
         <activity
             android:name=".activities.LoginActivity"
             android:label="Cloud Login"
             android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true"/>
         <activity
             android:name=".activities.MainBluetoothActivity"

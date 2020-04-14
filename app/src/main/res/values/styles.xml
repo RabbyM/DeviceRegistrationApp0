@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/midnightBlack</item>
         <item name="colorPrimaryDark">@color/midnightBlack</item>
         <item name="colorAccent">@color/crimsonRed</item>
+        <item name="android:windowBackground">@color/midnightBlack</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,9 +14,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.NoActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="Theme.AppCompat.NoActionBar" />
 
     <style name="CollapsedAppBar" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">20sp</item>
@@ -29,7 +30,7 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+    <style name="ToolbarTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 

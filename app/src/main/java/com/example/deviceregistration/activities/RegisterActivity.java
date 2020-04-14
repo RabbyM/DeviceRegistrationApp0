@@ -1,6 +1,8 @@
 package com.example.deviceregistration.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -31,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Log.d(TAG, "onCreate: started");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Return to main page if registered
         TextView rLoginTextView = findViewById(R.id.rLoginTextView);

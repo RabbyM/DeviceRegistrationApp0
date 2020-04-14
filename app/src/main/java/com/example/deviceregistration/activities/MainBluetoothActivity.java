@@ -1,4 +1,4 @@
-// Searches for bluetooth devices in the vicinity
+/** Searches for bluetooth devices in the vicinity, activity opens on launch */
 package com.example.deviceregistration.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,13 +27,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-
 import com.example.deviceregistration.R;
 import com.example.deviceregistration.adapters.DividerItemDecoration;
 import com.example.deviceregistration.adapters.RecyclerViewAdapter;
 import com.example.deviceregistration.adapters.VerticalSpaceItemDecoration;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -74,8 +72,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
         }
 
         // Get tags
-        statusTextView = findViewById(R.id.statusTextView);
-        bluetoothSearchButton = findViewById(R.id.bluetoothSearchButton);
+        statusTextView = (TextView) findViewById(R.id.statusTextView);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // Checks if permission is granted, if not it will default and ask for permission
@@ -246,9 +243,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
                 statusTextView.setText("Finished");
                 ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
                 searchProgressBar.setVisibility(View.INVISIBLE);
-                if (bluetoothSearchButton != null) {
-                    bluetoothSearchButton.setClickable(true);
-                }
+                findViewById(R.id.bluetoothSearchButton).setClickable(true);
             }
 
             // Discovery has found a device

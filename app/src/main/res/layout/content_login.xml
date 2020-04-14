@@ -11,23 +11,6 @@
     tools:context=".activities.LoginActivity"
     tools:showIn="@layout/activity_login">
 
-<!--    <TextView-->
-<!--        android:id="@+id/titleTextView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:alpha="1"-->
-<!--        android:background="#00FFEBEE"-->
-<!--        android:padding="5dp"-->
-<!--        android:text="CLOUD LOGIN"-->
-<!--        android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
-<!--        android:textSize="30sp"-->
-<!--        android:fontFamily="@font/roboto_thin"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.050000012" />-->
-
     <TextView
         android:id="@+id/askRegisterTextView"
         android:layout_width="wrap_content"
@@ -36,6 +19,7 @@
         android:ellipsize="none"
         android:text="@string/not_registered"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:fontFamily="@font/roboto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +36,7 @@
         android:focusable="true"
         android:text="@string/register"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#F85555"
+        android:textColor="@color/crimsonRed"
         app:layout_constraintLeft_toRightOf="@id/askRegisterTextView"
         app:layout_constraintTop_toBottomOf="@id/instructionTextView" />
 
@@ -63,7 +47,6 @@
         android:ellipsize="none"
         android:text="@string/please_enter_your_information"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -72,12 +55,14 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         app:layout_constraintHorizontal_bias=".5"
         android:layout_marginBottom="32dp"
         android:alpha="1"
-        android:background="@drawable/rounded_solid_gray"
+        android:background="@drawable/rounded_ombre_red"
         android:ellipsize="start"
         android:onClick="loginClick"
         android:text="@string/login"
@@ -95,7 +80,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="72dp"
-        android:background="#FFF"
+        android:background="@color/offWhite"
         android:textColor="#000000"
         android:textColorHint="#000000"
         android:drawableLeft="@drawable/login_resized"
@@ -120,7 +105,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="24dp"
         android:autofillHints=""
-        android:background="#FFF"
+        android:background="@color/offWhite"
         android:textColor="#000000"
         android:textColorHint="#000000"
         android:drawableLeft="@drawable/lock_resized"
