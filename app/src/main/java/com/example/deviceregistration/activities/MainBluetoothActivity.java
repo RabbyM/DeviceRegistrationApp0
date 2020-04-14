@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
     ArrayList<String> pairedBluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
     TextView statusTextView;
     BluetoothAdapter bluetoothAdapter;
+    Button bluetoothSearchButton;
     public Toast toast = null;
 
     int REQUEST_ENABLE_BT = 1;
@@ -73,6 +75,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
         // Get tags
         statusTextView = findViewById(R.id.statusTextView);
+        bluetoothSearchButton = findViewById(R.id.bluetoothSearchButton);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // Checks if permission is granted, if not it will default and ask for permission
@@ -243,7 +246,9 @@ public class MainBluetoothActivity extends AppCompatActivity {
                 statusTextView.setText("Finished");
                 ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
                 searchProgressBar.setVisibility(View.INVISIBLE);
-                findViewById(R.id.bluetoothSearchButton).setClickable(true);
+                if (bluetoothSearchButton != null) {
+                    bluetoothSearchButton.setClickable(true);
+                }
             }
 
             // Discovery has found a device
@@ -286,19 +291,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
     // Turn off bluetooth and unregister action found when leaving activity
     @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(broadcastReceiver);
-
-        // if app crashes, disable this
-        // If scanning already running, stop
-        if (bluetoothAdapter.isDiscovering()) {
-            bluetoothAdapter.cancelDiscovery();
-        }
-    }
-
-    // Turn off bluetooth and unregister action found when leaving activity
-    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -310,8 +302,5 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
         // Unregister the ACTION_FOUND receiver.
         unregisterReceiver(broadcastReceiver);
-
-        // Clear toasts
-//        toast.cancel();
     }
 }
