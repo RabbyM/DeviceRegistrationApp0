@@ -35,7 +35,7 @@ public class JSONPlaceHolderApiTest {
         String compareString = "{\"Register\":[{\"username\":\""+username+"\"},{\"email\":\""+email+"\"},{\"password_1\":\""+password+"\"},{\"password_2\":\""+password+"\"}]}";
         JSONPlaceHolderApi json = new JSONPlaceHolderApi();
 
-        String jString = json.JSONObject(username, password, password, email);
+        String jString = json.JSONObject(username, email, password, password);
 
         assertEquals(compareString, jString);
     }

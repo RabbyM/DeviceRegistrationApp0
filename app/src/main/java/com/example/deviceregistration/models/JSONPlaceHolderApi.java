@@ -56,7 +56,7 @@ public class JSONPlaceHolderApi {
         return returnObject.toString();
     }
 
-    public String JSONObject(String username, String password, String cPassword, String email) {
+    public String JSONObject(String username, String email, String password, String cPassword) {
         // Store username and password into the front of the the JSON array
         JSONObject rowObject = new JSONObject();
         JSONArray resultArray = new JSONArray();
