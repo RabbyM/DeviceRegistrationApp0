@@ -29,6 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     // Default constructor will obtain image, image name, and context
     public RecyclerViewAdapter(Context context, ArrayList<String> imageNames, ArrayList<String> images) {
+        Log.d(TAG, "RecyclerViewAdapter: called.");
         mImageNames = imageNames;
         mImages = images;
         mContext = context;
@@ -38,6 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // Uses the layout provided by the xml layout file
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: called.");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem, parent, false);
         ViewHolder holder = new ViewHolder(view); //imageView widget
         return holder;

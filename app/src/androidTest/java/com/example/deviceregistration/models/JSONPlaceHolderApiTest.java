@@ -2,6 +2,7 @@ package com.example.deviceregistration.models;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import androidx.test.InstrumentationRegistry;
 
@@ -11,6 +12,8 @@ import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
 
 public class JSONPlaceHolderApiTest {
+    private static final String TAG = "JSONPlaceHolderApiTest";
+
 
     private String username = "Ramir", password = "Ramirissexy", email = "fazlay_rabby@hotmail.com";
 
@@ -18,7 +21,7 @@ public class JSONPlaceHolderApiTest {
     // it to a known json string to see if function worked
     @Test
     public void jsonFileForLoginTest() throws Exception {
-        String compareString = "{\"Login\":[{\"username\":\"Ramir\"},{\"password\":\"Ramirissexy\"},{\"serialNumber\":\"123\",\"macAddress\":\"A4:D1:8C:8D:9A:61\"},{\"serialNumber\":\"123\",\"macAddress\":\"8C:85:90:C1:CF:4C\"},{\"serialNumber\":\"X100\",\"macAddress\":\"70:67:FA:A8:B6:94\"}]}";
+        String compareString = "{\"Login\":[{\"username\":\"Ramir\"},{\"password\":\"Ramirissexy\"}]}";
         JSONPlaceHolderApi jsonPlaceHolderApi = new JSONPlaceHolderApi();
         Context context = InstrumentationRegistry.getTargetContext();
         Cursor cursor = getInfo(context); //row iterator for SQLiteDB through content provider
@@ -28,9 +31,12 @@ public class JSONPlaceHolderApiTest {
 
     @Test
     public void jsonFileForRegisterTest() throws Exception {
-        String compareString = "{\"Register\":[{\"username\":\"Ramir\"},{\"email\":\"fazlay_rabby@hotmail.com\"},{\"password_1\":\"Ramirissexy\"},{\"password_2\":\"Ramirissexy\"}]}";
+
+        String compareString = "{\"Register\":[{\"username\":\""+username+"\"},{\"email\":\""+email+"\"},{\"password_1\":\""+password+"\"},{\"password_2\":\""+password+"\"}]}";
         JSONPlaceHolderApi json = new JSONPlaceHolderApi();
+
         String jString = json.JSONObject(username, password, password, email);
+
         assertEquals(compareString, jString);
     }
 
