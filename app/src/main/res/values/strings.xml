@@ -36,4 +36,5 @@
     <string name="serial_number_instructions">Your machine\'s serial number is an alphanumeric code usually written on the faceplace of the machine.</string>
     <string name="already_registered">Already registered?</string>
     <string name="e_mail">E-mail</string>
+    <string name="green_circle">green circle</string>
 </resources>
