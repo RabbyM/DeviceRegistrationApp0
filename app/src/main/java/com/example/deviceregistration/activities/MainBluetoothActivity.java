@@ -15,14 +15,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +28,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.deviceregistration.R;
 import com.example.deviceregistration.adapters.DividerItemDecoration;
 import com.example.deviceregistration.adapters.RecyclerViewAdapter;
-import com.example.deviceregistration.adapters.VerticalSpaceItemDecoration;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Set;
@@ -47,7 +44,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
     ArrayList<String> pairedBluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
     TextView statusTextView;
     BluetoothAdapter bluetoothAdapter;
-    Button bluetoothSearchButton;
+    MenuItem bluetoothSearchMenuItem;
     public Toast toast = null;
 
     int REQUEST_ENABLE_BT = 1;
@@ -60,6 +57,10 @@ public class MainBluetoothActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bluetooth);
         Log.d(TAG, "onCreate: started.");
 
+        // Get tags
+        statusTextView = (TextView) findViewById(R.id.statusTextView);
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         // Expandable toolbar settings
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,10 +71,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
             collapsingToolbar.setExpandedTitleMarginBottom(0);
             collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
         }
-
-        // Get tags
-        statusTextView = (TextView) findViewById(R.id.statusTextView);
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // Checks if permission is granted, if not it will default and ask for permission
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -167,12 +164,21 @@ public class MainBluetoothActivity extends AppCompatActivity {
         //initImageBitmaps(); //initialize images
     }
 
-    // Create options menu
+    // Passes the menu object on creation of menu, method is only called once and the menu is reused through activity life cycle
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.bluetooth_settings_menu, menu);
-        return true;
+        bluetoothSearchMenuItem = menu.findItem(R.id.bluetoothSearchMenuItem); //bluetooth button
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Pass the menu object as is, use this for making changes after initial menu
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        bluetoothSearchMenuItem = menu.findItem(R.id.bluetoothSearchMenuItem); //bluetooth button
+//        bluetoothSearchMenuItem.setEnabled(true);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     // Links methods to tool bar options buttons
@@ -180,13 +186,14 @@ public class MainBluetoothActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Search for devices using bluetooth icon button
-            case R.id.bluetoothSearchButton:
+            case R.id.bluetoothSearchMenuItem:
 
                 // Display to user the bluetooth search is in progress
                 toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
                 statusTextView.setText("Scanning...");
                 findViewById(R.id.searchProgressBar).setVisibility(View.VISIBLE);
-                findViewById(R.id.bluetoothSearchButton).setClickable(false);// Don't allow button to be pressed again
+                bluetoothSearchMenuItem.setEnabled(false);// Don't allow button to be pressed again
+                bluetoothSearchMenuItem.setVisible(false);
 
                 // Remove redundancy and start searching
                 bluetoothDevices.clear();
@@ -243,7 +250,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
                 statusTextView.setText("Finished");
                 ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
                 searchProgressBar.setVisibility(View.INVISIBLE);
-                findViewById(R.id.bluetoothSearchButton).setClickable(true);
+                invalidateOptionsMenu();
             }
 
             // Discovery has found a device
