@@ -5,11 +5,16 @@
 
 package com.example.deviceregistration.utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.deviceregistration.R;
 import com.example.deviceregistration.providers.NotesContentProvider;
 
 import java.io.BufferedReader;
@@ -19,6 +24,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,23 +32,31 @@ import java.net.URL;
 // Asynchronous task runs in the background
 public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics or templates
     private static final String TAG = "BackgroundWorker";
-    Context context;
+    private WeakReference<Activity> weakActivity; // Weak references will still allow the Activity to be garbage-collected
+    ProgressBar progressBar;
     AlertDialog alertDialog;
-    TextView alertTextView;
 
-    // Pass context to constructor - needed because this is a seperate class
-    public BackgroundWorker(Context ctx, TextView alertTV) {
-        this.context = ctx;
-        this.alertTextView = alertTV;
+    // Pass weak activity reference to async task, to access layout parameters while avoid memory leaks
+    public BackgroundWorker(Activity activity) {
+        this.weakActivity = new WeakReference<>(activity); //set the weak reference to the actual activity
     }
 
     // Set up alert dialog GUI element
     // Executed before the background processing starts
     @Override
     protected void onPreExecute() {
-        //super.onPreExecute();
-        alertDialog = new AlertDialog.Builder(context).create();
+        super.onPreExecute();
+        Log.d(TAG, "onPreExecute: called");
+        Activity activity = weakActivity.get();
+        // Reacquire a strong reference to the activity and verify that it still exists and active
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+            // Activity is no longer active
+            return;
+        }
+        alertDialog = new AlertDialog.Builder(weakActivity.get()).create();
         alertDialog.setTitle("Server Response Code");
+        ProgressBar progressBar = activity.findViewById(R.id.loadingProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -53,6 +67,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
     */
     @Override
     protected String doInBackground(String... params) { //generics
+        Log.d(TAG, "doInBackground: called");
         String type = params[0];                        //first parameter defines type
         String jString = params[1];                     //json object as a string
         String login_url = "http://24.84.210.161:8080/remote_login.php"; //login page URL
@@ -71,22 +86,23 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
         // Delete database only if successful
         response =  result.substring(0,3);
         if (response.equals("200")) {
-            NotesContentProvider.NotesHelper notesHelper = new NotesContentProvider.NotesHelper(context, null, null);
+            NotesContentProvider.NotesHelper notesHelper = new NotesContentProvider.NotesHelper(weakActivity.get(), null, null);
             notesHelper.deleteAllRows();
         }
 
-        return result;
+        return response;
 
     }
 
      /**
-     * Change the value of the TextView - Notify the user of progress
+     * For live updates
      * Receives progress updates from doInBackground method,
      * which is published via publishProgress method
      * Can update the UI thread
      */
     @Override
     protected void onProgressUpdate(Void... values) {
+        Log.d(TAG, "onProgressUpdate: called");
         super.onProgressUpdate(values);
 
     }
@@ -94,12 +110,31 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> { //generics
     // Use the return value (result) of doInBackground
     @Override
     protected void onPostExecute(String result) {
-        //super.onPostExecute(aVoid);
-        alertDialog.setMessage(result); //show result
-        alertDialog.show();             //show response of the server
-        alertTextView.setText(result);
+        super.onPostExecute(result);
+        Log.d(TAG, "onPostExecute: called");
+        Activity activity = weakActivity.get();
+        // Reacquire a strong reference to the activity and verify that it still exists and active
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+            // Activity is no longer active
+            return;
+        }
+        // Display to user the response code from server after establishing http connection
+        if (result.equals("200")) {
+            alertDialog.setMessage("You cute"); //show result
+        }
+        else if (result.equals("500")) {
+            alertDialog.setMessage("Oh-oh, server had a boo boo!"); //show result
+        }
+        else if (result.equals("404")) {
+            alertDialog.setMessage("Not found!"); //show result
+        }
+        alertDialog.show();
+        ProgressBar progressBar = activity.findViewById(R.id.loadingProgressBar);
+        progressBar.setVisibility(View.GONE);
+
     }
 
+    // Establish connection to server using HTTP URL connection and POSTS a JSON file as a string
     protected String postJSON(String URL, String jString) {
         int serverResponseCode = 0;
         String response = "";

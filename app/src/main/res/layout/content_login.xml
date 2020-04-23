@@ -130,6 +130,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/askRegisterTextView"
         app:layout_constraintVertical_bias="0.2"
-        android:visibility="invisible"/>
+        android:visibility="gone"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

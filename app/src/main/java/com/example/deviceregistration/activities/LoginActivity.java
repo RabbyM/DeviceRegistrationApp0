@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.deviceregistration.models.JSONPlaceHolderApi;
@@ -101,11 +102,12 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-//        getNotes();
         // Find handles for text fields
         EditText usernameEditText = findViewById(R.id.usernameEditText); //resources.id.tag name
         EditText passwordEditText = findViewById(R.id.passwordEditText);
         TextView alertTextView = findViewById(R.id.alertTextView);
+        ProgressBar searchProgressBar = findViewById(R.id.searchProgressBar);
+//        Context context = getApplicationContext();
 
         // Convert login credentials to strings
         String username = usernameEditText.getText().toString();
@@ -128,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("Info", "loginClick: " + hashedPassword);
 
         // Perform logging in (networking operations) in background
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this, alertTextView);
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute(type, jString);
     }//loginClick
 

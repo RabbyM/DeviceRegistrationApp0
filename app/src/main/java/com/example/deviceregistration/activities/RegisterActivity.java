@@ -135,8 +135,8 @@ public class RegisterActivity extends AppCompatActivity {
         String hashedPassword = sha256(password);
         Log.d("Info", "registerClick: " + hashedPassword);
 
-        // Perform logging in (networking operations) in background
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this, alertTextView);
+        // Perform registering (networking operations) in background
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute(type, jString);
 
 
