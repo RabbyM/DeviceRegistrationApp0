@@ -28,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.deviceregistration.R;
 import com.example.deviceregistration.adapters.DividerItemDecoration;
 import com.example.deviceregistration.adapters.RecyclerViewAdapter;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Set;
@@ -37,8 +38,6 @@ import java.util.Set;
 public class MainBluetoothActivity extends AppCompatActivity {
 
     private static final String TAG = "MainBluetoothActivity";
-
-//    private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     ArrayList<String> bluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
     ArrayList<String> pairedBluetoothDevices = new ArrayList<>(); //list of BT devices to pop up
@@ -46,7 +45,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter;
     MenuItem bluetoothSearchMenuItem;
     public Toast toast = null;
-
     int REQUEST_ENABLE_BT = 1;
 
     // Method created on start-up
@@ -61,15 +59,30 @@ public class MainBluetoothActivity extends AppCompatActivity {
         statusTextView = (TextView) findViewById(R.id.statusTextView);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        // Expandable toolbar settings
+        // Expandable toolbar settings - show logo when expanded, show text when collapsed
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) { //method invocation may produce null pointer exception if toolbar not set in xml
-            CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-            collapsingToolbar.setTitle("Bluetooth Devices");
-            collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
-            collapsingToolbar.setExpandedTitleMarginBottom(0);
-            collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+            final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+            AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+            appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                boolean isShow = true;
+                int scrollRange = -1;
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    if (scrollRange == -1) {
+                        scrollRange = appBarLayout.getTotalScrollRange();
+                    }
+                    if (scrollRange + verticalOffset == 0) {
+                        collapsingToolbar.setTitle("Bluetooth Devices");
+                        isShow = true;
+                    } else if(isShow) {
+                        collapsingToolbar.setTitle(" ");//careful there should a space between double quote otherwise it wont work
+                        isShow = false;
+                    }
+                }
+            });
+
         }
 
         // Checks if permission is granted, if not it will default and ask for permission
@@ -305,4 +318,5 @@ public class MainBluetoothActivity extends AppCompatActivity {
         // Unregister the ACTION_FOUND receiver.
         unregisterReceiver(broadcastReceiver);
     }
-}
+
+}//end Activity
