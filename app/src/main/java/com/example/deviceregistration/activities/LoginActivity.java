@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     public void loginClick(View view) {
 
         // Checks for both network availability and ACTUAL connection
-        if (!(isNetworkAvailable() || isOnline())) {
+        if (!(isNetworkAvailable() && isOnline())) {
             makeToast("Network off.");
             return;
         }
