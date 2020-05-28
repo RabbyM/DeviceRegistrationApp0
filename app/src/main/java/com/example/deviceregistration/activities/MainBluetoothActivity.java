@@ -159,6 +159,28 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
         }
 
+//        // If scanning already running, stop
+//        if (bluetoothAdapter.isDiscovering()) {
+//            bluetoothAdapter.cancelDiscovery();
+//        }
+//
+//        // Add actions for BT states
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+//        intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
+//        intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+//        intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+//
+//        // Register the broadcast handler and link it to the intent filter
+//        registerReceiver(broadcastReceiver, intentFilter);
+
+        //initImageBitmaps(); //initialize images
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         // If scanning already running, stop
         if (bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
@@ -173,8 +195,6 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
         // Register the broadcast handler and link it to the intent filter
         registerReceiver(broadcastReceiver, intentFilter);
-
-        //initImageBitmaps(); //initialize images
     }
 
     // Passes the menu object on creation of menu, method is only called once and the menu is reused through activity life cycle
@@ -306,8 +326,8 @@ public class MainBluetoothActivity extends AppCompatActivity {
 
     // Turn off bluetooth and unregister action found when leaving activity
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
 
         // if app crashes, disable this
         // If scanning already running, stop
