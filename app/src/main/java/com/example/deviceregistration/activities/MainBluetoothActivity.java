@@ -335,7 +335,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
             bluetoothAdapter.cancelDiscovery();
         }
 
-        // Unregister the ACTION_FOUND receiver.
+        // Unregister the broadcast receiver.
         unregisterReceiver(broadcastReceiver);
     }
 
