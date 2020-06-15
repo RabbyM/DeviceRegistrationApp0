@@ -275,7 +275,7 @@ public class MainBluetoothActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.i("Action", action); //log info from intent
+            Log.i(TAG, "Action: " + action); //log info from intent
 
             // On bluetooth search finish
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
